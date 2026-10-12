@@ -3,46 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glam Chic - مجوهرات وإكسسوارات ضد الصدأ</title>
+    <title>GLAME CHIC BIJOUX | الأناقة بين يديك</title>
+    <!-- خطوط جوجل الفخمة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #faf8f5; margin: 0; padding: 0; text-align: right; }
-        header { background: #fff; padding: 25px 20px; border-bottom: 3px solid #d4af37; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        h1 { color: #b8860b; margin: 0; font-size: 28px; letter-spacing: 1px; }
-        header p { color: #666; margin-top: 8px; font-size: 15px; }
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 15px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .product-card { background: #fff; border-radius: 10px; padding: 15px; box-shadow: 0 3px 10px rgba(0,0,0,0.04); text-align: center; border: 1px solid #eee; }
-        .product-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; background: #f0f0f0; }
-        .badge { display: inline-block; background: #e6f4ea; color: #137333; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin: 10px 0 5px; font-weight: bold; }
-        .product-card h3 { font-size: 17px; margin: 5px 0; color: #333; }
-        .product-card p.price { color: #b8860b; font-weight: bold; font-size: 17px; margin: 8px 0 15px; }
-        .order-btn { background: #25d366; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 15px; font-weight: bold; text-decoration: none; display: inline-block; box-sizing: border-box; }
-        .order-btn:hover { background: #1ebe5d; }
-        footer { text-align: center; padding: 20px; color: #886; margin-top: 50px; font-size: 14px; border-top: 1px solid #eee; }
+        /* إعدادات الألوان والفخامة */
+        :root {
+            --gold: #D4AF37; /* لون ذهبي فخم */
+            --gold-dark: #b5952f;
+            --black: #111111;
+            --white: #ffffff;
+            --bg-color: #FAFAFA;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-color); color: var(--black); scroll-behavior: smooth; }
+        
+        /* شريط التنقل */
+        nav { background: var(--white); padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.8em; color: var(--black); font-weight: bold; text-decoration: none; letter-spacing: 2px; }
+        .nav-links a { margin-right: 20px; text-decoration: none; color: var(--black); font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* الواجهة الرئيسية */
+        .hero { background: linear-gradient(rgba(17, 17, 17, 0.7), rgba(17, 17, 17, 0.7)), url('hero-image.jpg') center/cover; height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: var(--white); padding: 0 20px; }
+        .hero h2 { font-family: 'Playfair Display', serif; font-size: 3em; margin-bottom: 15px; letter-spacing: 2px; }
+        .hero p { font-size: 1.2em; margin-bottom: 30px; font-weight: 300; }
+        .btn-gold { background-color: var(--gold); color: var(--white); padding: 12px 35px; text-decoration: none; font-size: 1.2em; font-weight: bold; border-radius: 4px; transition: 0.3s; border: 1px solid var(--gold); cursor: pointer; }
+        .btn-gold:hover { background-color: transparent; color: var(--gold); }
+
+        /* الأقسام */
+        .section-title { text-align: center; margin: 60px 0 30px; font-size: 2em; color: var(--black); position: relative; }
+        .section-title::after { content: ''; display: block; width: 60px; height: 3px; background: var(--gold); margin: 15px auto 0; }
+        
+        .categories { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 20px; }
+        .category-card { width: 150px; text-align: center; cursor: pointer; }
+        .cat-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold); padding: 3px; transition: 0.3s; }
+        .category-card:hover .cat-img { transform: scale(1.1); }
+        .category-card h3 { margin-top: 10px; font-size: 1.1em; }
+
+        /* المنتجات */
+        .products { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 20px 50px 60px; }
+        .product-card { background: var(--white); width: 280px; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; text-align: center; padding-bottom: 20px; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .product-card img { width: 100%; height: 280px; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-title { font-size: 1.2em; margin-bottom: 10px; font-weight: bold; }
+        .product-price { color: var(--gold); font-size: 1.4em; font-weight: bold; margin-bottom: 15px; }
+        .btn-order { background-color: var(--black); color: var(--white); padding: 10px 25px; border: none; font-size: 1.1em; cursor: pointer; transition: 0.3s; width: 80%; border-radius: 4px; }
+        .btn-order:hover { background-color: var(--gold); }
+
+        /* المميزات */
+        .features { background: var(--black); color: var(--white); padding: 40px 20px; display: flex; justify-content: center; gap: 50px; text-align: center; flex-wrap: wrap; }
+        .feature-item h4 { color: var(--gold); margin-bottom: 10px; font-size: 1.2em; }
+
+        /* نافذة الطلب المنبثقة (Modal) */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+        .modal-content { background-color: var(--white); padding: 30px; border-radius: 10px; width: 90%; max-width: 450px; position: relative; animation: slideDown 0.4s ease; }
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5em; cursor: pointer; color: #888; }
+        .close-btn:hover { color: var(--black); }
+        
+        .modal form { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .modal label { font-size: 0.9em; font-weight: bold; color: #555; }
+        .modal input { padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: 'Cairo'; }
+        .modal input:focus { outline: none; border-color: var(--gold); }
+        .modal .product-name-display { background: #f5f5f5; color: var(--gold-dark); font-weight: bold; text-align: center; padding: 10px; border-radius: 5px; margin-bottom: 10px; }
+
+        /* الفوتر */
+        footer { text-align: center; padding: 25px; background: var(--white); color: #777; border-top: 1px solid #eee; }
+
+        /* للهواتف */
+        @media(max-width: 768px) {
+            nav { flex-direction: column; gap: 15px; padding: 15px; }
+            .hero h2 { font-size: 2.2em; }
+            .products { padding: 20px 10px; }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Glam Chic</h1>
-        <p>أرقى المجوهرات والإكسسوارات المصنوعة من الفولاذ المقاوم للصدأ (Stainless Steel) - لا تغير لونها مع الماء</p>
+    <!-- شريط التنقل -->
+    <nav>
+        <a href="#" class="logo">GLAME CHIC BIJOUX</a>
+        <div class="nav-links">
+            <a href="#home">الرئيسية</a>
+            <a href="#products">المنتجات</a>
+            <a href="#contact">تواصل معنا</a>
+        </div>
+    </nav>
+
+    <!-- الواجهة الرئيسية -->
+    <header class="hero" id="home">
+        <h2>اكتشفي بريق الأنوثة</h2>
+        <p>مجوهرات راقية من الـ Stainless Steel لا يتغير لونها، مصممة لتبرز جمالك</p>
+        <a href="#products" class="btn-gold">تسوقي الآن</a>
     </header>
 
-    <div class="container">
-        <div class="products-grid" id="productContainer">
-            <div class="product-card">
-                <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400" alt="منتج تجريبي">
-                <span class="badge">مقاوم للصدأ 100%</span>
-                <h3>خاتم أنيق (Inox)</h3>
-                <p class="price">1200 دج</p>
-                <a href="https://wa.me/213000000000?text=السلام عليكم، أريد طلب هذا المنتج: خاتم أنيق (Inox)" class="order-btn" target="_blank">اطلب الآن عبر واتساب</a>
-            </div>
+    <!-- الأقسام -->
+    <h2 class="section-title">تشكيلتنا الفاخرة</h2>
+    <div class="categories">
+        <div class="category-card">
+            <!-- ضع صور تمثل الأقسام هنا -->
+            <img src="rings-cat.jpg" alt="خواتم" class="cat-img" onerror="this.src='https://via.placeholder.com/100/c5a059/fff?text=خواتم'">
+            <h3>خواتم</h3>
+        </div>
+        <div class="category-card">
+            <img src="bracelets-cat.jpg" alt="أساور" class="cat-img" onerror="this.src='https://via.placeholder.com/100/c5a059/fff?text=أساور'">
+            <h3>أساور</h3>
+        </div>
+        <div class="category-card">
+            <img src="necklaces-cat.jpg" alt="قلادات" class="cat-img" onerror="this.src='https://via.placeholder.com/100/c5a059/fff?text=قلادات'">
+            <h3>قلادات</h3>
         </div>
     </div>
 
-    <footer>
-        <p>جميع الحقوق محفوظة © Glam Chic - وهران</p>
+    <!-- المنتجات -->
+    <h2 class="section-title" id="products">أحدث المنتجات</h2>
+    <div class="products">
+        
+        <!-- المنتج 1 -->
+        <div class="product-card">
+            <img src="ring.jpg" alt="خاتم الملكة" onerror="this.src='https://via.placeholder.com/280x280/f5f5f5/c5a059?text=صورة+المنتج'">
+            <div class="product-info">
+                <div class="product-title">خاتم الملكة الذهبي</div>
+                <div class="product-price">2500 د.ج</div>
+                <button class="btn-order" onclick="openOrderModal('خاتم الملكة الذهبي')">أطلب الآن</button>
+            </div>
+        </div>
+
+        <!-- المنتج 2 (يمكنك نسخ هذا البلوك لإضافة منتجات أخرى) -->
+        <div class="product-card">
+            <img src="bracelet.jpg" alt="سوار الأناقة" onerror="this.src='https://via.placeholder.com/280x280/f5f5f5/c5a059?text=صورة+المنتج'">
+            <div class="product-info">
+                <div class="product-title">سوار الأناقة الكلاسيكي</div>
+                <div class="product-price">3200 د.ج</div>
+                <button class="btn-order" onclick="openOrderModal('سوار الأناقة الكلاسيكي')">أطلب الآن</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- المميزات -->
+    <div class="features">
+        <div class="feature-item">
+            <h4>🚚 توصيل لـ 58 ولاية</h4>
+            <p>شحن سريع وآمن حتى باب المنزل</p>
+        </div>
+        <div class="feature-item">
+            <h4>💵 الدفع عند الاستلام</h4>
+            <p>لا تدفعي شيئاً حتى تستلمي منتجك</p>
+        </div>
+        <div class="feature-item">
+            <h4>✨ جودة مضمونة</h4>
+            <p>مجوهرات Stainless Steel مقاومة للصدأ</p>
+        </div>
+    </div>
+
+    <!-- نافذة الطلب (الاستمارة) -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeOrderModal()">&times;</span>
+            <h2 style="text-align: center; color: var(--black); margin-bottom: 10px;">إتمام الطلب</h2>
+            <p style="text-align: center; font-size: 0.9em; color: #777;">الدفع يكون عند استلام المنتج</p>
+            
+            <!-- ضع إيميلك الحقيقي هنا -->
+            <form action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="🎉 طلب جديد من متجر GLAME CHIC BIJOUX">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <!-- حقل مخفي يرسل اسم المنتج المطلوب إلى إيميلك -->
+                <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
+                <div class="product-name-display" id="productDisplay"></div>
+
+                <label>الاسم الكامل:</label>
+                <input type="text" name="الاسم" required placeholder="اكتب اسمك الكامل">
+                
+                <label>رقم الهاتف:</label>
+                <input type="tel" name="الهاتف" required placeholder="05XX XX XX XX">
+                
+                <label>الولاية:</label>
+                <input type="text" name="الولاية" required placeholder="مثال: وهران">
+                
+                <label>العنوان الكامل:</label>
+                <input type="text" name="العنوان" required placeholder="الحي، البلدية...">
+                
+                <button type="submit" class="btn-gold" style="width: 100%; margin-top: 10px;">تأكيد الطلب 🛒</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <p>متجر GLAME CHIC BIJOUX | الأناقة التي تدوم.</p>
+        <p>&copy; 2026 جميع الحقوق محفوظة.</p>
     </footer>
 
+    <!-- سكربت التحكم في نافذة الطلب -->
+    <script>
+        const modal = document.getElementById("orderModal");
+        const productInput = document.getElementById("productInput");
+        const productDisplay = document.getElementById("productDisplay");
+
+        // فتح النافذة وتحديد اسم المنتج
+        function openOrderModal(productName) {
+            productInput.value = productName; // يضع اسم المنتج في الاستمارة المخفية
+            productDisplay.innerText = "المنتج المختار: " + productName; // يعرضه للزبون للتأكيد
+            modal.style.display = "flex";
+        }
+
+        // إغلاق النافذة
+        function closeOrderModal() {
+            modal.style.display = "none";
+        }
+
+        // إغلاق النافذة عند الضغط خارجها
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeOrderModal();
+            }
+        }
+    </script>
 </body>
 </html>
