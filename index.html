@@ -3,172 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLAME CHIC BIJOUX | فخامة لا تضاهى</title>
+    <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
     <!-- خطوط جوجل الفاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,700&family=Cairo:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- مكتبة Swiper لشريط المنتجات الهادئ -->
+    <!-- مكتبة Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 
     <style>
-        /* الألوان الكلاسيكية الملكية */
+        /* الألوان الماسية والذهبية */
         :root {
             --gold: #D4AF37;
-            --gold-light: #F3E5AB;
-            --gold-dark: #AA8C2C;
-            --bg-pure: #FFFFFF;
-            --bg-offwhite: #FAFAFA;
-            --text-dark: #111111;
-            --text-gray: #666666;
+            --gold-light: #FBF5B7;
+            --gold-dark: #997A15;
+            --black-bg: #050505; /* أسود عميق جداً */
+            --black-card: #111111;
+            --text-pure: #ffffff;
+            --text-muted: #aaaaaa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-pure); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); overflow-x: hidden; scroll-behavior: smooth; }
 
-        /* دخول ملكي ناعم للصفحة */
-        @keyframes elegantEntrance {
-            from { opacity: 0; transform: translateY(15px); }
+        /* تأثير اللمعان (Shimmer) للنصوص والأزرار */
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* دخول ناعم */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* الشريط الإعلاني الهادئ */
+        /* الشريط الإعلاني */
         .top-marquee {
-            background-color: var(--text-dark); color: var(--gold-light); padding: 10px 0; font-size: 0.95em;
-            display: flex; overflow: hidden; white-space: nowrap; direction: ltr; letter-spacing: 1px;
+            background: linear-gradient(90deg, #111, #222, #111);
+            color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex; overflow: hidden; white-space: nowrap; direction: ltr;
         }
-        .marquee-content { display: flex; animation: scroll 30s linear infinite; }
-        .marquee-content span { margin: 0 40px; font-family: 'Amiri', serif; }
+        .marquee-content { display: flex; animation: scroll 35s linear infinite; }
+        .marquee-content span { margin: 0 40px; font-family: 'Amiri', serif; letter-spacing: 1px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* القائمة الرئيسية الكلاسيكية */
+        /* القائمة الرئيسية */
         nav {
-            background-color: var(--bg-pure); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #eee; box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            animation: elegantEntrance 1.5s ease-out;
+            background: rgba(5, 5, 5, 0.85); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05);
+            animation: fadeUp 1s ease-out;
         }
-        .logo { font-family: 'Playfair Display', serif; font-size: 2em; color: var(--text-dark); text-decoration: none; letter-spacing: 4px; font-weight: bold; }
-        .logo span { color: var(--gold); }
+        .logo { 
+            font-family: 'Playfair Display', serif; font-size: 2.2em; text-decoration: none; letter-spacing: 4px; font-weight: bold;
+            background: linear-gradient(to right, var(--gold-light) 20%, var(--gold) 40%, var(--gold) 60%, var(--gold-light) 80%);
+            background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
         
         .nav-links { display: flex; list-style: none; gap: 40px; }
-        .nav-links a { color: var(--text-gray); text-decoration: none; font-size: 1.1em; transition: 0.3s; font-family: 'Amiri', serif; font-weight: bold; }
-        .nav-links a:hover { color: var(--gold-dark); }
+        .nav-links a { color: var(--text-pure); text-decoration: none; font-size: 1.1em; transition: 0.3s; font-family: 'Amiri', serif; }
+        .nav-links a:hover { color: var(--gold); }
+        .menu-icon { display: none; color: var(--gold); font-size: 2em; cursor: pointer; }
 
-        .menu-icon { display: none; color: var(--text-dark); font-size: 2em; cursor: pointer; }
-
-        /* الواجهة الرئيسية الفخمة */
+        /* الواجهة الرئيسية: خلفية المجوهرات اللامعة */
         .hero {
-            height: 80vh; 
-            /* خلفية بتدرج لوني ناعم وأنيق جداً */
-            background: linear-gradient(rgba(17, 17, 17, 0.4), rgba(17, 17, 17, 0.6)), url('hero.jpg') center/cover no-repeat;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff;
+            height: 85vh; position: relative;
+            /* استخدمنا صورة خلفية + طبقة تدرج لوني لإبراز اللمعان */
+            background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
-        .hero-content {
-            animation: elegantEntrance 2s ease-out 0.5s both; /* تأخير بسيط لدخول فخم */
-            max-width: 800px; padding: 0 20px;
+        /* تأثير بريق متلألئ فوق الخلفية */
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%);
+            animation: pulseShine 4s infinite alternate; pointer-events: none; z-index: 1;
         }
-        .hero h1 { font-family: 'Amiri', serif; font-size: 4em; color: #fff; margin-bottom: 15px; text-shadow: 0 4px 15px rgba(0,0,0,0.3); font-weight: normal; }
-        .hero p { font-size: 1.3em; font-weight: 300; margin-bottom: 40px; color: #eee; letter-spacing: 1px; }
+        @keyframes pulseShine { 0% { opacity: 0.3; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.2); } }
         
+        .hero-content { z-index: 2; animation: fadeUp 1.5s ease-out 0.5s both; max-width: 900px; padding: 0 20px; }
+        .hero h1 { font-family: 'Amiri', serif; font-size: 4.5em; color: var(--text-pure); margin-bottom: 20px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
+        .hero h1 span { color: var(--gold); }
+        .hero p { font-size: 1.4em; font-weight: 300; margin-bottom: 40px; color: #ddd; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        
+        /* زر ذهبي لامع */
         .btn-gold {
-            background-color: var(--gold); color: #fff; padding: 15px 40px; font-size: 1.2em; font-family: 'Cairo', sans-serif;
-            border: none; cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px; border-radius: 4px;
+            background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-dark) 100%);
+            background-size: 200% auto; color: #000; padding: 15px 50px; font-size: 1.2em; font-family: 'Cairo', sans-serif; font-weight: bold;
+            border: none; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px; border-radius: 3px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); animation: shimmer 3s linear infinite;
         }
-        .btn-gold:hover { background-color: var(--gold-dark); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3); }
+        .btn-gold:hover { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); transform: scale(1.05); }
 
-        /* العناوين الكلاسيكية */
-        .section-title { text-align: center; margin: 80px 0 50px; font-family: 'Amiri', serif; font-size: 2.8em; color: var(--text-dark); font-weight: normal; }
-        .section-title::after { content: ''; display: block; width: 50px; height: 2px; background: var(--gold); margin: 20px auto 0; }
+        /* العناوين الماسية */
+        .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); }
+        .section-title span { color: var(--gold); font-style: italic; }
 
-        /* الأقسام (تصميم هادئ) */
-        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 0 20px; }
+        /* الأقسام بخلفيات داكنة فخمة */
+        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 0 20px; }
         .category-card {
-            position: relative; width: 280px; height: 380px; overflow: hidden;
-            cursor: pointer; transition: 0.4s; background: #000;
+            position: relative; width: 300px; height: 400px; overflow: hidden; border: 1px solid rgba(212,175,55,0.2);
+            cursor: pointer; transition: 0.5s; background: var(--black-card);
         }
-        .category-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; opacity: 0.8; }
-        .category-card:hover img { opacity: 0.5; transform: scale(1.05); }
+        .category-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.9s ease; filter: brightness(0.7) contrast(1.2); }
+        .category-card:hover img { filter: brightness(1); transform: scale(1.1); }
         .category-title {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: #fff; font-size: 2em; font-family: 'Amiri', serif; font-weight: normal; letter-spacing: 2px;
-            pointer-events: none; transition: 0.4s;
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px 0; text-align: center;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: var(--gold-light);
+            font-size: 2.2em; font-family: 'Amiri', serif; transition: 0.4s;
         }
-        .category-card:hover .category-title { color: var(--gold-light); }
 
-        /* شريط المنتجات (انزلاق كلاسيكي بدون 3D) */
-        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 60px; }
+        /* شريط المنتجات المنزلق */
+        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; }
         .product-card {
-            background: var(--bg-pure); border: 1px solid #f0f0f0; padding: 15px; text-align: center;
+            background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center;
             transition: 0.4s ease; height: 100%; display: flex; flex-direction: column;
         }
-        .product-card:hover { border-color: var(--gold); box-shadow: 0 15px 35px rgba(0,0,0,0.04); transform: translateY(-5px); }
-        .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: var(--bg-offwhite); }
-        .product-card img { width: 100%; height: 100%; object-fit: contain; transition: 0.6s ease; mix-blend-mode: multiply; }
-        .product-card:hover img { transform: scale(1.05); }
-        .product-title { font-size: 1.3em; font-family: 'Amiri', serif; color: var(--text-dark); margin-bottom: 10px; font-weight: bold; }
-        .product-price { color: var(--text-gray); font-size: 1.4em; margin-bottom: 20px; font-family: 'Cairo'; }
+        .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
+        .product-img-wrapper { height: 320px; overflow: hidden; margin-bottom: 20px; background: #000; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        .product-card:hover img { transform: scale(1.08); }
+        .product-title { font-size: 1.4em; font-family: 'Amiri', serif; color: var(--text-pure); margin-bottom: 10px; }
+        .product-price { color: var(--gold); font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
         .btn-order-outline {
-            background: transparent; color: var(--text-dark); border: 1px solid var(--text-dark); width: 100%; padding: 12px;
-            font-size: 1.1em; cursor: pointer; transition: 0.3s; font-family: 'Cairo'; font-weight: bold; margin-top: auto;
+            background: transparent; color: var(--gold); border: 1px solid var(--gold); width: 100%; padding: 12px;
+            font-size: 1.1em; cursor: pointer; transition: 0.4s; font-family: 'Cairo'; font-weight: bold; margin-top: auto;
         }
-        .btn-order-outline:hover { background: var(--text-dark); color: var(--gold-light); border-color: var(--text-dark); }
+        .btn-order-outline:hover { background: var(--gold); color: #000; }
 
         /* مميزات المتجر */
-        .features { background: var(--bg-offwhite); padding: 60px 20px; display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; margin-top: 60px; }
+        .features { background: var(--black-card); padding: 70px 20px; display: flex; justify-content: center; gap: 70px; flex-wrap: wrap; margin-top: 80px; border-top: 1px solid rgba(212,175,55,0.1); }
         .feature-box { text-align: center; max-width: 250px; }
-        .feature-icon { font-size: 2.5em; margin-bottom: 15px; color: var(--gold-dark); }
-        .feature-box h3 { font-family: 'Amiri', serif; color: var(--text-dark); font-size: 1.4em; margin-bottom: 10px; }
-        .feature-box p { color: var(--text-gray); font-size: 0.95em; line-height: 1.6; }
+        .feature-icon { font-size: 2.5em; margin-bottom: 20px; color: var(--gold); }
+        .feature-box h3 { font-family: 'Amiri', serif; color: var(--gold-light); font-size: 1.5em; margin-bottom: 10px; }
+        .feature-box p { color: var(--text-muted); font-size: 0.95em; line-height: 1.7; }
 
-        /* نافذة الطلب الأنيقة */
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); justify-content: center; align-items: center; }
-        .modal-content { background: var(--bg-pure); padding: 40px 30px; width: 90%; max-width: 450px; position: relative; animation: elegantEntrance 0.4s ease-out; border-radius: 4px; box-shadow: 0 10px 50px rgba(0,0,0,0.2); }
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8em; cursor: pointer; color: var(--text-gray); transition: 0.3s; }
-        .close-btn:hover { color: var(--text-dark); }
-        .modal h2 { font-family: 'Amiri', serif; color: var(--text-dark); text-align: center; margin-bottom: 10px; font-size: 2em; }
-        .modal p { text-align: center; color: var(--text-gray); margin-bottom: 25px; font-size: 0.9em; }
-        .modal input { background: var(--bg-offwhite); border: 1px solid #ddd; padding: 14px; font-size: 1em; width: 100%; transition: 0.3s; font-family: 'Cairo'; margin-bottom: 15px; border-radius: 2px; }
-        .modal input:focus { outline: none; border-color: var(--gold); background: var(--bg-pure); }
-        .product-name-display { background: var(--bg-offwhite); color: var(--text-dark); padding: 15px; text-align: center; border: 1px solid #eee; font-family: 'Amiri', serif; font-size: 1.2em; margin-bottom: 20px; }
+        /* نافذة الطلب */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; }
+        .modal-content { background: var(--black-bg); padding: 40px 30px; width: 90%; max-width: 480px; position: relative; border: 1px solid var(--gold); box-shadow: 0 0 50px rgba(212,175,55,0.2); animation: fadeUp 0.4s ease-out; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
+        .close-btn:hover { color: var(--gold); }
+        .modal h2 { font-family: 'Amiri', serif; color: var(--gold); text-align: center; margin-bottom: 10px; font-size: 2.2em; }
+        .modal p { text-align: center; color: var(--text-muted); margin-bottom: 25px; }
+        .modal input { background: var(--black-card); color: var(--text-pure); border: 1px solid #333; padding: 15px; font-size: 1em; width: 100%; transition: 0.3s; font-family: 'Cairo'; margin-bottom: 15px; }
+        .modal input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        .product-name-display { background: rgba(212,175,55,0.1); color: var(--gold-light); padding: 15px; text-align: center; border: 1px dashed var(--gold); font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 20px; }
 
         /* الفوتر */
-        footer { background: var(--bg-pure); color: var(--text-dark); padding: 60px 20px 40px; text-align: center; border-top: 1px solid #eee; }
-        footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.8em; letter-spacing: 3px; display: block; margin-bottom: 15px; }
-        footer .footer-logo span { color: var(--gold); }
-        footer p { color: var(--text-gray); font-size: 0.9em; margin-top: 20px; }
+        footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; }
+        footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
+        footer p { font-size: 0.9em; margin-top: 15px; letter-spacing: 1px; }
 
         /* شاشات الهواتف */
         @media(max-width: 768px) {
             nav { padding: 15px 20px; }
             .logo { font-size: 1.5em; }
             .menu-icon { display: block; } 
-            .nav-links { position: fixed; top: 60px; right: -100%; width: 100%; height: 100vh; background: var(--bg-pure); flex-direction: column; align-items: center; padding-top: 40px; transition: 0.4s ease; border-top: 1px solid #eee; }
+            .nav-links { position: fixed; top: 65px; right: -100%; width: 100%; height: 100vh; background: rgba(5,5,5,0.98); flex-direction: column; align-items: center; padding-top: 40px; transition: 0.4s ease; border-top: 1px solid #222; }
             .nav-links.active { right: 0; } 
-            .nav-links a { font-size: 1.3em; padding: 15px; width: 100%; text-align: center; border-bottom: 1px solid #fafafa; }
+            .nav-links a { font-size: 1.3em; padding: 15px; width: 100%; text-align: center; }
             .hero h1 { font-size: 2.8em; }
-            .hero p { font-size: 1.1em; }
-            .category-card { width: 100%; height: 250px; }
+            .category-card { width: 100%; height: 300px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- الشريط الإعلاني الهادئ -->
+    <!-- الشريط الإعلاني -->
     <div class="top-marquee">
         <div class="marquee-content">
-            <span>✨ توصيل آمن لـ 69 ولاية جزائرية ✨</span>
+            <span>✨ توصيل مضمون لـ 69 ولاية جزائرية ✨</span>
             <span>|</span>
-            <span>الدفع نقداً عند استلام طلبيتك</span>
+            <span>💎 الدفع نقداً عند استلام طلبيتك 💎</span>
             <span>|</span>
-            <span>مجوهرات Stainless Steel الفاخرة</span>
-            <span>|</span>
-            <span>✨ توصيل آمن لـ 69 ولاية جزائرية ✨</span>
+            <span>✨ مجوهرات Stainless Steel لا يتغير لونها ✨</span>
         </div>
     </div>
 
     <!-- القائمة الرئيسية -->
     <nav>
-        <a href="#" class="logo">GLAME <span>CHIC</span></a>
+        <a href="#" class="logo">GLAME CHIC</a>
         <div class="menu-icon" onclick="toggleMenu()">☰</div>
         <ul class="nav-links" id="navLinks">
             <li><a href="#home" onclick="toggleMenu()">الرئيسية</a></li>
@@ -178,12 +192,12 @@
         </ul>
     </nav>
 
-    <!-- الواجهة الرئيسية الكلاسيكية -->
+    <!-- الواجهة الرئيسية بالخلفية اللامعة -->
     <header class="hero" id="home">
         <div class="hero-content">
-            <h1>اكتشفي سحر الأنوثة</h1>
-            <p>تشكيلة راقية تعكس ذوقك الرفيع، مصممة لتكتمل بها إطلالتك</p>
-            <button class="btn-gold" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">استعرضي التشكيلة</button>
+            <h1>بريق <span>يخطف</span> الأنظار</h1>
+            <p>مجوهرات صُممت لتكوني نجمة كل مناسبة.. اكتشفي سحر الألماس والذهب</p>
+            <button class="btn-gold" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">استكشفي الكوليكشن</button>
         </div>
     </header>
 
@@ -192,152 +206,134 @@
         <div class="feature-box">
             <div class="feature-icon">🚚</div>
             <h3>توصيل 69 ولاية</h3>
-            <p>خدمة توصيل سريعة وموثوقة لجميع أنحاء الوطن</p>
+            <p>أينما كنتِ في الجزائر، مجوهراتك تصلك حتى باب المنزل.</p>
         </div>
         <div class="feature-box">
-            <div class="feature-icon">💎</div>
-            <h3>جودة فائقة</h3>
-            <p>مجوهرات Stainless Steel مقاومة للماء والصدأ</p>
+            <div class="feature-icon">✨</div>
+            <h3>لمعان دائم</h3>
+            <p>قطع فاخرة من الـ Stainless Steel المقاوم للصدأ والماء.</p>
         </div>
         <div class="feature-box">
             <div class="feature-icon">💵</div>
             <h3>الدفع عند الاستلام</h3>
-            <p>تسوقي براحة تامة وادفعي عند استلام طلبك</p>
+            <p>تسوقي بثقة، ولا تدفعي شيئاً حتى تستلمي وتتأكدي من طلبك.</p>
         </div>
     </div>
 
     <!-- الأقسام -->
-    <h2 class="section-title" id="categories">المجموعات</h2>
+    <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
     <div class="categories-grid">
         <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
-            <img src="rings-cat.jpg" alt="خواتم" onerror="this.src='https://via.placeholder.com/300x400/f5f5f5/D4AF37?text=GLAME'">
+            <img src="rings-cat.jpg" alt="خواتم" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">خواتم</div>
         </div>
         <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
-            <img src="bracelets-cat.jpg" alt="أساور" onerror="this.src='https://via.placeholder.com/300x400/f5f5f5/D4AF37?text=GLAME'">
+            <img src="bracelets-cat.jpg" alt="أساور" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">أساور</div>
         </div>
         <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
-            <img src="necklaces-cat.jpg" alt="قلادات" onerror="this.src='https://via.placeholder.com/300x400/f5f5f5/D4AF37?text=GLAME'">
+            <img src="necklaces-cat.jpg" alt="قلادات" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">قلادات</div>
         </div>
     </div>
 
-    <!-- شريط المنتجات المنزلق الهادئ -->
-    <h2 class="section-title" id="collection">الإصدارات الحصرية</h2>
+    <!-- شريط المنتجات -->
+    <h2 class="section-title" id="collection">الإصدارات <span>الحصرية</span></h2>
     <div class="swiper mySwiper">
         <div class="swiper-wrapper">
             <!-- المنتج 1 -->
             <div class="swiper-slide">
                 <div class="product-card">
                     <div class="product-img-wrapper">
-                        <img src="ring.jpg" alt="خاتم إتيرنيتي" onerror="this.src='https://via.placeholder.com/400x400/fafafa/D4AF37?text=GLAME+CHIC'">
+                        <img src="ring.jpg" alt="خاتم إتيرنيتي" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                     </div>
-                    <h3 class="product-title">خاتم الملكة الذهبي</h3>
+                    <h3 class="product-title">خاتم الملكة الماسي</h3>
                     <div class="product-price">2500 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('خاتم الملكة الذهبي')">أضيفي للطلب</button>
+                    <button class="btn-order-outline" onclick="openOrderModal('خاتم الملكة الماسي')">أطلبي الآن</button>
                 </div>
             </div>
             <!-- المنتج 2 -->
             <div class="swiper-slide">
                 <div class="product-card">
                     <div class="product-img-wrapper">
-                        <img src="bracelet.jpg" alt="سوار كلاسيك" onerror="this.src='https://via.placeholder.com/400x400/fafafa/D4AF37?text=GLAME+CHIC'">
+                        <img src="bracelet.jpg" alt="سوار كلاسيك" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                     </div>
-                    <h3 class="product-title">سوار الأناقة الكلاسيكي</h3>
+                    <h3 class="product-title">سوار الأناقة الملكي</h3>
                     <div class="product-price">3200 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('سوار الأناقة الكلاسيكي')">أضيفي للطلب</button>
+                    <button class="btn-order-outline" onclick="openOrderModal('سوار الأناقة الملكي')">أطلبي الآن</button>
                 </div>
             </div>
             <!-- المنتج 3 -->
             <div class="swiper-slide">
                 <div class="product-card">
                     <div class="product-img-wrapper">
-                        <img src="necklace.jpg" alt="قلادة اللؤلؤ" onerror="this.src='https://via.placeholder.com/400x400/fafafa/D4AF37?text=GLAME+CHIC'">
+                        <img src="necklace.jpg" alt="قلادة اللؤلؤ" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                     </div>
-                    <h3 class="product-title">قلادة سحر اللؤلؤ</h3>
+                    <h3 class="product-title">قلادة سحر الألماس</h3>
                     <div class="product-price">2900 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('قلادة سحر اللؤلؤ')">أضيفي للطلب</button>
-                </div>
-            </div>
-            <!-- المنتج 4 -->
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <div class="product-img-wrapper">
-                        <img src="ring2.jpg" alt="خاتم الزركون" onerror="this.src='https://via.placeholder.com/400x400/fafafa/D4AF37?text=GLAME+CHIC'">
-                    </div>
-                    <h3 class="product-title">خاتم الزركون المضيء</h3>
-                    <div class="product-price">2200 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('خاتم الزركون المضيء')">أضيفي للطلب</button>
+                    <button class="btn-order-outline" onclick="openOrderModal('قلادة سحر الألماس')">أطلبي الآن</button>
                 </div>
             </div>
         </div>
-        <!-- نقاط التنقل أسفل المنتجات -->
-        <div class="swiper-pagination"></div>
     </div>
 
-    <!-- نافذة الطلب -->
+    <!-- نافذة الطلب (البريد مبرمج جاهز) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
-            <h2>إتمام الطلب</h2>
-            <p>يرجى إدخال معلوماتك وسنتصل بك لتأكيد الشحن</p>
+            <h2>تأكيد الطلبية</h2>
+            <p>أدخلي بياناتك وسنقوم بالاتصال بك لتأكيد الشحن</p>
             
             <form action="https://formsubmit.co/glamechic31@gmail.com" method="POST">
-                <input type="hidden" name="_subject" value="💎 طلب جديد من متجر GLAME CHIC">
+                <input type="hidden" name="_subject" value="💎 طلبية جديدة من GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
                 
                 <div class="product-name-display" id="productDisplay"></div>
-                <input type="text" name="الاسم" required placeholder="الاسم الكامل">
-                <input type="tel" name="الهاتف" required placeholder="رقم الهاتف (مثال: 0555555555)">
+                <input type="text" name="الاسم" required placeholder="الاسم واللقب">
+                <input type="tel" name="الهاتف" required placeholder="رقم الهاتف">
                 <input type="text" name="الولاية" required placeholder="الولاية">
-                <input type="text" name="العنوان" required placeholder="العنوان أو البلدية بالتفصيل">
+                <input type="text" name="العنوان" required placeholder="العنوان بالتفصيل">
                 
-                <button type="submit" class="btn-gold" style="width: 100%; margin-top: 10px;">تأكيد الطلب</button>
+                <button type="submit" class="btn-gold" style="width: 100%; margin-top: 10px;">تأكيد الشراء 🛒</button>
             </form>
         </div>
     </div>
 
     <!-- الفوتر -->
     <footer id="contact">
-        <span class="footer-logo">GLAME <span>CHIC</span> BIJOUX</span>
-        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية جزائرية | الدفع عند الاستلام</p>
+        <span class="footer-logo">GLAME CHIC BIJOUX</span>
+        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
     </footer>
 
-    <!-- سكربت Swiper الكلاسيكي (بدون حركات مشتتة) -->
+    <!-- سكربت Swiper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     
     <script>
-        // تشغيل شريط المنتجات بشكل انزلاقي هادئ ومريح
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1,
             spaceBetween: 30,
             loop: true,
-            autoplay: { delay: 3500, disableOnInteraction: false }, // حركة أبطأ وأكثر هدوءاً
-            pagination: { el: ".swiper-pagination", clickable: true },
+            autoplay: { delay: 3500, disableOnInteraction: false },
             breakpoints: {
                 640: { slidesPerView: 2 },
                 1024: { slidesPerView: 3 },
-                1200: { slidesPerView: 4 }
             },
         });
 
-        // القائمة الجانبية للهواتف
         function toggleMenu() {
             if(window.innerWidth <= 768) {
                 document.getElementById("navLinks").classList.toggle("active");
             }
         }
 
-        // نافذة الطلب
         const modal = document.getElementById("orderModal");
         const productInput = document.getElementById("productInput");
         const productDisplay = document.getElementById("productDisplay");
 
         function openOrderModal(productName) {
             productInput.value = productName;
-            productDisplay.innerText = productName; // تم تبسيط النص داخل النافذة
+            productDisplay.innerText = productName;
             modal.style.display = "flex";
         }
         function closeOrderModal() { modal.style.display = "none"; }
