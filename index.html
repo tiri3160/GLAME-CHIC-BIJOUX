@@ -225,7 +225,7 @@
         </div>
     </div>
 
-    <!-- نافذة الطلب المطورة (مع الولايات والبلديات من API) -->
+    <!-- نافذة الطلب المطورة (مربوطة بإيميلك glamechic31@gmail.com) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
@@ -244,18 +244,16 @@
                 <div class="product-name-display" id="productDisplay"></div>
                 
                 <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
-                <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف (مهم)">
+                <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف">
                 
-                <!-- قائمة الولايات (تُملأ آلياً) -->
-                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="onWilayaChange()">
-                    <option value="">-- اختاري الولاية --</option>
+                <!-- قائمة الولايات السريعة والمضمونة -->
+                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="calculatePrice()">
+                    <option value="">-- اختاري الولاية ليتم حساب التوصيل --</option>
                 </select>
 
-                <!-- قائمة البلديات (تتحدث بناءً على الولاية) -->
-                <select name="البلدية" id="communeSelect" class="modal-input" required disabled>
-                    <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
-                </select>
-
+                <!-- خانة البلدية (الأكثر أماناً وسرعة للزبون) -->
+                <input type="text" name="البلدية" class="modal-input" required placeholder="اسم البلدية أو الدائرة (مهم)">
+                
                 <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
                 
                 <!-- طريقة التوصيل -->
@@ -288,7 +286,7 @@
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
     </footer>
 
-    <!-- السكربتات (مهم جداً للبلديات والأسعار) -->
+    <!-- السكربتات الأساسية المضمونة 100% -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
@@ -299,129 +297,18 @@
 
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        // --- نظام جلب الولايات والبلديات عبر API ---
-        const wilayaSelect = document.getElementById("wilayaSelect");
-        const communeSelect = document.getElementById("communeSelect");
-        let allData = [];
-
-        // جلب البيانات من مكتبة خارجية (سريع جداً ولا يثقل موقعك)
-        fetch("https://yalidine.com/api/wilayas/") 
-        // استعنت بمكتبات مفتوحة المصدر لجلب بلديات الجزائر بسرعة
-        fetch("https://raw.githubusercontent.com/abdennour/algeria.json/master/algeria.json")
-            .then(response => response.json())
-            .then(data => {
-                allData = data;
-                // تعبئة قائمة الولايات (بدون تكرار)
-                const uniqueWilayas = [...new Set(data.map(item => item.wilaya_id + "- " + item.wilaya_name_ar))];
-                
-                // ترتيب الولايات برقمها
-                uniqueWilayas.sort((a, b) => parseInt(a.split('-')[0]) - parseInt(b.split('-')[0]));
-                
-                uniqueWilayas.forEach(w => {
-                    let option = document.createElement("option");
-                    option.value = w; option.text = w;
-                    wilayaSelect.appendChild(option);
-                });
-            })
-            .catch(error => console.error("Error loading communes:", error));
-
-        // عندما تتغير الولاية، تتغير البلديات وسعر التوصيل
-        function onWilayaChange() {
-            const selectedWilaya = wilayaSelect.value;
-            communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
-            
-            if (selectedWilaya !== "") {
-                const wilayaId = selectedWilaya.split('-')[0];
-                
-                // فلترة البلديات التابعة للولاية المختارة فقط
-                const filteredCommunes = allData.filter(item => item.wilaya_id === wilayaId);
-                
-                filteredCommunes.forEach(c => {
-                    let option = document.createElement("option");
-                    option.value = c.commune_name_ar; option.text = c.commune_name_ar;
-                    communeSelect.appendChild(option);
-                });
-                
-                communeSelect.disabled = false;
-            } else {
-                communeSelect.disabled = true;
-            }
-            
-            // حساب السعر بعد اختيار الولاية
-            calculatePrice();
-        }
-
-        // قاعدة بيانات أسعار التوصيل (التي أرسلتها لي)
+        // تم تضمين قائمة الولايات داخلياً لتفتح بلمح البصر دون أعطال
+        const wilayas = [
+            "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
+            "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
+            "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة",
+            "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة",
+            "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار",
+            "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"
+        ];
+        
+        // أسعار التوصيل الدقيقة التي زودتني بها
         const deliveryPrices = {
             1: { home: 1200, desk: 900 }, 2: { home: 700, desk: 400 }, 3: { home: 900, desk: 600 },
             4: { home: 750, desk: 450 }, 5: { home: 750, desk: 450 }, 6: { home: 750, desk: 450 },
-            7: { home: 850, desk: 550 }, 8: { home: 1200, desk: 900 }, 9: { home: 700, desk: 400 },
-            10: { home: 700, desk: 400 }, 11: { home: 1600, desk: 1200 }, 12: { home: 850, desk: 550 },
-            13: { home: 700, desk: 400 }, 14: { home: 750, desk: 450 }, 15: { home: 750, desk: 400 },
-            16: { home: 600, desk: 400 }, 17: { home: 800, desk: 550 }, 18: { home: 750, desk: 450 },
-            19: { home: 700, desk: 400 }, 20: { home: 800, desk: 550 }, 21: { home: 750, desk: 450 },
-            22: { home: 700, desk: 400 }, 23: { home: 750, desk: 450 }, 24: { home: 800, desk: 550 },
-            25: { home: 700, desk: 400 }, 26: { home: 700, desk: 400 }, 27: { home: 700, desk: 400 },
-            28: { home: 750, desk: 450 }, 29: { home: 800, desk: 550 }, 30: { home: 1000, desk: 700 },
-            31: { home: 500, desk: 300 }, 32: { home: 1000, desk: 700 }, 33: { home: 1800, desk: 1500 },
-            34: { home: 700, desk: 400 }, 35: { home: 700, desk: 400 }, 36: { home: 850, desk: 550 },
-            37: { home: 1600, desk: 1200 }, 38: { home: 750, desk: 450 }, 39: { home: 1000, desk: 700 },
-            40: { home: 800, desk: 550 }, 41: { home: 800, desk: 550 }, 42: { home: 700, desk: 400 },
-            43: { home: 750, desk: 450 }, 44: { home: 700, desk: 400 }, 45: { home: 1000, desk: 700 },
-            46: { home: 800, desk: 550 }, 47: { home: 1000, desk: 700 }, 48: { home: 700, desk: 400 },
-            49: { home: 1200, desk: 900 }, 50: { home: 1800, desk: 1500 }, 51: { home: 900, desk: 600 },
-            52: { home: 1200, desk: 900 }, 53: { home: 1200, desk: 900 }, 54: { home: 1800, desk: 1500 },
-            55: { home: 1000, desk: 700 }, 56: { home: 1800, desk: 1500 }, 57: { home: 1000, desk: 700 },
-            58: { home: 1100, desk: 800 }
-        };
-
-        let currentProductPrice = 0;
-
-        function openOrderModal(productName, productPrice) {
-            document.getElementById("productInput").value = productName;
-            document.getElementById("productDisplay").innerText = productName;
-            
-            currentProductPrice = productPrice;
-            document.getElementById("hiddenProductPrice").value = productPrice + " د.ج"; 
-            
-            document.getElementById("summaryProduct").innerText = currentProductPrice;
-            document.getElementById("wilayaSelect").value = "";
-            document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
-            document.getElementById("communeSelect").disabled = true;
-            document.getElementById("summaryDelivery").innerText = "0";
-            document.getElementById("summaryTotal").innerText = currentProductPrice;
-            
-            document.getElementById("orderModal").style.display = "flex";
-        }
-
-        function closeOrderModal() { document.getElementById("orderModal").style.display = "none"; }
-        window.onclick = function(e) { if (e.target == document.getElementById("orderModal")) closeOrderModal(); }
-
-        function calculatePrice() {
-            let deliveryMethod = document.querySelector('input[name="طريقة_التوصيل"]:checked').value;
-            let deliveryCost = 0;
-            let selectedWilaya = document.getElementById("wilayaSelect").value;
-
-            if (selectedWilaya !== "") {
-                let wilayaNumber = parseInt(selectedWilaya.split('-')[0]);
-                let prices = deliveryPrices[wilayaNumber] || { home: 0, desk: 0 };
-
-                if (deliveryMethod.includes("مكتب")) {
-                    deliveryCost = prices.desk;
-                } else {
-                    deliveryCost = prices.home;
-                }
-            }
-
-            let totalCost = currentProductPrice + deliveryCost;
-
-            document.getElementById("summaryProduct").innerText = currentProductPrice;
-            document.getElementById("summaryDelivery").innerText = deliveryCost;
-            document.getElementById("summaryTotal").innerText = totalCost;
-
-            document.getElementById("hiddenDeliveryCost").value = deliveryCost + " د.ج";
-            document.getElementById("hiddenTotalCost").value = totalCost + " د.ج";
-        }
-    </script>
-</body>
-</html>
+            7: { home: 85
