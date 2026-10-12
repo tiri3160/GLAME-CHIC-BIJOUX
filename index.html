@@ -225,17 +225,15 @@
         </div>
     </div>
 
-    <!-- نافذة الطلب المطورة والفاتورة (مع بريدك الإلكتروني) -->
+    <!-- نافذة الطلب المطورة (مع الولايات والبلديات من API) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
             <h2>تأكيد الطلبية</h2>
             <p class="subtitle">أدخلي بياناتك وسنقوم بالاتصال بك لتأكيد الشحن</p>
             
-            <!-- تم إضافة بريدك الإلكتروني هنا -->
             <form action="https://formsubmit.co/glamechic31@gmail.com" method="POST">
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
-                <!-- تعطيل نافذة الكابتشا المزعجة بعد التفعيل -->
                 <input type="hidden" name="_captcha" value="false">
                 
                 <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
@@ -248,12 +246,16 @@
                 <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
                 <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف (مهم)">
                 
-                <!-- قائمة الولايات -->
-                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="calculatePrice()">
-                    <option value="">-- اختاري الولاية ليتم حساب التوصيل --</option>
+                <!-- قائمة الولايات (تُملأ آلياً) -->
+                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="onWilayaChange()">
+                    <option value="">-- اختاري الولاية --</option>
                 </select>
 
-                <input type="text" name="البلدية" class="modal-input" required placeholder="البلدية أو الدائرة">
+                <!-- قائمة البلديات (تتحدث بناءً على الولاية) -->
+                <select name="البلدية" id="communeSelect" class="modal-input" required disabled>
+                    <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
+                </select>
+
                 <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
                 
                 <!-- طريقة التوصيل -->
@@ -286,7 +288,7 @@
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
     </footer>
 
-    <!-- سكربتات الموقع وقاعدة بيانات الأسعار -->
+    <!-- السكربتات (مهم جداً للبلديات والأسعار) -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
@@ -297,15 +299,59 @@
 
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        const wilayas = [
-            "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
-            "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
-            "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة",
-            "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة",
-            "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار",
-            "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"
-        ];
-        
+        // --- نظام جلب الولايات والبلديات عبر API ---
+        const wilayaSelect = document.getElementById("wilayaSelect");
+        const communeSelect = document.getElementById("communeSelect");
+        let allData = [];
+
+        // جلب البيانات من مكتبة خارجية (سريع جداً ولا يثقل موقعك)
+        fetch("https://yalidine.com/api/wilayas/") 
+        // استعنت بمكتبات مفتوحة المصدر لجلب بلديات الجزائر بسرعة
+        fetch("https://raw.githubusercontent.com/abdennour/algeria.json/master/algeria.json")
+            .then(response => response.json())
+            .then(data => {
+                allData = data;
+                // تعبئة قائمة الولايات (بدون تكرار)
+                const uniqueWilayas = [...new Set(data.map(item => item.wilaya_id + "- " + item.wilaya_name_ar))];
+                
+                // ترتيب الولايات برقمها
+                uniqueWilayas.sort((a, b) => parseInt(a.split('-')[0]) - parseInt(b.split('-')[0]));
+                
+                uniqueWilayas.forEach(w => {
+                    let option = document.createElement("option");
+                    option.value = w; option.text = w;
+                    wilayaSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error("Error loading communes:", error));
+
+        // عندما تتغير الولاية، تتغير البلديات وسعر التوصيل
+        function onWilayaChange() {
+            const selectedWilaya = wilayaSelect.value;
+            communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
+            
+            if (selectedWilaya !== "") {
+                const wilayaId = selectedWilaya.split('-')[0];
+                
+                // فلترة البلديات التابعة للولاية المختارة فقط
+                const filteredCommunes = allData.filter(item => item.wilaya_id === wilayaId);
+                
+                filteredCommunes.forEach(c => {
+                    let option = document.createElement("option");
+                    option.value = c.commune_name_ar; option.text = c.commune_name_ar;
+                    communeSelect.appendChild(option);
+                });
+                
+                communeSelect.disabled = false;
+            } else {
+                communeSelect.disabled = true;
+            }
+            
+            // حساب السعر بعد اختيار الولاية
+            calculatePrice();
+        }
+
+        // قاعدة بيانات أسعار التوصيل (التي أرسلتها لي)
         const deliveryPrices = {
             1: { home: 1200, desk: 900 }, 2: { home: 700, desk: 400 }, 3: { home: 900, desk: 600 },
             4: { home: 750, desk: 450 }, 5: { home: 750, desk: 450 }, 6: { home: 750, desk: 450 },
@@ -329,13 +375,6 @@
             58: { home: 1100, desk: 800 }
         };
 
-        const wilayaSelect = document.getElementById("wilayaSelect");
-        wilayas.forEach(w => {
-            let option = document.createElement("option");
-            option.value = w; option.text = w;
-            wilayaSelect.appendChild(option);
-        });
-
         let currentProductPrice = 0;
 
         function openOrderModal(productName, productPrice) {
@@ -347,10 +386,11 @@
             
             document.getElementById("summaryProduct").innerText = currentProductPrice;
             document.getElementById("wilayaSelect").value = "";
+            document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
+            document.getElementById("communeSelect").disabled = true;
             document.getElementById("summaryDelivery").innerText = "0";
             document.getElementById("summaryTotal").innerText = currentProductPrice;
             
-            calculatePrice(); 
             document.getElementById("orderModal").style.display = "flex";
         }
 
