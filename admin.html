@@ -1,156 +1,274 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم متجر GLAME CHIC</title>
+    <title>لوحة الإدارة المتكاملة | GLAME CHIC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-        body { background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        h1 { text-align: center; color: #D4AF37; margin-bottom: 30px; }
+        body { background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1000px; margin: auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: #D4AF37; margin-bottom: 30px; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 15px; }
         
         /* شاشة الدخول */
-        #login-section { display: block; text-align: center; }
-        input.input-field { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-        button { background: #111; color: #D4AF37; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
-        button:hover { background: #D4AF37; color: #111; }
+        #login-section { text-align: center; max-width: 400px; margin: 50px auto; }
+        input.input-field, select.input-field { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: 0.3s; background: #fafafa; }
+        input.input-field:focus, select.input-field:focus { border-color: #D4AF37; outline: none; background: #fff; box-shadow: 0 0 8px rgba(212,175,55,0.2); }
         
-        /* لوحة التحكم */
+        button { background: #111; color: #D4AF37; border: none; padding: 14px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #D4AF37; color: #111; transform: translateY(-2px); }
+        
+        /* لوحة التحكم الرئيسية */
         #dashboard-section { display: none; }
-        .form-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .form-group > input { flex: 1; min-width: 150px; }
-        .product-list { margin-top: 30px; }
-        .product-item { background: #fafafa; padding: 15px; border: 1px solid #eee; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
-        .product-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; vertical-align: middle; margin-left: 10px; }
-        .btn-delete { background: #ff4d4d; color: #fff; padding: 8px 15px; width: auto; }
-        .btn-delete:hover { background: #cc0000; color: #fff; }
-        #statusMessage { text-align: center; font-weight: bold; margin: 15px 0; color: green; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .form-group { background: #fafafa; padding: 20px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 30px; }
+        
+        #statusMessage { text-align: center; font-weight: bold; margin: 15px 0; color: #28a745; font-size: 1.1em; }
+        #errorMessage { text-align: center; font-weight: bold; margin: 15px 0; color: #dc3545; }
+
+        /* عرض المنتجات */
+        .products-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D4AF37; margin-top: 40px; padding-bottom: 10px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        
+        .product-card { background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; display: flex; flex-direction: column; }
+        .product-card:hover { border-color: #D4AF37; box-shadow: 0 8px 25px rgba(212,175,55,0.15); }
+        
+        .product-img { width: 100%; height: 200px; object-fit: cover; background: #f9f9f9; border-bottom: 1px solid #eee; }
+        .product-details { padding: 15px; flex-grow: 1; }
+        .product-name { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: #111; }
+        .product-category { background: rgba(212,175,55,0.15); color: #997A15; padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .product-price { color: #D4AF37; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
+        .product-stock { color: #666; font-size: 0.9em; margin-bottom: 15px; }
+        
+        .card-actions { display: flex; border-top: 1px solid #eee; }
+        .btn-edit, .btn-delete { flex: 1; padding: 12px; border: none; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.3s; border-radius: 0; margin: 0; }
+        .btn-edit { background: #f8f9fa; color: #333; }
+        .btn-edit:hover { background: #e2e6ea; color: #000; }
+        .btn-delete { background: #fff; color: #dc3545; border-right: 1px solid #eee; }
+        .btn-delete:hover { background: #dc3545; color: #fff; }
+
+        @media(max-width: 600px) {
+            .container { padding: 15px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>👑 لوحة تحكم GLAME CHIC</h1>
+    <h1>👑 الإدارة المتكاملة | GLAME CHIC</h1>
 
-    <!-- شاشة إدخال المفتاح السري -->
+    <!-- شاشة الدخول -->
     <div id="login-section">
-        <p>مرحباً بك، يرجى إدخال اسم المستخدم ومفتاح غيت هب السري للاتصال بالمتجر.</p>
-        <input type="text" id="githubUser" class="input-field" placeholder="اسم المستخدم (مثال: mohammed-dz)">
-        <input type="password" id="githubToken" class="input-field" placeholder="المفتاح السري (Token)">
-        <button onclick="login()">دخول للوحة التحكم</button>
+        <p>أدخل المفتاح السري (Token) للاتصال بقاعدة بيانات متجرك.</p>
+        <!-- اسم حسابك مبرمج جاهز -->
+        <input type="text" id="githubUser" class="input-field" value="tiri3160" placeholder="اسم المستخدم" readonly style="background:#eee; color:#666; cursor:not-allowed;">
+        <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح السري هنا (ghp_...)">
+        <button onclick="login()">تسجيل الدخول الآمن 🔐</button>
+        <div id="loginError" style="color: red; margin-top: 10px; font-weight: bold;"></div>
     </div>
 
-    <!-- شاشة إدارة المنتجات -->
+    <!-- لوحة التحكم -->
     <div id="dashboard-section">
-        <h3 style="border-bottom: 2px solid #D4AF37; padding-bottom: 10px;">إضافة / تعديل منتج</h3>
-        <div id="statusMessage"></div>
-        
-        <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج">
         <div class="form-group">
-            <input type="number" id="prodPrice" class="input-field" placeholder="السعر (د.ج)">
-            <input type="number" id="prodQuantity" class="input-field" placeholder="الكمية المتوفرة">
-        </div>
-        <p style="font-size: 14px; margin: 0 0 5px; color: #666;">صورة المنتج:</p>
-        <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg">
-        
-        <button onclick="saveProduct()" id="saveBtn">حفظ ونشر في الموقع 🚀</button>
+            <h2 style="margin-top: 0; color: #111;">➕ إضافة / تعديل منتج</h2>
+            <div id="statusMessage"></div>
+            <div id="errorMessage"></div>
+            
+            <div class="form-grid">
+                <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج (مثال: طقم السهرة)">
+                
+                <!-- خيار المجموعة الجديد -->
+                <select id="prodCategory" class="input-field">
+                    <option value="" disabled selected>-- اختر مجموعة المنتج --</option>
+                    <option value="خواتم">خواتم 💍</option>
+                    <option value="أساور">أساور 📿</option>
+                    <option value="قلادات">قلادات 💎</option>
+                    <option value="أطقم">أطقم كاملة ✨</option>
+                </select>
+            </div>
 
-        <div class="product-list">
-            <h3 style="margin-top: 40px;">المنتجات الحالية:</h3>
-            <div id="productsContainer">جاري التحميل...</div>
+            <div class="form-grid">
+                <input type="number" id="prodPrice" class="input-field" placeholder="السعر (بالدينار الجزائري)">
+                <input type="number" id="prodQuantity" class="input-field" placeholder="الكمية المتوفرة في المخزن">
+            </div>
+            
+            <p style="font-size: 14px; margin: 10px 0 5px; color: #666; font-weight: bold;">صورة المنتج (اتركها فارغة عند التعديل إذا كنت لا تريد تغيير الصورة القديمة):</p>
+            <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg, image/webp">
+            
+            <button onclick="saveProduct()" id="saveBtn">حفظ ونشر في الموقع المباشر 🚀</button>
+            <button onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#6c757d; color:#fff;">إلغاء التعديل</button>
+        </div>
+
+        <div class="products-header">
+            <h2 style="margin: 0;">📦 منتجاتك الحالية</h2>
+            <span id="totalProducts" style="background: #111; color: #D4AF37; padding: 5px 15px; border-radius: 20px; font-weight: bold;">0 منتج</span>
+        </div>
+        
+        <!-- هنا تظهر المنتجات كبطاقات -->
+        <div class="products-grid" id="productsContainer">
+            <div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">
+                جاري تحميل منتجاتك من قاعدة البيانات... ⏳
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    const repoName = "GLAME-CHIC-BIJOUX"; // اسم مستودعك ثابت هنا
-    let username = "";
+    const repoName = "GLAME-CHIC-BIJOUX"; 
+    let username = "tiri3160"; // حسابك
     let token = "";
     let productsSha = "";
     let productsData = [];
+    let editingIndex = -1; // لمعرفة ما إذا كنا نعدل منتجاً أو نضيف جديداً
 
-    // تسجيل الدخول
     function login() {
-        username = document.getElementById('githubUser').value.trim();
         token = document.getElementById('githubToken').value.trim();
-        if(!username || !token) { alert("الرجاء إدخال اسم المستخدم والمفتاح السري!"); return; }
+        if(!token) { 
+            document.getElementById('loginError').innerText = "يرجى إدخال المفتاح السري!"; 
+            return; 
+        }
         
-        // إخفاء تسجيل الدخول وإظهار اللوحة
-        document.getElementById('login-section').style.display = "none";
-        document.getElementById('dashboard-section').style.display = "block";
+        document.getElementById('loginError').innerText = "جاري الاتصال...";
         loadProducts();
     }
 
-    // جلب المنتجات من ملف products.json
     async function loadProducts() {
         const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
         try {
             const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-            if(!response.ok) throw new Error("بيانات الدخول خاطئة أو الملف غير موجود!");
-            const data = await response.json();
-            productsSha = data.sha;
             
-            // فك تشفير المحتوى
-            const decodedContent = decodeURIComponent(escape(atob(data.content)));
-            productsData = JSON.parse(decodedContent);
+            if(response.status === 404) {
+                // إذا كان الملف غير موجود بعد، نقوم بإنشائه فارغاً
+                productsData = [];
+                await updateGitHubJson("إنشاء قاعدة البيانات");
+            } else if (!response.ok) {
+                throw new Error("المفتاح السري (Token) غير صحيح أو منتهي الصلاحية.");
+            } else {
+                const data = await response.json();
+                productsSha = data.sha;
+                const decodedContent = decodeURIComponent(escape(atob(data.content)));
+                productsData = JSON.parse(decodedContent);
+            }
+            
+            document.getElementById('login-section').style.display = "none";
+            document.getElementById('dashboard-section').style.display = "block";
             renderProducts();
         } catch (error) {
-            alert(error.message);
-            location.reload(); // إعادة تحميل الصفحة إذا فشل
+            document.getElementById('loginError').innerText = error.message;
         }
     }
 
-    // عرض المنتجات في القائمة
     function renderProducts() {
         const container = document.getElementById('productsContainer');
+        document.getElementById('totalProducts').innerText = productsData.length + " منتج";
         container.innerHTML = "";
-        if(productsData.length === 0) { container.innerHTML = "<p>لا توجد منتجات حالياً.</p>"; return; }
+        
+        if(productsData.length === 0) { 
+            container.innerHTML = `<div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">لا توجد أي منتجات حالياً. أضف منتجك الأول من الأعلى!</div>`; 
+            return; 
+        }
 
+        // عرض المنتجات كبطاقات مرتبة
         productsData.forEach((p, index) => {
+            // صورة افتراضية في حال لم تكن هناك صورة
+            const imgSrc = p.image ? `https://raw.githubusercontent.com/${username}/${repoName}/main/${p.image}` : 'https://via.placeholder.com/300x300/f4f4f4/D4AF37?text=GLAME+CHIC';
+            
             container.innerHTML += `
-                <div class="product-item">
-                    <div class="product-info">
-                        <strong>${p.name}</strong> - ${p.price} د.ج <br>
-                        <span style="font-size: 13px; color: #888;">الكمية المتوفرة: ${p.quantity}</span>
+                <div class="product-card">
+                    <img src="${imgSrc}" class="product-img" alt="${p.name}">
+                    <div class="product-details">
+                        <span class="product-category">${p.category || 'غير محدد'}</span>
+                        <h3 class="product-name">${p.name}</h3>
+                        <div class="product-price">${p.price} د.ج</div>
+                        <div class="product-stock">الكمية المتوفرة: <b>${p.quantity}</b></div>
                     </div>
-                    <button class="btn-delete" onclick="deleteProduct(${index})">حذف 🗑️</button>
+                    <div class="card-actions">
+                        <button class="btn-edit" onclick="editProduct(${index})">تعديل ✏️</button>
+                        <button class="btn-delete" onclick="deleteProduct(${index})">حذف 🗑️</button>
+                    </div>
                 </div>
             `;
         });
     }
 
-    // حذف منتج
-    async function deleteProduct(index) {
-        if(!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
-        productsData.splice(index, 1);
-        await updateGitHubJson("تم حذف منتج");
+    function editProduct(index) {
+        editingIndex = index;
+        const p = productsData[index];
+        
+        document.getElementById('prodName').value = p.name;
+        document.getElementById('prodCategory').value = p.category || "";
+        document.getElementById('prodPrice').value = p.price;
+        document.getElementById('prodQuantity').value = p.quantity;
+        
+        document.getElementById('saveBtn').innerText = "حفظ التعديلات 🔄";
+        document.getElementById('saveBtn').style.background = "#D4AF37";
+        document.getElementById('saveBtn').style.color = "#111";
+        document.getElementById('cancelBtn').style.display = "block";
+        
+        // الصعود للأعلى بسلاسة
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // حفظ منتج جديد
+    function cancelEdit() {
+        editingIndex = -1;
+        document.getElementById('prodName').value = "";
+        document.getElementById('prodCategory').value = "";
+        document.getElementById('prodPrice').value = "";
+        document.getElementById('prodQuantity').value = "";
+        document.getElementById('prodImage').value = "";
+        
+        document.getElementById('saveBtn').innerText = "حفظ ونشر في الموقع المباشر 🚀";
+        document.getElementById('saveBtn').style.background = "#111";
+        document.getElementById('saveBtn').style.color = "#D4AF37";
+        document.getElementById('cancelBtn').style.display = "none";
+    }
+
+    async function deleteProduct(index) {
+        if(!confirm("هل أنت متأكد من حذف هذا المنتج نهائياً من الموقع؟")) return;
+        productsData.splice(index, 1);
+        await updateGitHubJson("حذف منتج");
+    }
+
     async function saveProduct() {
         const name = document.getElementById('prodName').value;
+        const category = document.getElementById('prodCategory').value;
         const price = document.getElementById('prodPrice').value;
         const qty = document.getElementById('prodQuantity').value;
         const imageFile = document.getElementById('prodImage').files[0];
 
-        if(!name || !price || !qty) { alert("يرجى تعبئة الاسم والسعر والكمية!"); return; }
+        const status = document.getElementById('statusMessage');
+        const errorMsg = document.getElementById('errorMessage');
+        status.innerText = "";
+        errorMsg.innerText = "";
+
+        if(!name || !category || !price || !qty) { 
+            errorMsg.innerText = "❌ يرجى تعبئة جميع الخانات الأساسية (الاسم، المجموعة، السعر، الكمية)!"; 
+            return; 
+        }
 
         const btn = document.getElementById('saveBtn');
-        const status = document.getElementById('statusMessage');
-        btn.innerText = "جاري الرفع... الرجاء الانتظار ⏳";
+        btn.innerText = "جاري العمل... الرجاء الانتظار ⏳";
         btn.disabled = true;
 
         try {
-            let imageUrl = "placeholder.jpg"; // صورة افتراضية
+            let imageUrl = "";
 
-            // إذا قام باختيار صورة، نرفعها أولاً إلى غيت هب
+            // إذا كنا نعدل منتجاً، نحتفظ بصورته القديمة مبدئياً
+            if(editingIndex > -1) {
+                imageUrl = productsData[editingIndex].image;
+            }
+
+            // إذا رفع صورة جديدة (في حالة الإضافة أو التعديل)
             if(imageFile) {
-                status.innerText = "جاري رفع الصورة إلى الموقع...";
+                status.innerText = "جاري رفع الصورة إلى سيرفر الموقع...";
                 const base64 = await toBase64(imageFile);
-                const cleanBase64 = base64.split(",")[1]; // إزالة الترويسة
-                const imgFileName = Date.now() + "_" + imageFile.name.replace(/\\s/g, ''); // اسم فريد
+                const cleanBase64 = base64.split(",")[1];
+                // إنشاء اسم فريد للصورة لتجنب التكرار
+                const ext = imageFile.name.split('.').pop();
+                const imgFileName = "prod_" + Date.now() + "." + ext; 
                 
                 const imgUrlApi = `https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`;
                 
@@ -158,51 +276,60 @@
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        message: "رفع صورة منتج جديدة",
+                        message: "رفع صورة منتج",
                         content: cleanBase64
                     })
                 });
                 
-                if(!imgResponse.ok) throw new Error("فشل في رفع الصورة.");
-                // حفظ رابط الصورة المرفوعة
+                if(!imgResponse.ok) throw new Error("فشل في رفع الصورة. تأكد من حجمها وأن المفتاح صحيح.");
                 imageUrl = imgFileName; 
+            } else if (editingIndex === -1) {
+                // إذا كان يضيف منتجاً جديداً ولم يرفع صورة
+                throw new Error("❌ يرجى اختيار صورة للمنتج الجديد!");
             }
 
-            status.innerText = "جاري تحديث قاعدة البيانات...";
+            status.innerText = "جاري تحديث قاعدة بيانات المتجر...";
             
-            // إضافة المنتج لقاعدة البيانات
-            productsData.push({
-                id: Date.now(),
+            const productObj = {
+                id: editingIndex > -1 ? productsData[editingIndex].id : Date.now(),
                 name: name,
+                category: category,
                 price: parseInt(price),
                 quantity: parseInt(qty),
                 image: imageUrl
-            });
+            };
 
-            await updateGitHubJson("تم إضافة منتج جديد");
+            if(editingIndex > -1) {
+                // تحديث المنتج الحالي
+                productsData[editingIndex] = productObj;
+                await updateGitHubJson("تعديل منتج: " + name);
+                status.innerText = "✅ تم تعديل المنتج بنجاح!";
+            } else {
+                // إضافة منتج جديد
+                productsData.push(productObj);
+                await updateGitHubJson("إضافة منتج جديد: " + name);
+                status.innerText = "✅ تم إضافة المنتج ونشره بنجاح!";
+            }
             
-            // تصفير الخانات
-            document.getElementById('prodName').value = "";
-            document.getElementById('prodPrice').value = "";
-            document.getElementById('prodQuantity').value = "";
-            document.getElementById('prodImage').value = "";
-            
-            status.innerText = "✅ تم إضافة المنتج ونشره بنجاح!";
-            setTimeout(() => { status.innerText = ""; }, 3000);
+            cancelEdit(); // تصفير الخانات
+            setTimeout(() => { status.innerText = ""; }, 4000);
 
         } catch(err) {
-            alert(err.message);
+            errorMsg.innerText = err.message;
         } finally {
-            btn.innerText = "حفظ ونشر في الموقع 🚀";
+            if(editingIndex === -1) {
+                btn.innerText = "حفظ ونشر في الموقع المباشر 🚀";
+            } else {
+                btn.innerText = "حفظ التعديلات 🔄";
+            }
             btn.disabled = false;
         }
     }
 
-    // تحديث ملف products.json في غيت هب
     async function updateGitHubJson(commitMsg) {
         const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
-        // تشفير المحتوى باللغة العربية بطريقة صحيحة
         const contentStr = JSON.stringify(productsData, null, 2);
+        // التشفير الآمن للغة العربية
         const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
         const response = await fetch(url, {
@@ -215,14 +342,13 @@
             })
         });
 
-        if(!response.ok) throw new Error("فشل في تحديث المنتجات.");
+        if(!response.ok) throw new Error("فشل في تحديث قاعدة البيانات.");
         
         const data = await response.json();
-        productsSha = data.content.sha; // تحديث بصمة الملف للمرة القادمة
-        renderProducts();
+        productsSha = data.content.sha; 
+        renderProducts(); // إعادة رسم المنتجات
     }
 
-    // تحويل الصورة إلى نص Base64
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
