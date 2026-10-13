@@ -42,17 +42,20 @@
         .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); }
         .section-title span { color: var(--gold); font-style: italic; }
 
-        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 0 20px; }
-        .category-card { position: relative; width: 260px; height: 350px; overflow: hidden; border: 1px solid rgba(212,175,55,0.2); cursor: pointer; transition: 0.5s; background: var(--black-card); border-radius: 5px; }
-        .category-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.9s ease; filter: brightness(0.7) contrast(1.2); }
-        .category-card:hover img { filter: brightness(1); transform: scale(1.1); }
-        .category-title { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 0; text-align: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: var(--gold-light); font-size: 2em; font-family: 'Amiri', serif; transition: 0.4s; }
+        /* التصميم المبتكر للمجموعات (الأيقونات العائمة) */
+        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 20px; margin-bottom: 50px;}
+        .category-card { position: relative; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%); border: 2px solid rgba(212,175,55,0.1); cursor: pointer; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(212,175,55,0.05); }
+        .category-card img { width: 65%; height: auto; transition: 0.6s ease; filter: drop-shadow(0 15px 10px rgba(0,0,0,0.7)); z-index: 2; }
+        .category-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 15px 40px rgba(212,175,55,0.2), inset 0 0 30px rgba(212,175,55,0.15); }
+        .category-card:hover img { transform: scale(1.2) rotate(5deg) translateY(-10px); filter: drop-shadow(0 25px 15px rgba(212,175,55,0.4)) brightness(1.2); }
+        .category-title { position: absolute; bottom: -40px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.5em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.4s; opacity: 0.8; }
+        .category-card:hover .category-title { opacity: 1; color: var(--gold); transform: scale(1.1); }
 
         .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; }
         .swiper-wrapper { transition-timing-function: linear !important; } 
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
-        .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; }
+        .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; position: relative; }
         .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
         .product-card:hover img { transform: scale(1.08); }
         .product-title { font-size: 1.4em; font-family: 'Amiri', serif; color: var(--text-pure); margin-bottom: 10px; }
@@ -87,14 +90,12 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        /* تعديلات الفوتر وأرقام الاتصال */
         footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
         .contact-info { margin-top: 20px; }
         .contact-info a { color: var(--gold); text-decoration: none; font-size: 1.2em; font-weight: bold; margin: 0 10px; display: inline-block; transition: 0.3s; }
         .contact-info a:hover { color: var(--gold-light); transform: scale(1.05); }
 
-        /* زر الواتساب العائم */
         .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
         .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6); color: white; }
         
@@ -106,7 +107,7 @@
             .nav-links.active { right: 0; } 
             .nav-links a { font-size: 1.3em; padding: 15px; width: 100%; text-align: center; }
             .hero h1 { font-size: 2.8em; }
-            .category-card { width: 100%; max-width: 320px; height: 300px; }
+            .category-card { width: 150px; height: 150px; }
             .modal-content { padding: 25px 20px; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
@@ -160,26 +161,25 @@
     <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
     <div class="categories-grid">
         <div class="category-card" onclick="filterCategory('خواتم')">
-            <img src="rings-cat.jpg" alt="خواتم" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
+            <img src="ring-icon-transparent.png" alt="خواتم" onerror="this.src='https://cdn-icons-png.flaticon.com/512/83/83546.png'">
             <div class="category-title">خواتم</div>
         </div>
         <div class="category-card" onclick="filterCategory('أساور')">
-            <img src="bracelets-cat.jpg" alt="أساور" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
+            <img src="bracelet-icon-transparent.png" alt="أساور" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2855/2855822.png'">
             <div class="category-title">أساور</div>
         </div>
         <div class="category-card" onclick="filterCategory('قلادات')">
-            <img src="necklaces-cat.jpg" alt="قلادات" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
+            <img src="necklace-icon-transparent.png" alt="قلادات" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3062/3062770.png'">
             <div class="category-title">قلادات</div>
         </div>
         <div class="category-card" onclick="filterCategory('أطقم')">
-            <img src="sets-cat.jpg" alt="أطقم كاملة" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
+            <img src="set-icon-transparent.png" alt="أطقم كاملة" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3592/3592888.png'">
             <div class="category-title">أطقم</div>
         </div>
     </div>
 
     <h2 class="section-title" id="collection">الإصدارات <span>الحصرية</span></h2>
     
-    <!-- قسم المنتجات الديناميكي (يقرأ من products.json) -->
     <div class="swiper mySwiper">
         <div class="swiper-wrapper" id="dynamic-products">
             <div style="width: 100%; text-align: center; color: var(--gold); padding: 50px; font-size: 1.5em; font-family: 'Amiri', serif;">
@@ -241,12 +241,12 @@
         </div>
     </div>
 
-    <!-- زر الواتساب العائم للرقم الأول -->
+    <!-- زر الواتساب العائم -->
     <a href="https://wa.me/213779665820" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- الفوتر مع أرقام التواصل -->
+    <!-- الفوتر مع الأرقام -->
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
@@ -261,19 +261,14 @@
     <script>
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        // ==========================================
-        // جلب المنتجات من products.json في المستودع
-        // ==========================================
         const GITHUB_USERNAME = "tiri3160";
         const REPO_NAME = "GLAME-CHIC-BIJOUX";
         let allProducts = [];
         let swiperInstance = null;
 
         async function fetchProducts() {
-            // نستخدم raw url للحصول على الملف كـ JSON مباشرة لتجنب مشاكل التشفير مع الـ API
             const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/products.json`;
             try {
-                // نضيف طابع زمني لتجنب الكاش (Cache) ولتظهر التعديلات فوراً
                 const response = await fetch(rawUrl + '?t=' + new Date().getTime());
                 if (!response.ok) throw new Error("لا يمكن قراءة المنتجات.");
                 allProducts = await response.json();
@@ -298,7 +293,7 @@
 
             productsToDisplay.forEach(product => {
                 const imgSrc = product.image ? `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${product.image}` : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
-                // التحقق من المخزون
+                
                 const stockBadge = product.quantity > 0 ? 
                     `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">متوفر</span>` : 
                     `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">نفذت الكمية</span>`;
@@ -310,7 +305,7 @@
                 let slide = `
                 <div class="swiper-slide">
                     <div class="product-card">
-                        <div class="product-img-wrapper" style="position:relative;">
+                        <div class="product-img-wrapper">
                             ${stockBadge}
                             <img src="${imgSrc}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                         </div>
@@ -322,29 +317,23 @@
                 wrapper.innerHTML += slide;
             });
 
-            // تدمير السوايبر القديم وبناء جديد لتحديث العرض
             if(swiperInstance !== null) swiperInstance.destroy(true, true);
             
             swiperInstance = new Swiper(".mySwiper", {
-                slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000, // إلغاء اللوب إذا المنتجات قليلة
+                slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000,
                 autoplay: productsToDisplay.length > 1 ? { delay: 3000, disableOnInteraction: false } : false,
                 breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
             });
         }
 
-        // دالة الفلترة عند الضغط على تصنيفات المجموعات
         function filterCategory(category) {
             document.getElementById('collection').scrollIntoView({behavior: 'smooth'});
             const filtered = allProducts.filter(p => p.category === category);
             displayProducts(filtered);
         }
 
-        // تشغيل جلب المنتجات عند تحميل الصفحة
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
-        // ==========================================
-        // نظام الولايات والأسعار
-        // ==========================================
         const wilayas = [
             "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
             "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
@@ -363,7 +352,6 @@
             wilayaSelect.appendChild(option);
         });
 
-        // محاكاة البلديات (سيتم تحديثها يدويا كما طلب سابقا)
         function onWilayaChange() {
             const selectedWilaya = wilayaSelect.value;
             communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
