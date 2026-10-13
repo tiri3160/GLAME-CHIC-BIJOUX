@@ -6,5 +6,13 @@
     "price": 1900,
     "quantity": 15,
     "image": "prod_1791890919522.jpeg"
+  },
+  {
+    "id": 1791894175222,
+    "name": "كارتي اسي ",
+    "category": "أطقم",
+    "price": 2000,
+    "quantity": 20,
+    "image": "prod_1791894171520.jpeg"
   }
 ]
