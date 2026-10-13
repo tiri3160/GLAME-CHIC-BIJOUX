@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
-    <!-- حماية ضد تحليلات البوتات -->
+    <!-- حماية ضد تحليلات البوتات (Bot Shield) -->
     <script>
         if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
-            document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي (Bot Detected)</h2>";
+            document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي 🤖</h2>";
         }
     </script>
 
@@ -56,13 +56,11 @@
         .category-title { position: absolute; bottom: -40px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.5em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.4s; opacity: 0.8; }
         .category-card:hover .category-title { opacity: 1; color: var(--gold); transform: scale(1.1); }
 
-        /* الشبكة الثابتة للأقسام المختارة */
         .products-grid-static { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; }
 
         .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; overflow: hidden; touch-action: pan-y; }
         .swiper-wrapper { transition-timing-function: ease-out !important; } 
         
-        /* تعديل تصميم البطاقة لتصبح قابلة للضغط كلياً */
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; width: 100%; cursor: pointer; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
         .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; position: relative; width: 100%; }
@@ -104,6 +102,9 @@
         #successModal .success-icon { font-size: 5em; color: #D4AF37; margin-bottom: 20px; animation: fadeUp 0.5s ease-out; }
         #successModal h2 { color: #fff; margin-bottom: 15px; }
         #successModal p { color: #ccc; font-size: 1.2em; line-height: 1.6; margin-bottom: 30px; }
+
+        .btn-close-filter { background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold); color: var(--gold); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.6em; font-family: 'Cairo'; font-weight: bold; transition: 0.3s; margin-right: 15px; vertical-align: middle; }
+        .btn-close-filter:hover { background: var(--gold); color: #000; }
 
         footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; width: 100vw; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
@@ -198,13 +199,15 @@
     </div>
 
     <!-- القسم الجديد الثابت المخصص للمجموعات المختارة -->
-    <h2 class="section-title" id="filtered-section-title" style="display: none; margin-top: 40px; margin-bottom: 20px;">منتجات <span>القسم</span></h2>
+    <h2 class="section-title" id="filtered-section-title" style="display: none; margin-top: 40px; margin-bottom: 20px;">
+        <!-- عنوان القسم سيظهر هنا برمجياً مع زر الإغلاق -->
+    </h2>
     <div class="products-grid-static" id="filtered-products-container" style="display: none;">
         <!-- المنتجات المختارة ستظهر هنا -->
     </div>
 
     <h2 class="section-title" id="collection">الإصدارات <span>الحصرية</span></h2>
-    <!-- السلايدر الأصلي (يعرض جميع المنتجات دائماً في الأسفل) -->
+    <!-- السلايدر الأصلي يعرض جميع المنتجات دائماً -->
     <div class="swiper mySwiper">
         <div class="swiper-wrapper" id="dynamic-products">
             <div style="width: 100%; text-align: center; color: var(--gold); padding: 50px; font-size: 1.5em; font-family: 'Amiri', serif;">
@@ -218,7 +221,7 @@
         <div class="modal-content" style="text-align:center; max-width: 500px; padding: 40px 20px;">
             <span class="close-btn" onclick="document.getElementById('productDetailModal').style.display='none'">&times;</span>
             <div style="background:#000; padding:15px; border-radius:8px; margin-bottom:20px; overflow:hidden;">
-                <!-- ميزة التكبير (Zoom) عند الضغط على الصورة -->
+                <!-- ميزة التكبير (Zoom) -->
                 <img id="detailImg" src="" style="width:100%; height:300px; object-fit:contain; transition: transform 0.4s ease; cursor:zoom-in;" onclick="this.style.transform = this.style.transform === 'scale(1.6)' ? 'scale(1)' : 'scale(1.6)'">
             </div>
             <p style="color:#aaa; font-size:0.85em; margin-top:-10px; margin-bottom:15px;">(اضغطي على الصورة لتكبيرها 🔍)</p>
@@ -239,6 +242,7 @@
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
+                <!-- المصيدة المخفية للبوتات -->
                 <input type="text" name="_honey" style="display:none">
                 
                 <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
@@ -315,26 +319,21 @@
     <script>
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        const GITHUB_USERNAME = "tiri3160";
-        const REPO_NAME = "GLAME-CHIC-BIJOUX";
         let allProducts = [];
         let swiperInstance = null;
 
+        // تم الاستغناء عن روابط GitHub الخارجية البطيئة والاعتماد على الروابط المحلية السريعة (Relative Paths)
         async function fetchProducts() {
-            const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/products.json`;
             try {
-                const response = await fetch(rawUrl + '?t=' + new Date().getTime());
+                const response = await fetch('products.json?t=' + new Date().getTime());
                 if (!response.ok) throw new Error("error");
                 allProducts = await response.json();
-                
-                // عرض السلايدر للجميع في الأسفل مرة واحدة
                 displaySwiperProducts(allProducts);
             } catch (error) {
                 document.getElementById('dynamic-products').innerHTML = `<div style="width: 100%; text-align: center; color: red; padding: 50px;">تعذر تحميل المنتجات. تأكد من إضافة منتجات من لوحة التحكم.</div>`;
             }
         }
 
-        // دالة لعرض جميع المنتجات في السلايدر السفلي
         function displaySwiperProducts(productsToDisplay) {
             const wrapper = document.getElementById('dynamic-products');
             wrapper.innerHTML = ''; 
@@ -342,16 +341,15 @@
 
             productsToDisplay.forEach(product => {
                 const safeName = product.name.replace(/'/g, "\\'");
-                const imgSrc = product.image ? `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${product.image}` : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+                const imgSrc = product.image ? product.image : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
                 const stockBadge = product.quantity > 0 ? `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">متوفر</span>` : `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">نفذت الكمية</span>`;
                 
-                // البطاقة قابلة للضغط كلياً لمعاينة التفاصيل، وزر الطلب منفصل
                 wrapper.innerHTML += `
                 <div class="swiper-slide">
                     <div class="product-card" onclick="showProductDetail('${safeName}', '${imgSrc}', ${product.price}, ${product.quantity})">
                         <div class="product-img-wrapper">
                             ${stockBadge}
-                            <img src="${imgSrc}" alt="${product.name}">
+                            <img src="${imgSrc}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                         </div>
                         <h3 class="product-title">${product.name}</h3>
                         <div class="product-price">${product.price} د.ج</div>
@@ -370,14 +368,14 @@
             });
         }
 
-        // دالة الفلترة: تعرض القسم المطلوب في الشبكة الثابتة
+        // دالة عرض وتصفية القسم المختار مع زر الإغلاق المدمج
         function filterCategory(category) {
             const filtered = allProducts.filter(p => p.category === category);
             const container = document.getElementById('filtered-products-container');
             const title = document.getElementById('filtered-section-title');
             
             title.style.display = 'block';
-            title.innerHTML = `تشكيلة <span>${category}</span>`;
+            title.innerHTML = `تشكيلة <span>${category}</span> <button class="btn-close-filter" onclick="closeFilter()">إلغاء الفلتر ✖</button>`;
             container.style.display = 'grid';
             container.innerHTML = '';
             
@@ -386,14 +384,14 @@
             } else {
                 filtered.forEach(product => {
                     const safeName = product.name.replace(/'/g, "\\'");
-                    const imgSrc = product.image ? `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${product.image}` : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+                    const imgSrc = product.image ? product.image : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
                     const stockBadge = product.quantity > 0 ? `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">متوفر</span>` : `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">نفذت الكمية</span>`;
                     
                     container.innerHTML += `
                         <div class="product-card" onclick="showProductDetail('${safeName}', '${imgSrc}', ${product.price}, ${product.quantity})">
                             <div class="product-img-wrapper">
                                 ${stockBadge}
-                                <img src="${imgSrc}" alt="${product.name}">
+                                <img src="${imgSrc}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                             </div>
                             <h3 class="product-title">${product.name}</h3>
                             <div class="product-price">${product.price} د.ج</div>
@@ -402,15 +400,19 @@
                     `;
                 });
             }
-            
-            // التمرير السلس إلى القسم الجديد
             title.scrollIntoView({behavior: 'smooth', block: 'start'});
         }
 
-        // دالة عرض تفاصيل وتكبير المنتج
+        // دالة العودة للوضع الطبيعي وإغلاق القسم المختار
+        function closeFilter() {
+            document.getElementById('filtered-section-title').style.display = 'none';
+            document.getElementById('filtered-products-container').style.display = 'none';
+            document.getElementById('categories').scrollIntoView({behavior: 'smooth'});
+        }
+
         function showProductDetail(name, img, price, quantity) {
             document.getElementById('detailImg').src = img;
-            document.getElementById('detailImg').style.transform = 'scale(1)'; // إعادة الزوم للطبيعي
+            document.getElementById('detailImg').style.transform = 'scale(1)'; 
             document.getElementById('detailName').innerText = name;
             document.getElementById('detailPrice').innerText = price + " د.ج";
             
@@ -429,9 +431,6 @@
 
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
-        // ==========================================
-        // نظام البلديات
-        // ==========================================
         const wilayas = ["1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة", "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة", "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة", "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة", "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار", "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"];
         const wilayaSelect = document.getElementById("wilayaSelect");
         const communeSelect = document.getElementById("communeSelect");
@@ -469,7 +468,6 @@
             
             if (val !== "") {
                 const id = val.split('-')[0];
-                
                 if(Object.keys(fullCommunesData).length > 0 && fullCommunesData[id]) {
                     fullCommunesData[id].forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
                 }
