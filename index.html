@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -10,40 +10,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
+        /* إعدادات لتثبيت الشاشة ومنع التحرك الجانبي على الهاتف */
         :root { --gold: #D4AF37; --gold-light: #FBF5B7; --gold-dark: #997A15; --black-bg: #050505; --black-card: #111111; --text-pure: #ffffff; --text-muted: #aaaaaa; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); overflow-x: hidden; scroll-behavior: smooth; }
+        html, body { margin: 0; padding: 0; box-sizing: border-box; width: 100%; max-width: 100vw; overflow-x: hidden; font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); scroll-behavior: smooth; }
+        *, *::before, *::after { box-sizing: border-box; }
 
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .top-marquee { background: linear-gradient(90deg, #111, #222, #111); color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; overflow: hidden; white-space: nowrap; direction: ltr; }
+        .top-marquee { background: linear-gradient(90deg, #111, #222, #111); color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; overflow: hidden; white-space: nowrap; direction: ltr; width: 100%; }
         .marquee-content { display: flex; animation: scroll 35s linear infinite; }
         .marquee-content span { margin: 0 40px; font-family: 'Amiri', serif; letter-spacing: 1px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        nav { background: rgba(5, 5, 5, 0.85); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); animation: fadeUp 1s ease-out; }
+        nav { background: rgba(5, 5, 5, 0.85); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); width: 100%; }
         .logo { font-family: 'Playfair Display', serif; font-size: 2.2em; text-decoration: none; letter-spacing: 4px; font-weight: bold; background: linear-gradient(to right, var(--gold-light) 20%, var(--gold) 40%, var(--gold) 60%, var(--gold-light) 80%); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
-        .nav-links { display: flex; list-style: none; gap: 40px; }
+        .nav-links { display: flex; list-style: none; gap: 40px; margin: 0; padding: 0; }
         .nav-links a { color: var(--text-pure); text-decoration: none; font-size: 1.1em; transition: 0.3s; font-family: 'Amiri', serif; }
         .nav-links a:hover { color: var(--gold); }
         .menu-icon { display: none; color: var(--gold); font-size: 2em; cursor: pointer; }
 
-        .hero { height: 85vh; position: relative; background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%); animation: pulseShine 4s infinite alternate; pointer-events: none; z-index: 1; }
-        @keyframes pulseShine { 0% { opacity: 0.3; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.2); } }
+        .hero { height: 85vh; position: relative; background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; width: 100%; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%); z-index: 1; pointer-events: none; }
         .hero-content { z-index: 2; animation: fadeUp 1.5s ease-out 0.5s both; max-width: 900px; padding: 0 20px; }
         .hero h1 { font-family: 'Amiri', serif; font-size: 4.5em; color: var(--text-pure); margin-bottom: 20px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
         .hero h1 span { color: var(--gold); }
-        .hero p { font-size: 1.4em; font-weight: 300; margin-bottom: 40px; color: #ddd; text-shadow: 0 2px 10px rgba(0,0,0,0.8); }
+        .hero p { font-size: 1.4em; font-weight: 300; margin-bottom: 40px; color: #ddd; }
         .btn-gold { background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-dark) 100%); background-size: 200% auto; color: #000; padding: 15px 50px; font-size: 1.2em; font-family: 'Cairo', sans-serif; font-weight: bold; border: none; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px; border-radius: 3px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); animation: shimmer 3s linear infinite; }
         .btn-gold:hover { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); transform: scale(1.05); }
 
         .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); }
         .section-title span { color: var(--gold); font-style: italic; }
 
-        /* التصميم المبتكر للمجموعات (الأيقونات العائمة) */
-        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 20px; margin-bottom: 50px;}
+        .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 20px; margin-bottom: 50px; width: 100%; }
         .category-card { position: relative; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%); border: 2px solid rgba(212,175,55,0.1); cursor: pointer; transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(212,175,55,0.05); }
         .category-card img { width: 65%; height: auto; transition: 0.6s ease; filter: drop-shadow(0 15px 10px rgba(0,0,0,0.7)); z-index: 2; }
         .category-card:hover { transform: translateY(-15px); border-color: var(--gold); box-shadow: 0 15px 40px rgba(212,175,55,0.2), inset 0 0 30px rgba(212,175,55,0.15); }
@@ -51,25 +50,25 @@
         .category-title { position: absolute; bottom: -40px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.5em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.4s; opacity: 0.8; }
         .category-card:hover .category-title { opacity: 1; color: var(--gold); transform: scale(1.1); }
 
-        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; }
+        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; overflow: hidden; }
         .swiper-wrapper { transition-timing-function: linear !important; } 
-        .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; }
+        .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; width: 100%; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
-        .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; position: relative; }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; position: relative; width: 100%; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
         .product-card:hover img { transform: scale(1.08); }
         .product-title { font-size: 1.4em; font-family: 'Amiri', serif; color: var(--text-pure); margin-bottom: 10px; }
         .product-price { color: var(--gold); font-size: 1.5em; margin-bottom: 20px; font-weight: bold; }
         .btn-order-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); width: 100%; padding: 12px; font-size: 1.1em; cursor: pointer; transition: 0.4s; font-family: 'Cairo'; font-weight: bold; margin-top: auto; border-radius: 3px; }
         .btn-order-outline:hover { background: var(--gold); color: #000; }
 
-        .features { background: var(--black-card); padding: 70px 20px; display: flex; justify-content: center; gap: 70px; flex-wrap: wrap; margin-top: 80px; border-top: 1px solid rgba(212,175,55,0.1); }
+        .features { background: var(--black-card); padding: 70px 20px; display: flex; justify-content: center; gap: 70px; flex-wrap: wrap; margin-top: 80px; border-top: 1px solid rgba(212,175,55,0.1); width: 100%; }
         .feature-box { text-align: center; max-width: 250px; }
         .feature-icon { font-size: 2.5em; margin-bottom: 20px; color: var(--gold); }
         .feature-box h3 { font-family: 'Amiri', serif; color: var(--gold-light); font-size: 1.5em; margin-bottom: 10px; }
         .feature-box p { color: var(--text-muted); font-size: 0.95em; line-height: 1.7; }
 
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
         .modal-content { background: var(--black-bg); padding: 30px; width: 100%; max-width: 500px; position: relative; border: 1px solid var(--gold); box-shadow: 0 0 50px rgba(212,175,55,0.2); animation: fadeUp 0.4s ease-out; border-radius: 8px; margin: auto; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
         .close-btn:hover { color: var(--gold); }
@@ -78,8 +77,7 @@
         
         .modal-input, .modal select { background: var(--black-card); color: var(--text-pure); border: 1px solid #333; padding: 12px; font-size: 1em; width: 100%; transition: 0.3s; font-family: 'Cairo'; margin-bottom: 15px; border-radius: 5px; }
         .modal-input:focus, .modal select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
-        .modal select option { background: var(--black-card); color: #fff; }
-
+        
         .delivery-options { display: flex; gap: 10px; margin-bottom: 15px; }
         .delivery-options label { flex: 1; background: var(--black-card); border: 1px solid #333; padding: 10px; border-radius: 5px; text-align: center; cursor: pointer; color: var(--text-muted); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
         .delivery-options label:hover { border-color: var(--gold); color: var(--gold-light); }
@@ -90,7 +88,13 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; }
+        /* نافذة رسالة النجاح الأنيقة */
+        #successModal .modal-content { text-align: center; padding: 50px 30px; border-color: #25d366; box-shadow: 0 0 50px rgba(37, 211, 102, 0.2); }
+        #successModal .success-icon { font-size: 5em; color: #25d366; margin-bottom: 20px; animation: fadeUp 0.5s ease-out; }
+        #successModal h2 { color: #fff; margin-bottom: 15px; }
+        #successModal p { color: #ccc; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
+
+        footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; width: 100%; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
         .contact-info { margin-top: 20px; }
         .contact-info a { color: var(--gold); text-decoration: none; font-size: 1.2em; font-weight: bold; margin: 0 10px; display: inline-block; transition: 0.3s; }
@@ -106,9 +110,9 @@
             .nav-links { position: fixed; top: 65px; right: -100%; width: 100%; height: 100vh; background: rgba(5,5,5,0.98); flex-direction: column; align-items: center; padding-top: 40px; transition: 0.4s ease; border-top: 1px solid #222; }
             .nav-links.active { right: 0; } 
             .nav-links a { font-size: 1.3em; padding: 15px; width: 100%; text-align: center; }
-            .hero h1 { font-size: 2.8em; }
-            .category-card { width: 150px; height: 150px; }
-            .modal-content { padding: 25px 20px; }
+            .hero h1 { font-size: 2.5em; }
+            .category-card { width: 140px; height: 140px; }
+            .modal-content { padding: 25px 20px; width: 90%; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
     </style>
@@ -188,15 +192,17 @@
         </div>
     </div>
 
+    <!-- نافذة الطلب -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
             <h2>تأكيد الطلبية</h2>
             <p class="subtitle">أدخلي بياناتك وسنقوم بالاتصال بك لتأكيد الشحن</p>
             
-            <form action="https://formsubmit.co/glamechic31@gmail.com" method="POST">
+            <form id="orderForm">
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
                 
                 <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
                 <input type="hidden" id="hiddenProductPrice" name="سعر_المنتج_دج" value="">
@@ -236,8 +242,19 @@
                     <div class="price-row total-row"><span>المجموع الإجمالي:</span> <span><b id="summaryTotal">0</b> د.ج</span></div>
                 </div>
                 
-                <button type="submit" class="btn-gold" style="width: 100%; border-radius: 5px;">تأكيد الشراء 🛒</button>
+                <button type="submit" id="submitOrderBtn" class="btn-gold" style="width: 100%; border-radius: 5px;">تأكيد الشراء 🛒</button>
             </form>
+        </div>
+    </div>
+
+    <!-- نافذة رسالة النجاح والشكر -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('successModal').style.display='none'">&times;</span>
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2>اكتمل الطلب!</h2>
+            <p>لقد تم تسجيل طلبكم بنجاح وسيتم التواصل معكم عن قريب لتأكيد الشحن.<br><br><span style="color: var(--gold); font-weight: bold;">شكراً على ثقتكم في GLAME CHIC 💎</span></p>
+            <button class="btn-gold" style="width: 100%; border-radius: 5px;" onclick="document.getElementById('successModal').style.display='none'">العودة للمتجر</button>
         </div>
     </div>
 
@@ -246,7 +263,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- الفوتر مع الأرقام -->
+    <!-- الفوتر -->
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
@@ -261,6 +278,9 @@
     <script>
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
+        // ==========================================
+        // جلب المنتجات 
+        // ==========================================
         const GITHUB_USERNAME = "tiri3160";
         const REPO_NAME = "GLAME-CHIC-BIJOUX";
         let allProducts = [];
@@ -274,35 +294,21 @@
                 allProducts = await response.json();
                 displayProducts(allProducts);
             } catch (error) {
-                console.error("خطأ في جلب المنتجات:", error);
-                document.getElementById('dynamic-products').innerHTML = 
-                    `<div style="width: 100%; text-align: center; color: red; padding: 50px;">
-                        تعذر تحميل المنتجات حالياً. تأكد من وجود ملف products.json في المستودع.
-                    </div>`;
+                document.getElementById('dynamic-products').innerHTML = `<div style="width: 100%; text-align: center; color: red; padding: 50px;">تعذر تحميل المنتجات. تأكد من إضافة منتجات من لوحة التحكم.</div>`;
             }
         }
 
         function displayProducts(productsToDisplay) {
             const wrapper = document.getElementById('dynamic-products');
             wrapper.innerHTML = ''; 
-
-            if(productsToDisplay.length === 0) {
-                wrapper.innerHTML = `<div style="width: 100%; text-align: center; color: #fff; padding: 50px;">لا توجد منتجات في هذه المجموعة حالياً.</div>`;
-                return;
-            }
+            if(productsToDisplay.length === 0) { wrapper.innerHTML = `<div style="width: 100%; text-align: center; color: #fff; padding: 50px;">لا توجد منتجات في هذه المجموعة حالياً.</div>`; return; }
 
             productsToDisplay.forEach(product => {
                 const imgSrc = product.image ? `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${product.image}` : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
-                
-                const stockBadge = product.quantity > 0 ? 
-                    `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">متوفر</span>` : 
-                    `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">نفذت الكمية</span>`;
-                
-                const orderBtn = product.quantity > 0 ? 
-                    `<button class="btn-order-outline" onclick="openOrderModal('${product.name}', ${product.price})">أطلبي الآن</button>` :
-                    `<button class="btn-order-outline" style="border-color:#666; color:#666; cursor:not-allowed;" disabled>نفذت الكمية</button>`;
+                const stockBadge = product.quantity > 0 ? `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">متوفر</span>` : `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold; z-index:5;">نفذت الكمية</span>`;
+                const orderBtn = product.quantity > 0 ? `<button class="btn-order-outline" onclick="openOrderModal('${product.name}', ${product.price})">أطلبي الآن</button>` : `<button class="btn-order-outline" style="border-color:#666; color:#666; cursor:not-allowed;" disabled>نفذت الكمية</button>`;
 
-                let slide = `
+                wrapper.innerHTML += `
                 <div class="swiper-slide">
                     <div class="product-card">
                         <div class="product-img-wrapper">
@@ -314,16 +320,10 @@
                         ${orderBtn}
                     </div>
                 </div>`;
-                wrapper.innerHTML += slide;
             });
 
             if(swiperInstance !== null) swiperInstance.destroy(true, true);
-            
-            swiperInstance = new Swiper(".mySwiper", {
-                slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000,
-                autoplay: productsToDisplay.length > 1 ? { delay: 3000, disableOnInteraction: false } : false,
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
-            });
+            swiperInstance = new Swiper(".mySwiper", { slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000, autoplay: productsToDisplay.length > 1 ? { delay: 3000, disableOnInteraction: false } : false, breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, });
         }
 
         function filterCategory(category) {
@@ -331,91 +331,42 @@
             const filtered = allProducts.filter(p => p.category === category);
             displayProducts(filtered);
         }
-
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
-        const wilayas = [
-            "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
-            "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
-            "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة",
-            "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة",
-            "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار",
-            "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"
-        ];
+        // ==========================================
+        // البلديات والولايات المدمجة 100% لتجنب الأعطال
+        // ==========================================
+        const wilayas = ["1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة", "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة", "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة", "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة", "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار", "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"];
+        
+        const internalCommunes = { "1":["أدرار","تمنطيط","رقان","فنوغيل","زاوية كنتة","تيمقتن","أولاد أحمد تيمي","تسابيت","أوقروت"], "2":["الشلف","الشطية","بوقادير","تنس","وادي الفضة","الكريمية","أولاد فارس","الزبوجة","بوزغاية","الصبحة","أم الدروع"], "3":["الأغواط","آفلو","قصر الحيران","عين ماضي","حاسي الرمل","حاسي الدلاعة","الغيشة","سيدي مخلوف","بريدة"], "4":["أم البواقي","عين البيضاء","عين مليلة","عين فكرون","عين كرشة","سيقوس","مسكيانة","قصر الصبيحي","الضلعة"], "5":["باتنة","بريكة","عين التوتة","أريس","مروانة","نقاوس","الشمرة","تيمقاد","المعذر","سريانة","تكوت"], "6":["بجاية","أقبو","أميزور","القصر","سوق الإثنين","أوقاس","تيشي","صدوق","تازمالت","خراطة","سيدي عيش"], "7":["بسكرة","طولقة","سيدي خالد","أولاد جلال","زريبة الوادي","الفيض","القنطرة","أورلال","لوطاية","جمورة"], "8":["بشار","العبادلة","بني ونيف","تاغيت","القنادسة","بني عباس","إقلي","تبلبالة","كرزاز"], "9":["البليدة","أولاد يعيش","بوفاريك","العفرون","موزاية","الشبلي","مفتاح","الأربعاء","بوقرة","بني مراد","الشفة"], "10":["البويرة","الأخضرية","سور الغزلان","عين بسام","مشدالله","قادرية","بشلول","الهاشمية","برج أوخريص"], "11":["تمنراست","عين أمقل","إدلس","تزروك","أبلسة","عين صالح","عين قزام","تين زاوتين"], "12":["تبسة","الشريعة","بئر العاتر","العوينات","الكويف","الماء الأبيض","بوخضرة","نقرين","بئر مقدم"], "13":["تلمسان","مغنية","الغزوات","الرمشي","منصورة","سبدو","بني صاف","شتوان","أولاد ميمون","ندرومة"], "14":["تيارت","السوقر","فرندة","قصر الشلالة","مهدية","رحوية","الدحموني","عين كرمس","مدروسة"], "15":["تيزي وزو","عزازقة","ذراع الميزان","بوغني","بني دوالة","عين الحمام","الأربعاء نايث إيراثن","مقلع","تيكزيرت","فريحة"], "16":["الجزائر","سيدي امحمد","باب الوادي","حسين داي","بئر مراد رايس","بن عكنون","الشراقة","الرويبة","الدار البيضاء","زرالدة","بئر توتة","الرغاية"], "17":["الجلفة","عين وسارة","مسعد","حاسي بحبح","الإدريسية","الشارف","دار الشيوخ","البيرين","حد الصحاري"], "18":["جيجل","الميلية","الطاهير","جيملة","زيامة منصورية","العنصر","خيري واد عجول","قاوس","الأمير عبد القادر"], "19":["سطيف","العلمة","عين ولمان","بوقاعة","عين أزال","عين الكبيرة","صالح باي","حمام السخنة","جميلة","بني ورتيلان"], "20":["سعيدة","عين الحجر","يوب","الحساسنة","سيدي بوبكر","أولاد ابراهيم","الرباحية"], "21":["سكيكدة","عزابة","الحروش","القل","رمضان جمال","الحدائق","أم الطوب","تمالوس","بن عزوز"], "22":["سيدي بلعباس","سفيزف","تلاغ","ابن باديس","بن سكران","تسالة","عين البرد","سيدي علي بن يوب","مرحوم"], "23":["عنابة","البوني","برحال","الحجار","عنابة","سيدي عمار","واد العنب","شطايبي","سرايدي","التريعات"], "24":["قالمة","بوشقوف","وادي الزناتي","عين مخلوف","عين حسنية","قلعة بوصبع","حمام دباغ","تاملوكة"], "25":["قسنطينة","الخروب","عين سمارة","حامة بوزيان","زيغود يوسف","ديدوش مراد","ابن زياد","عين عبيد","أولاد رحمون"], "26":["المدية","البرواقية","قصر البخاري","بني سليمان","العمارية","شلالة العذاورة","تابلاط","وزرة"], "27":["مستغانم","عشعاشة","عين النويصي","سيدي علي","ماسرة","بوقيرات","حاسي مماش","صيادة","سيدي لخضر"], "28":["المسيلة","بوسعادة","مقرة","سيدي عيسى","عين الملح","أولاد دراج","برهوم","حمام الضلعة","تارمونت"], "29":["معسكر","سيق","المحمدية","تيغنيف","بوحنيفية","غريس","واد الأبطال","زهانة","عقاز"], "30":["ورقلة","تقرت","حاسي مسعود","الرويسات","المنقر","سيدي خويلد","تماسين","المقارين","الزاوبة"], "31":["وهران","وهران","بئر الجير","السانية","أرزيو","قديل","بطيوة","عين الترك","بوسفر","المرسى الكبير","مسرغين","وادي تليلات","الكرمة","سيدي الشحمي","حاسي بونيف"], "32":["البيض","الأبيض سيدي الشيخ","بوقطب","بريزينة","الكراكمة","بوسمغون","عين العراك","الشلالة"], "33":["إليزي","جانت","إن أميناس","برج الحواس","دبداب","تارارت"], "34":["برج بوعريريج","رأس الوادي","مجانة","بئر قاصد علي","المنصورة","الجعافرة","عين تاغروت","برج الغدير"], "35":["بومرداس","بودواو","دلس","برج منايل","الثنية","يسر","بغلية","خميس الخشنة","أولاد موسى"], "36":["الطارف","القالة","الذرعان","بن مهيدي","بوحجار","البسباس","بوثلجة","الزيتونة"], "37":["تندوف","أم العسل"], "38":["تسمسيلت","ثنية الحد","برج بونعامة","خميستي","عماري","اليوسفية","سيدي عابد"], "39":["الوادي","جامعة","المغير","قمار","الدبيلة","الرقيبة","البياضة","طالب العربي","الرباح"], "40":["خنشلة","قايس","بوحمامة","أولاد رشاش","بابار","المحمل","عين الطويلة","ششار"], "41":["سوق أهراس","سدراتة","مداوروش","تاورة","المراهنة","بئر بوحوش","المشروحة"], "42":["تيبازة","القليعة","شرشال","حجوط","بواسماعيل","أحمر العين","قوراية","سيدي غيلاس","الداموس"], "43":["ميلة","شلغوم العيد","تاجنانت","فرجيوة","التلاغمة","القرارم قوقة","وادي النجاء","الرواشد"], "44":["عين الدفلى","خميس مليانة","مليانة","العطاف","الروينة","جليدة","العبادية","بومدفع"], "45":["النعامة","المشرية","عين الصفراء","مكمن بن عمار","عسلة","الصفيصيفة","مغرار"], "46":["عين تموشنت","بني صاف","حمام بوحجر","العامرية","المالح","ولهاصة الغرابة","عين الكيحل","عين الطلبة"], "47":["غرداية","القرارة","متليلي","المنيعة","بريان","زلفانة","بونورة","سبسب"], "48":["غليزان","وادي ارهيو","مازونة","يلل","المطمر","عمي موسى","زمورة","سيدي امحمد بن علي","جديوية"], "49":["تيميمون","شروين","أوقروت","طمين","قصابي","دلدول","أولاد سعيد"], "50":["برج باجي مختار","تيمياوين"], "51":["أولاد جلال","سيدي خالد","الدوسن","البسباس","الشعيبة","رأس الميعاد"], "52":["بني عباس","إقلي","الواتة","كرزاز","تبلبالة","أولاد خضير"], "53":["عين صالح","إينغر","فقارة الزوى"], "54":["عين قزام","تين زاوتين"], "55":["تقرت","تماسين","المقارين","الزاوية العابدية","الحجيرة","بلدة أعمر"], "56":["جانت","برج الحواس"], "57":["المغير","جامعة","تندلة","أم الطيور","المرارة","سيدي عمران","شبطيّة مختار"], "58":["المنيعة","حاسي القارة"] };
         
         const wilayaSelect = document.getElementById("wilayaSelect");
         const communeSelect = document.getElementById("communeSelect");
-        
-        wilayas.forEach(w => {
-            let option = document.createElement("option");
-            option.value = w; option.text = w;
-            wilayaSelect.appendChild(option);
-        });
+        wilayas.forEach(w => { let opt = document.createElement("option"); opt.value = w; opt.text = w; wilayaSelect.appendChild(opt); });
 
         function onWilayaChange() {
-            const selectedWilaya = wilayaSelect.value;
+            const val = wilayaSelect.value;
             communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
             document.getElementById("customCommune").style.display = "none";
             document.getElementById("customCommune").required = false;
-            
-            if (selectedWilaya !== "") {
-                const wilayaId = selectedWilaya.split('-')[0];
-                
-                if(typeof algeriaCities !== 'undefined') {
-                    const communes = algeriaCities[wilayaId] || [];
-                    communes.forEach(c => {
-                        let option = document.createElement("option");
-                        option.value = c; option.text = c;
-                        communeSelect.appendChild(option);
-                    });
-                }
-                
-                let otherOption = document.createElement("option");
-                otherOption.value = "أخرى"; otherOption.text = "أخرى (كتابة يدوية)";
-                communeSelect.appendChild(otherOption);
-                
+            if (val !== "") {
+                const id = val.split('-')[0];
+                const communes = internalCommunes[id] || [];
+                communes.forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
+                let otherOpt = document.createElement("option"); otherOpt.value = "أخرى"; otherOpt.text = "أخرى (كتابة يدوية)"; communeSelect.appendChild(otherOpt);
                 communeSelect.disabled = false;
-            } else {
-                communeSelect.disabled = true;
-            }
+            } else { communeSelect.disabled = true; }
             calculatePrice();
         }
 
         function onCommuneChange() {
-            if(communeSelect.value === "أخرى") {
-                document.getElementById("customCommune").style.display = "block";
-                document.getElementById("customCommune").required = true;
-            } else {
-                document.getElementById("customCommune").style.display = "none";
-                document.getElementById("customCommune").required = false;
-            }
+            if(communeSelect.value === "أخرى") { document.getElementById("customCommune").style.display = "block"; document.getElementById("customCommune").required = true; } 
+            else { document.getElementById("customCommune").style.display = "none"; document.getElementById("customCommune").required = false; }
         }
 
-        const deliveryPrices = {
-            1: { home: 1200, desk: 900 }, 2: { home: 700, desk: 400 }, 3: { home: 900, desk: 600 },
-            4: { home: 750, desk: 450 }, 5: { home: 750, desk: 450 }, 6: { home: 750, desk: 450 },
-            7: { home: 850, desk: 550 }, 8: { home: 1200, desk: 900 }, 9: { home: 700, desk: 400 },
-            10: { home: 700, desk: 400 }, 11: { home: 1600, desk: 1200 }, 12: { home: 850, desk: 550 },
-            13: { home: 700, desk: 400 }, 14: { home: 750, desk: 450 }, 15: { home: 750, desk: 400 },
-            16: { home: 600, desk: 400 }, 17: { home: 800, desk: 550 }, 18: { home: 750, desk: 450 },
-            19: { home: 700, desk: 400 }, 20: { home: 800, desk: 550 }, 21: { home: 750, desk: 450 },
-            22: { home: 700, desk: 400 }, 23: { home: 750, desk: 450 }, 24: { home: 800, desk: 550 },
-            25: { home: 700, desk: 400 }, 26: { home: 700, desk: 400 }, 27: { home: 700, desk: 400 },
-            28: { home: 750, desk: 450 }, 29: { home: 800, desk: 550 }, 30: { home: 1000, desk: 700 },
-            31: { home: 500, desk: 300 }, 32: { home: 1000, desk: 700 }, 33: { home: 1800, desk: 1500 },
-            34: { home: 700, desk: 400 }, 35: { home: 700, desk: 400 }, 36: { home: 850, desk: 550 },
-            37: { home: 1600, desk: 1200 }, 38: { home: 750, desk: 450 }, 39: { home: 1000, desk: 700 },
-            40: { home: 800, desk: 550 }, 41: { home: 800, desk: 550 }, 42: { home: 700, desk: 400 },
-            43: { home: 750, desk: 450 }, 44: { home: 700, desk: 400 }, 45: { home: 1000, desk: 700 },
-            46: { home: 800, desk: 550 }, 47: { home: 1000, desk: 700 }, 48: { home: 700, desk: 400 },
-            49: { home: 1200, desk: 900 }, 50: { home: 1800, desk: 1500 }, 51: { home: 900, desk: 600 },
-            52: { home: 1200, desk: 900 }, 53: { home: 1200, desk: 900 }, 54: { home: 1800, desk: 1500 },
-            55: { home: 1000, desk: 700 }, 56: { home: 1800, desk: 1500 }, 57: { home: 1000, desk: 700 },
-            58: { home: 1100, desk: 800 }
-        };
+        const deliveryPrices = { 1:{home:1200,desk:900}, 2:{home:700,desk:400}, 3:{home:900,desk:600}, 4:{home:750,desk:450}, 5:{home:750,desk:450}, 6:{home:750,desk:450}, 7:{home:850,desk:550}, 8:{home:1200,desk:900}, 9:{home:700,desk:400}, 10:{home:700,desk:400}, 11:{home:1600,desk:1200}, 12:{home:850,desk:550}, 13:{home:700,desk:400}, 14:{home:750,desk:450}, 15:{home:750,desk:400}, 16:{home:600,desk:400}, 17:{home:800,desk:550}, 18:{home:750,desk:450}, 19:{home:700,desk:400}, 20:{home:800,desk:550}, 21:{home:750,desk:450}, 22:{home:700,desk:400}, 23:{home:750,desk:450}, 24:{home:800,desk:550}, 25:{home:700,desk:400}, 26:{home:700,desk:400}, 27:{home:700,desk:400}, 28:{home:750,desk:450}, 29:{home:800,desk:550}, 30:{home:1000,desk:700}, 31:{home:500,desk:300}, 32:{home:1000,desk:700}, 33:{home:1800,desk:1500}, 34:{home:700,desk:400}, 35:{home:700,desk:400}, 36:{home:850,desk:550}, 37:{home:1600,desk:1200}, 38:{home:750,desk:450}, 39:{home:1000,desk:700}, 40:{home:800,desk:550}, 41:{home:800,desk:550}, 42:{home:700,desk:400}, 43:{home:750,desk:450}, 44:{home:700,desk:400}, 45:{home:1000,desk:700}, 46:{home:800,desk:550}, 47:{home:1000,desk:700}, 48:{home:700,desk:400}, 49:{home:1200,desk:900}, 50:{home:1800,desk:1500}, 51:{home:900,desk:600}, 52:{home:1200,desk:900}, 53:{home:1200,desk:900}, 54:{home:1800,desk:1500}, 55:{home:1000,desk:700}, 56:{home:1800,desk:1500}, 57:{home:1000,desk:700}, 58:{home:1100,desk:800} };
 
         let currentProductPrice = 0;
-
         function openOrderModal(productName, productPrice) {
             document.getElementById("productInput").value = productName;
             document.getElementById("productDisplay").innerText = productName;
@@ -430,7 +381,6 @@
             document.getElementById("summaryTotal").innerText = currentProductPrice;
             document.getElementById("orderModal").style.display = "flex";
         }
-
         function closeOrderModal() { document.getElementById("orderModal").style.display = "none"; }
         window.onclick = function(e) { if (e.target == document.getElementById("orderModal")) closeOrderModal(); }
 
@@ -438,13 +388,11 @@
             let deliveryMethod = document.querySelector('input[name="طريقة_التوصيل"]:checked').value;
             let deliveryCost = 0;
             let selectedWilaya = document.getElementById("wilayaSelect").value;
-
             if (selectedWilaya !== "") {
                 let wilayaNumber = parseInt(selectedWilaya.split('-')[0]);
                 let prices = deliveryPrices[wilayaNumber] || { home: 0, desk: 0 };
                 deliveryCost = deliveryMethod.includes("مكتب") ? prices.desk : prices.home;
             }
-
             let totalCost = currentProductPrice + deliveryCost;
             document.getElementById("summaryProduct").innerText = currentProductPrice;
             document.getElementById("summaryDelivery").innerText = deliveryCost;
@@ -452,6 +400,41 @@
             document.getElementById("hiddenDeliveryCost").value = deliveryCost + " د.ج";
             document.getElementById("hiddenTotalCost").value = totalCost + " د.ج";
         }
+
+        // ==========================================
+        // الإرسال الصامت (AJAX) لظهور رسالة النجاح
+        // ==========================================
+        const form = document.getElementById('orderForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // إيقاف الانتقال لصفحة FormSubmit
+            const submitBtn = document.getElementById('submitOrderBtn');
+            submitBtn.innerText = "جاري تأكيد طلبك... ⏳";
+            submitBtn.disabled = true;
+
+            const formData = new FormData(form);
+            
+            // استخدام رابط الإرسال الصامت (AJAX)
+            fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
+                method: "POST",
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // إغلاق نافذة الطلب وإظهار رسالة النجاح الأنيقة
+                document.getElementById('orderModal').style.display = "none";
+                document.getElementById('successModal').style.display = "flex";
+                
+                form.reset(); // تفريغ الخانات لطلب جديد
+                submitBtn.innerText = "تأكيد الشراء 🛒";
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                alert("عذراً، حدث خطأ في الاتصال. يرجى المحاولة لاحقاً.");
+                submitBtn.innerText = "تأكيد الشراء 🛒";
+                submitBtn.disabled = false;
+            });
+        });
     </script>
 </body>
 </html>
