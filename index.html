@@ -7,31 +7,23 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    
+    <!-- هذا السطر هو السحر الذي يربط موقعك بملف البلديات الخاص بك -->
+    <script src="communes.js"></script>
 
     <style>
-        :root {
-            --gold: #D4AF37;
-            --gold-light: #FBF5B7;
-            --gold-dark: #997A15;
-            --black-bg: #050505;
-            --black-card: #111111;
-            --text-pure: #ffffff;
-            --text-muted: #aaaaaa;
-        }
-
+        :root { --gold: #D4AF37; --gold-light: #FBF5B7; --gold-dark: #997A15; --black-bg: #050505; --black-card: #111111; --text-pure: #ffffff; --text-muted: #aaaaaa; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); overflow-x: hidden; scroll-behavior: smooth; }
 
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* الشريط الإعلاني */
         .top-marquee { background: linear-gradient(90deg, #111, #222, #111); color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; overflow: hidden; white-space: nowrap; direction: ltr; }
         .marquee-content { display: flex; animation: scroll 35s linear infinite; }
         .marquee-content span { margin: 0 40px; font-family: 'Amiri', serif; letter-spacing: 1px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
-        /* القائمة الرئيسية */
         nav { background: rgba(5, 5, 5, 0.85); padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); animation: fadeUp 1s ease-out; }
         .logo { font-family: 'Playfair Display', serif; font-size: 2.2em; text-decoration: none; letter-spacing: 4px; font-weight: bold; background: linear-gradient(to right, var(--gold-light) 20%, var(--gold) 40%, var(--gold) 60%, var(--gold-light) 80%); background-size: 200% auto; color: #000; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s linear infinite; }
         .nav-links { display: flex; list-style: none; gap: 40px; }
@@ -39,7 +31,6 @@
         .nav-links a:hover { color: var(--gold); }
         .menu-icon { display: none; color: var(--gold); font-size: 2em; cursor: pointer; }
 
-        /* الواجهة الرئيسية */
         .hero { height: 85vh; position: relative; background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%); animation: pulseShine 4s infinite alternate; pointer-events: none; z-index: 1; }
         @keyframes pulseShine { 0% { opacity: 0.3; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.2); } }
@@ -50,18 +41,15 @@
         .btn-gold { background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-dark) 100%); background-size: 200% auto; color: #000; padding: 15px 50px; font-size: 1.2em; font-family: 'Cairo', sans-serif; font-weight: bold; border: none; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px; border-radius: 3px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); animation: shimmer 3s linear infinite; }
         .btn-gold:hover { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); transform: scale(1.05); }
 
-        /* العناوين الماسية */
         .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); }
         .section-title span { color: var(--gold); font-style: italic; }
 
-        /* الأقسام */
         .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 30px; padding: 0 20px; }
         .category-card { position: relative; width: 260px; height: 350px; overflow: hidden; border: 1px solid rgba(212,175,55,0.2); cursor: pointer; transition: 0.5s; background: var(--black-card); border-radius: 5px; }
         .category-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.9s ease; filter: brightness(0.7) contrast(1.2); }
         .category-card:hover img { filter: brightness(1); transform: scale(1.1); }
         .category-title { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 0; text-align: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: var(--gold-light); font-size: 2em; font-family: 'Amiri', serif; transition: 0.4s; }
 
-        /* شريط المنتجات */
         .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; }
         .swiper-wrapper { transition-timing-function: linear !important; } 
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; }
@@ -74,14 +62,13 @@
         .btn-order-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); width: 100%; padding: 12px; font-size: 1.1em; cursor: pointer; transition: 0.4s; font-family: 'Cairo'; font-weight: bold; margin-top: auto; border-radius: 3px; }
         .btn-order-outline:hover { background: var(--gold); color: #000; }
 
-        /* مميزات المتجر */
         .features { background: var(--black-card); padding: 70px 20px; display: flex; justify-content: center; gap: 70px; flex-wrap: wrap; margin-top: 80px; border-top: 1px solid rgba(212,175,55,0.1); }
         .feature-box { text-align: center; max-width: 250px; }
         .feature-icon { font-size: 2.5em; margin-bottom: 20px; color: var(--gold); }
         .feature-box h3 { font-family: 'Amiri', serif; color: var(--gold-light); font-size: 1.5em; margin-bottom: 10px; }
         .feature-box p { color: var(--text-muted); font-size: 0.95em; line-height: 1.7; }
 
-        /* نافذة الطلب المطورة والفاتورة الحية */
+        /* نافذة الطلب المطورة */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
         .modal-content { background: var(--black-bg); padding: 30px; width: 100%; max-width: 500px; position: relative; border: 1px solid var(--gold); box-shadow: 0 0 50px rgba(212,175,55,0.2); animation: fadeUp 0.4s ease-out; border-radius: 8px; margin: auto; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
@@ -93,19 +80,16 @@
         .modal-input:focus, .modal select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
         .modal select option { background: var(--black-card); color: #fff; }
 
-        /* أزرار اختيار التوصيل */
         .delivery-options { display: flex; gap: 10px; margin-bottom: 15px; }
         .delivery-options label { flex: 1; background: var(--black-card); border: 1px solid #333; padding: 10px; border-radius: 5px; text-align: center; cursor: pointer; color: var(--text-muted); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
         .delivery-options label:hover { border-color: var(--gold); color: var(--gold-light); }
         .delivery-options input[type="radio"] { accent-color: var(--gold); transform: scale(1.2); cursor: pointer; }
         
-        /* الفاتورة المصغرة */
         .price-box { background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.3); border-radius: 5px; padding: 15px; margin-bottom: 15px; }
         .price-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #ddd; font-size: 1.05em; }
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        /* الفوتر */
         footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
         
@@ -225,13 +209,13 @@
         </div>
     </div>
 
-    <!-- نافذة الطلب المطورة (مربوطة بإيميلك glamechic31@gmail.com) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
             <h2>تأكيد الطلبية</h2>
             <p class="subtitle">أدخلي بياناتك وسنقوم بالاتصال بك لتأكيد الشحن</p>
             
+            <!-- تم الإبقاء على بريدك الخاص -->
             <form action="https://formsubmit.co/glamechic31@gmail.com" method="POST">
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
@@ -246,17 +230,20 @@
                 <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
                 <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف">
                 
-                <!-- قائمة الولايات السريعة والمضمونة -->
-                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="calculatePrice()">
+                <!-- القوائم المنسدلة من الملف الداخلي communes.js -->
+                <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="onWilayaChange()">
                     <option value="">-- اختاري الولاية ليتم حساب التوصيل --</option>
                 </select>
 
-                <!-- خانة البلدية (الأكثر أماناً وسرعة للزبون) -->
-                <input type="text" name="البلدية" class="modal-input" required placeholder="اسم البلدية أو الدائرة (مهم)">
-                
+                <select name="البلدية" id="communeSelect" class="modal-input" required disabled onchange="onCommuneChange()">
+                    <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
+                </select>
+
+                <!-- تظهر هذه الخانة فقط إذا اختار الزبون "أخرى" من البلديات -->
+                <input type="text" name="البلدية_اليدوية" id="customCommune" class="modal-input" style="display:none;" placeholder="اكتبي اسم بلديتك هنا">
+
                 <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
                 
-                <!-- طريقة التوصيل -->
                 <div class="delivery-options">
                     <label>
                         <input type="radio" name="طريقة_التوصيل" value="مكتب توصيل (Stop Desk)" onchange="calculatePrice()"> 
@@ -268,7 +255,6 @@
                     </label>
                 </div>
 
-                <!-- الفاتورة المصغرة -->
                 <div class="price-box">
                     <div class="price-row"><span>سعر المنتج:</span> <span><b id="summaryProduct">0</b> د.ج</span></div>
                     <div class="price-row"><span>سعر التوصيل:</span> <span><b id="summaryDelivery">0</b> د.ج</span></div>
@@ -280,13 +266,11 @@
         </div>
     </div>
 
-    <!-- الفوتر -->
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
     </footer>
 
-    <!-- السكربتات الأساسية المضمونة 100% -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
@@ -297,7 +281,7 @@
 
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        // تم تضمين قائمة الولايات داخلياً لتفتح بلمح البصر دون أعطال
+        // قائمة الولايات
         const wilayas = [
             "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
             "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
@@ -307,8 +291,131 @@
             "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"
         ];
         
-        // أسعار التوصيل الدقيقة التي زودتني بها
+        // تعبئة الولايات
+        const wilayaSelect = document.getElementById("wilayaSelect");
+        const communeSelect = document.getElementById("communeSelect");
+        
+        wilayas.forEach(w => {
+            let option = document.createElement("option");
+            option.value = w; option.text = w;
+            wilayaSelect.appendChild(option);
+        });
+
+        // حدث تغيير الولاية (لقراءة البلديات من ملف communes.js)
+        function onWilayaChange() {
+            const selectedWilaya = wilayaSelect.value;
+            communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
+            document.getElementById("customCommune").style.display = "none";
+            document.getElementById("customCommune").required = false;
+            
+            if (selectedWilaya !== "") {
+                const wilayaId = selectedWilaya.split('-')[0];
+                
+                // جلب البلديات من المتغير الموجود في ملف communes.js
+                if(typeof algeriaCities !== 'undefined') {
+                    const communes = algeriaCities[wilayaId] || [];
+                    communes.forEach(c => {
+                        let option = document.createElement("option");
+                        option.value = c; option.text = c;
+                        communeSelect.appendChild(option);
+                    });
+                }
+                
+                // إضافة خيار البلدية اليدوية كحماية
+                let otherOption = document.createElement("option");
+                otherOption.value = "أخرى"; otherOption.text = "أخرى (كتابة يدوية)";
+                communeSelect.appendChild(otherOption);
+                
+                communeSelect.disabled = false;
+            } else {
+                communeSelect.disabled = true;
+            }
+            calculatePrice();
+        }
+
+        // حدث تغيير البلدية (لإظهار خانة الكتابة اليدوية إذا اختار أخرى)
+        function onCommuneChange() {
+            if(communeSelect.value === "أخرى") {
+                document.getElementById("customCommune").style.display = "block";
+                document.getElementById("customCommune").required = true;
+            } else {
+                document.getElementById("customCommune").style.display = "none";
+                document.getElementById("customCommune").required = false;
+            }
+        }
+
         const deliveryPrices = {
             1: { home: 1200, desk: 900 }, 2: { home: 700, desk: 400 }, 3: { home: 900, desk: 600 },
             4: { home: 750, desk: 450 }, 5: { home: 750, desk: 450 }, 6: { home: 750, desk: 450 },
-            7: { home: 85
+            7: { home: 850, desk: 550 }, 8: { home: 1200, desk: 900 }, 9: { home: 700, desk: 400 },
+            10: { home: 700, desk: 400 }, 11: { home: 1600, desk: 1200 }, 12: { home: 850, desk: 550 },
+            13: { home: 700, desk: 400 }, 14: { home: 750, desk: 450 }, 15: { home: 750, desk: 400 },
+            16: { home: 600, desk: 400 }, 17: { home: 800, desk: 550 }, 18: { home: 750, desk: 450 },
+            19: { home: 700, desk: 400 }, 20: { home: 800, desk: 550 }, 21: { home: 750, desk: 450 },
+            22: { home: 700, desk: 400 }, 23: { home: 750, desk: 450 }, 24: { home: 800, desk: 550 },
+            25: { home: 700, desk: 400 }, 26: { home: 700, desk: 400 }, 27: { home: 700, desk: 400 },
+            28: { home: 750, desk: 450 }, 29: { home: 800, desk: 550 }, 30: { home: 1000, desk: 700 },
+            31: { home: 500, desk: 300 }, 32: { home: 1000, desk: 700 }, 33: { home: 1800, desk: 1500 },
+            34: { home: 700, desk: 400 }, 35: { home: 700, desk: 400 }, 36: { home: 850, desk: 550 },
+            37: { home: 1600, desk: 1200 }, 38: { home: 750, desk: 450 }, 39: { home: 1000, desk: 700 },
+            40: { home: 800, desk: 550 }, 41: { home: 800, desk: 550 }, 42: { home: 700, desk: 400 },
+            43: { home: 750, desk: 450 }, 44: { home: 700, desk: 400 }, 45: { home: 1000, desk: 700 },
+            46: { home: 800, desk: 550 }, 47: { home: 1000, desk: 700 }, 48: { home: 700, desk: 400 },
+            49: { home: 1200, desk: 900 }, 50: { home: 1800, desk: 1500 }, 51: { home: 900, desk: 600 },
+            52: { home: 1200, desk: 900 }, 53: { home: 1200, desk: 900 }, 54: { home: 1800, desk: 1500 },
+            55: { home: 1000, desk: 700 }, 56: { home: 1800, desk: 1500 }, 57: { home: 1000, desk: 700 },
+            58: { home: 1100, desk: 800 }
+        };
+
+        let currentProductPrice = 0;
+
+        function openOrderModal(productName, productPrice) {
+            document.getElementById("productInput").value = productName;
+            document.getElementById("productDisplay").innerText = productName;
+            
+            currentProductPrice = productPrice;
+            document.getElementById("hiddenProductPrice").value = productPrice + " د.ج"; 
+            
+            document.getElementById("summaryProduct").innerText = currentProductPrice;
+            document.getElementById("wilayaSelect").value = "";
+            document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
+            document.getElementById("communeSelect").disabled = true;
+            document.getElementById("customCommune").style.display = "none";
+            
+            document.getElementById("summaryDelivery").innerText = "0";
+            document.getElementById("summaryTotal").innerText = currentProductPrice;
+            
+            document.getElementById("orderModal").style.display = "flex";
+        }
+
+        function closeOrderModal() { document.getElementById("orderModal").style.display = "none"; }
+        window.onclick = function(e) { if (e.target == document.getElementById("orderModal")) closeOrderModal(); }
+
+        function calculatePrice() {
+            let deliveryMethod = document.querySelector('input[name="طريقة_التوصيل"]:checked').value;
+            let deliveryCost = 0;
+            let selectedWilaya = document.getElementById("wilayaSelect").value;
+
+            if (selectedWilaya !== "") {
+                let wilayaNumber = parseInt(selectedWilaya.split('-')[0]);
+                let prices = deliveryPrices[wilayaNumber] || { home: 0, desk: 0 };
+
+                if (deliveryMethod.includes("مكتب")) {
+                    deliveryCost = prices.desk;
+                } else {
+                    deliveryCost = prices.home;
+                }
+            }
+
+            let totalCost = currentProductPrice + deliveryCost;
+
+            document.getElementById("summaryProduct").innerText = currentProductPrice;
+            document.getElementById("summaryDelivery").innerText = deliveryCost;
+            document.getElementById("summaryTotal").innerText = totalCost;
+
+            document.getElementById("hiddenDeliveryCost").value = deliveryCost + " د.ج";
+            document.getElementById("hiddenTotalCost").value = totalCost + " د.ج";
+        }
+    </script>
+</body>
+</html>
