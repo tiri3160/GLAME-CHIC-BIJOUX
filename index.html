@@ -10,7 +10,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
-        /* تثبيت الشاشة ومنع التحرك الجانبي تماماً */
         :root { --gold: #D4AF37; --gold-light: #FBF5B7; --gold-dark: #997A15; --black-bg: #050505; --black-card: #111111; --text-pure: #ffffff; --text-muted: #aaaaaa; }
         html, body { margin: 0; padding: 0; width: 100%; max-width: 100vw; overflow-x: hidden; font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); scroll-behavior: smooth; }
         *, *::before, *::after { box-sizing: border-box; }
@@ -88,7 +87,6 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        /* رسالة النجاح الفاخرة */
         #successModal .modal-content { text-align: center; padding: 50px 30px; border-color: #D4AF37; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
         #successModal .success-icon { font-size: 5em; color: #D4AF37; margin-bottom: 20px; animation: fadeUp 0.5s ease-out; }
         #successModal h2 { color: #fff; margin-bottom: 15px; }
@@ -192,7 +190,6 @@
         </div>
     </div>
 
-    <!-- نافذة الطلب -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeOrderModal()">&times;</span>
@@ -214,27 +211,29 @@
                 <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
                 <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف">
                 
+                <div class="delivery-options" style="margin-top: 15px;">
+                    <label>
+                        <input type="radio" name="طريقة_التوصيل" value="مكتب توصيل (Stop Desk)" onchange="toggleCommune()"> 
+                        الاستلام من المكتب
+                    </label>
+                    <label>
+                        <input type="radio" name="طريقة_التوصيل" value="توصيل للمنزل" checked onchange="toggleCommune()"> 
+                        التوصيل للمنزل
+                    </label>
+                </div>
+
                 <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="onWilayaChange()">
                     <option value="">-- اختاري الولاية ليتم حساب التوصيل --</option>
                 </select>
 
-                <select name="البلدية" id="communeSelect" class="modal-input" required disabled onchange="onCommuneChange()">
-                    <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
-                </select>
-
-                <input type="text" name="البلدية_اليدوية" id="customCommune" class="modal-input" style="display:none;" placeholder="اكتبي اسم بلديتك هنا">
-                <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
-                
-                <div class="delivery-options">
-                    <label>
-                        <input type="radio" name="طريقة_التوصيل" value="مكتب توصيل (Stop Desk)" onchange="calculatePrice()"> 
-                        الاستلام من المكتب
-                    </label>
-                    <label>
-                        <input type="radio" name="طريقة_التوصيل" value="توصيل للمنزل" checked onchange="calculatePrice()"> 
-                        التوصيل للمنزل
-                    </label>
+                <div id="communeBox">
+                    <select name="البلدية" id="communeSelect" class="modal-input" required disabled onchange="onCommuneChange()">
+                        <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
+                    </select>
+                    <input type="text" name="البلدية_اليدوية" id="customCommune" class="modal-input" style="display:none;" placeholder="اكتبي اسم بلديتك هنا">
                 </div>
+
+                <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
 
                 <div class="price-box">
                     <div class="price-row"><span>سعر المنتج:</span> <span><b id="summaryProduct">0</b> د.ج</span></div>
@@ -247,7 +246,6 @@
         </div>
     </div>
 
-    <!-- نافذة رسالة النجاح والاحترافية -->
     <div id="successModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="document.getElementById('successModal').style.display='none'">&times;</span>
@@ -319,7 +317,6 @@
 
             if(swiperInstance !== null) swiperInstance.destroy(true, true);
             
-            // نظام السلايدر الذكي: يتوقف عند اللمس ليتيح الفحص، ويتحرك عند السحب (Swipe)
             swiperInstance = new Swiper(".mySwiper", { 
                 slidesPerView: 1, 
                 spaceBetween: 30, 
@@ -328,14 +325,8 @@
                 autoplay: productsToDisplay.length > 1 ? { delay: 2500, disableOnInteraction: false } : false, 
                 breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
                 on: {
-                    touchStart: function () {
-                        // إيقاف الحركة عند اللمس
-                        this.autoplay.stop();
-                    },
-                    sliderMove: function () {
-                        // عودة الحركة التلقائية عند تحريك السلايدر (Swipe)
-                        this.autoplay.start();
-                    }
+                    touchStart: function () { this.autoplay.stop(); },
+                    sliderMove: function () { this.autoplay.start(); }
                 }
             });
         }
@@ -347,25 +338,34 @@
         }
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
-        // ==========================================
-        // نظام البلديات الدقيق والمزدوج (1541 بلدية)
-        // ==========================================
         const wilayas = ["1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة", "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة", "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة", "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة", "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار", "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"];
         const wilayaSelect = document.getElementById("wilayaSelect");
         const communeSelect = document.getElementById("communeSelect");
         
         wilayas.forEach(w => { let opt = document.createElement("option"); opt.value = w; opt.text = w; wilayaSelect.appendChild(opt); });
 
-        // جلب الـ 1541 بلدية من سيرفر CDN عالمي قوي
-        let fullCommunesData = [];
-        let isCommunesLoaded = false;
-        fetch('https://cdn.jsdelivr.net/gh/abdennour/algeria.json@master/algeria.json')
+        let fullCommunesData = {};
+        fetch('algeria_full.json')
             .then(res => res.json())
-            .then(data => { fullCommunesData = data; isCommunesLoaded = true; })
-            .catch(err => console.log("استخدام نظام الطوارئ للبلديات"));
+            .then(data => { fullCommunesData = data; })
+            .catch(err => console.error("لم يتم العثور على ملف algeria_full.json في مستودعك بعد."));
 
-        // بلديات احتياطية في حال انقطاع النت تماماً
-        const emergencyCommunes = { "1":["أدرار","تمنطيط"], "2":["الشلف","الشطية"], "31":["وهران","السانية","بئر الجير"] };
+        function toggleCommune() {
+            let deliveryMethod = document.querySelector('input[name="طريقة_التوصيل"]:checked').value;
+            let communeBox = document.getElementById("communeBox");
+            let customCommune = document.getElementById("customCommune");
+
+            if (deliveryMethod.includes("مكتب")) {
+                communeBox.style.display = "none";
+                communeSelect.required = false;
+                customCommune.required = false;
+            } else {
+                communeBox.style.display = "block";
+                communeSelect.required = true;
+                if(communeSelect.value === "أخرى") { customCommune.required = true; }
+            }
+            calculatePrice();
+        }
 
         function onWilayaChange() {
             const val = wilayaSelect.value;
@@ -374,16 +374,10 @@
             document.getElementById("customCommune").required = false;
             
             if (val !== "") {
-                const id = parseInt(val.split('-')[0]);
+                const id = val.split('-')[0];
                 
-                if(isCommunesLoaded) {
-                    // فرز البلديات الـ 1541 للولاية المختارة
-                    const filtered = fullCommunesData.filter(c => parseInt(c.wilaya_id) === id);
-                    filtered.forEach(c => { let opt = document.createElement("option"); opt.value = c.commune_name_ar; opt.text = c.commune_name_ar; communeSelect.appendChild(opt); });
-                } else {
-                    // نظام الطوارئ للإنترنت الضعيف جداً
-                    const fallback = emergencyCommunes[id] || [];
-                    fallback.forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
+                if(Object.keys(fullCommunesData).length > 0 && fullCommunesData[id]) {
+                    fullCommunesData[id].forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
                 }
                 
                 let otherOpt = document.createElement("option"); otherOpt.value = "أخرى"; otherOpt.text = "أخرى (كتابة يدوية)"; communeSelect.appendChild(otherOpt);
@@ -408,10 +402,15 @@
             currentProductPrice = productPrice;
             document.getElementById("hiddenProductPrice").value = productPrice + " د.ج"; 
             document.getElementById("summaryProduct").innerText = currentProductPrice;
+            
             document.getElementById("wilayaSelect").value = "";
             document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
             document.getElementById("communeSelect").disabled = true;
             document.getElementById("customCommune").style.display = "none";
+            
+            document.querySelector('input[name="طريقة_التوصيل"][value="توصيل للمنزل"]').checked = true;
+            toggleCommune();
+
             document.getElementById("summaryDelivery").innerText = "0";
             document.getElementById("summaryTotal").innerText = currentProductPrice;
             document.getElementById("orderModal").style.display = "flex";
@@ -436,9 +435,6 @@
             document.getElementById("hiddenTotalCost").value = totalCost + " د.ج";
         }
 
-        // ==========================================
-        // إرسال الطلب وإظهار رسالة النجاح
-        // ==========================================
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
