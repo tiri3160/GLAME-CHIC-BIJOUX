@@ -10,15 +10,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
-        /* إعدادات لتثبيت الشاشة ومنع التحرك الجانبي على الهاتف */
+        /* تثبيت الشاشة ومنع التحرك الجانبي تماماً */
         :root { --gold: #D4AF37; --gold-light: #FBF5B7; --gold-dark: #997A15; --black-bg: #050505; --black-card: #111111; --text-pure: #ffffff; --text-muted: #aaaaaa; }
-        html, body { margin: 0; padding: 0; box-sizing: border-box; width: 100%; max-width: 100vw; overflow-x: hidden; font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); scroll-behavior: smooth; }
+        html, body { margin: 0; padding: 0; width: 100%; max-width: 100vw; overflow-x: hidden; font-family: 'Cairo', sans-serif; background-color: var(--black-bg); color: var(--text-pure); scroll-behavior: smooth; }
         *, *::before, *::after { box-sizing: border-box; }
 
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .top-marquee { background: linear-gradient(90deg, #111, #222, #111); color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; overflow: hidden; white-space: nowrap; direction: ltr; width: 100%; }
+        .top-marquee { background: linear-gradient(90deg, #111, #222, #111); color: var(--gold-light); padding: 12px 0; font-size: 0.95em; border-bottom: 1px solid rgba(212, 175, 55, 0.2); display: flex; overflow: hidden; white-space: nowrap; direction: ltr; width: 100vw; }
         .marquee-content { display: flex; animation: scroll 35s linear infinite; }
         .marquee-content span { margin: 0 40px; font-family: 'Amiri', serif; letter-spacing: 1px; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -30,16 +30,16 @@
         .nav-links a:hover { color: var(--gold); }
         .menu-icon { display: none; color: var(--gold); font-size: 2em; cursor: pointer; }
 
-        .hero { height: 85vh; position: relative; background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; width: 100%; }
+        .hero { height: 85vh; position: relative; background: linear-gradient(rgba(5, 5, 5, 0.6), rgba(5, 5, 5, 0.9)), url('jewelry-bg.jpg') center/cover no-repeat fixed; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; width: 100vw; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 60%); z-index: 1; pointer-events: none; }
-        .hero-content { z-index: 2; animation: fadeUp 1.5s ease-out 0.5s both; max-width: 900px; padding: 0 20px; }
+        .hero-content { z-index: 2; animation: fadeUp 1.5s ease-out 0.5s both; max-width: 900px; padding: 0 20px; width: 100%; }
         .hero h1 { font-family: 'Amiri', serif; font-size: 4.5em; color: var(--text-pure); margin-bottom: 20px; text-shadow: 0 5px 20px rgba(0,0,0,0.8); }
         .hero h1 span { color: var(--gold); }
         .hero p { font-size: 1.4em; font-weight: 300; margin-bottom: 40px; color: #ddd; }
         .btn-gold { background: linear-gradient(90deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-dark) 100%); background-size: 200% auto; color: #000; padding: 15px 50px; font-size: 1.2em; font-family: 'Cairo', sans-serif; font-weight: bold; border: none; cursor: pointer; transition: 0.5s; text-transform: uppercase; letter-spacing: 2px; border-radius: 3px; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); animation: shimmer 3s linear infinite; }
         .btn-gold:hover { box-shadow: 0 0 30px rgba(212, 175, 55, 0.7); transform: scale(1.05); }
 
-        .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); }
+        .section-title { text-align: center; margin: 100px 0 60px; font-family: 'Amiri', serif; font-size: 3em; color: var(--text-pure); width: 100%; }
         .section-title span { color: var(--gold); font-style: italic; }
 
         .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 20px; margin-bottom: 50px; width: 100%; }
@@ -50,8 +50,8 @@
         .category-title { position: absolute; bottom: -40px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.5em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.4s; opacity: 0.8; }
         .category-card:hover .category-title { opacity: 1; color: var(--gold); transform: scale(1.1); }
 
-        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; overflow: hidden; }
-        .swiper-wrapper { transition-timing-function: linear !important; } 
+        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; overflow: hidden; touch-action: pan-y; }
+        .swiper-wrapper { transition-timing-function: ease-out !important; } 
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; width: 100%; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
         .product-img-wrapper { height: 300px; overflow: hidden; margin-bottom: 20px; background: #000; border-radius: 3px; position: relative; width: 100%; }
@@ -88,13 +88,13 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        /* نافذة رسالة النجاح الأنيقة */
-        #successModal .modal-content { text-align: center; padding: 50px 30px; border-color: #25d366; box-shadow: 0 0 50px rgba(37, 211, 102, 0.2); }
-        #successModal .success-icon { font-size: 5em; color: #25d366; margin-bottom: 20px; animation: fadeUp 0.5s ease-out; }
+        /* رسالة النجاح الفاخرة */
+        #successModal .modal-content { text-align: center; padding: 50px 30px; border-color: #D4AF37; box-shadow: 0 0 50px rgba(212, 175, 55, 0.2); }
+        #successModal .success-icon { font-size: 5em; color: #D4AF37; margin-bottom: 20px; animation: fadeUp 0.5s ease-out; }
         #successModal h2 { color: #fff; margin-bottom: 15px; }
-        #successModal p { color: #ccc; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px; }
+        #successModal p { color: #ccc; font-size: 1.2em; line-height: 1.6; margin-bottom: 30px; }
 
-        footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; width: 100%; }
+        footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; width: 100vw; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
         .contact-info { margin-top: 20px; }
         .contact-info a { color: var(--gold); text-decoration: none; font-size: 1.2em; font-weight: bold; margin: 0 10px; display: inline-block; transition: 0.3s; }
@@ -112,7 +112,7 @@
             .nav-links a { font-size: 1.3em; padding: 15px; width: 100%; text-align: center; }
             .hero h1 { font-size: 2.5em; }
             .category-card { width: 140px; height: 140px; }
-            .modal-content { padding: 25px 20px; width: 90%; }
+            .modal-content { padding: 25px 20px; width: 90%; margin: 15px auto; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
     </style>
@@ -247,23 +247,21 @@
         </div>
     </div>
 
-    <!-- نافذة رسالة النجاح والشكر -->
+    <!-- نافذة رسالة النجاح والاحترافية -->
     <div id="successModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="document.getElementById('successModal').style.display='none'">&times;</span>
-            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-            <h2>اكتمل الطلب!</h2>
-            <p>لقد تم تسجيل طلبكم بنجاح وسيتم التواصل معكم عن قريب لتأكيد الشحن.<br><br><span style="color: var(--gold); font-weight: bold;">شكراً على ثقتكم في GLAME CHIC 💎</span></p>
+            <div class="success-icon"><i class="fas fa-gem"></i></div>
+            <h2>اكتمل الطلب بنجاح!</h2>
+            <p>لقد تم تسجيل طلبكم بنجاح وسيتم التواصل معكم عن قريب لتأكيد تفاصيل الشحن.<br><br><span style="color: #fff; font-weight: bold;">شكراً على ثقتكم في GLAME CHIC ✨</span></p>
             <button class="btn-gold" style="width: 100%; border-radius: 5px;" onclick="document.getElementById('successModal').style.display='none'">العودة للمتجر</button>
         </div>
     </div>
 
-    <!-- زر الواتساب العائم -->
     <a href="https://wa.me/213779665820" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- الفوتر -->
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
@@ -278,9 +276,6 @@
     <script>
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        // ==========================================
-        // جلب المنتجات 
-        // ==========================================
         const GITHUB_USERNAME = "tiri3160";
         const REPO_NAME = "GLAME-CHIC-BIJOUX";
         let allProducts = [];
@@ -290,7 +285,7 @@
             const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/products.json`;
             try {
                 const response = await fetch(rawUrl + '?t=' + new Date().getTime());
-                if (!response.ok) throw new Error("لا يمكن قراءة المنتجات.");
+                if (!response.ok) throw new Error("error");
                 allProducts = await response.json();
                 displayProducts(allProducts);
             } catch (error) {
@@ -323,7 +318,26 @@
             });
 
             if(swiperInstance !== null) swiperInstance.destroy(true, true);
-            swiperInstance = new Swiper(".mySwiper", { slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000, autoplay: productsToDisplay.length > 1 ? { delay: 3000, disableOnInteraction: false } : false, breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }, });
+            
+            // نظام السلايدر الذكي: يتوقف عند اللمس ليتيح الفحص، ويتحرك عند السحب (Swipe)
+            swiperInstance = new Swiper(".mySwiper", { 
+                slidesPerView: 1, 
+                spaceBetween: 30, 
+                loop: productsToDisplay.length > 3, 
+                speed: 800, 
+                autoplay: productsToDisplay.length > 1 ? { delay: 2500, disableOnInteraction: false } : false, 
+                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+                on: {
+                    touchStart: function () {
+                        // إيقاف الحركة عند اللمس
+                        this.autoplay.stop();
+                    },
+                    sliderMove: function () {
+                        // عودة الحركة التلقائية عند تحريك السلايدر (Swipe)
+                        this.autoplay.start();
+                    }
+                }
+            });
         }
 
         function filterCategory(category) {
@@ -334,28 +348,49 @@
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
         // ==========================================
-        // البلديات والولايات المدمجة 100% لتجنب الأعطال
+        // نظام البلديات الدقيق والمزدوج (1541 بلدية)
         // ==========================================
         const wilayas = ["1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة", "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة", "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة", "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة", "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار", "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"];
-        
-        const internalCommunes = { "1":["أدرار","تمنطيط","رقان","فنوغيل","زاوية كنتة","تيمقتن","أولاد أحمد تيمي","تسابيت","أوقروت"], "2":["الشلف","الشطية","بوقادير","تنس","وادي الفضة","الكريمية","أولاد فارس","الزبوجة","بوزغاية","الصبحة","أم الدروع"], "3":["الأغواط","آفلو","قصر الحيران","عين ماضي","حاسي الرمل","حاسي الدلاعة","الغيشة","سيدي مخلوف","بريدة"], "4":["أم البواقي","عين البيضاء","عين مليلة","عين فكرون","عين كرشة","سيقوس","مسكيانة","قصر الصبيحي","الضلعة"], "5":["باتنة","بريكة","عين التوتة","أريس","مروانة","نقاوس","الشمرة","تيمقاد","المعذر","سريانة","تكوت"], "6":["بجاية","أقبو","أميزور","القصر","سوق الإثنين","أوقاس","تيشي","صدوق","تازمالت","خراطة","سيدي عيش"], "7":["بسكرة","طولقة","سيدي خالد","أولاد جلال","زريبة الوادي","الفيض","القنطرة","أورلال","لوطاية","جمورة"], "8":["بشار","العبادلة","بني ونيف","تاغيت","القنادسة","بني عباس","إقلي","تبلبالة","كرزاز"], "9":["البليدة","أولاد يعيش","بوفاريك","العفرون","موزاية","الشبلي","مفتاح","الأربعاء","بوقرة","بني مراد","الشفة"], "10":["البويرة","الأخضرية","سور الغزلان","عين بسام","مشدالله","قادرية","بشلول","الهاشمية","برج أوخريص"], "11":["تمنراست","عين أمقل","إدلس","تزروك","أبلسة","عين صالح","عين قزام","تين زاوتين"], "12":["تبسة","الشريعة","بئر العاتر","العوينات","الكويف","الماء الأبيض","بوخضرة","نقرين","بئر مقدم"], "13":["تلمسان","مغنية","الغزوات","الرمشي","منصورة","سبدو","بني صاف","شتوان","أولاد ميمون","ندرومة"], "14":["تيارت","السوقر","فرندة","قصر الشلالة","مهدية","رحوية","الدحموني","عين كرمس","مدروسة"], "15":["تيزي وزو","عزازقة","ذراع الميزان","بوغني","بني دوالة","عين الحمام","الأربعاء نايث إيراثن","مقلع","تيكزيرت","فريحة"], "16":["الجزائر","سيدي امحمد","باب الوادي","حسين داي","بئر مراد رايس","بن عكنون","الشراقة","الرويبة","الدار البيضاء","زرالدة","بئر توتة","الرغاية"], "17":["الجلفة","عين وسارة","مسعد","حاسي بحبح","الإدريسية","الشارف","دار الشيوخ","البيرين","حد الصحاري"], "18":["جيجل","الميلية","الطاهير","جيملة","زيامة منصورية","العنصر","خيري واد عجول","قاوس","الأمير عبد القادر"], "19":["سطيف","العلمة","عين ولمان","بوقاعة","عين أزال","عين الكبيرة","صالح باي","حمام السخنة","جميلة","بني ورتيلان"], "20":["سعيدة","عين الحجر","يوب","الحساسنة","سيدي بوبكر","أولاد ابراهيم","الرباحية"], "21":["سكيكدة","عزابة","الحروش","القل","رمضان جمال","الحدائق","أم الطوب","تمالوس","بن عزوز"], "22":["سيدي بلعباس","سفيزف","تلاغ","ابن باديس","بن سكران","تسالة","عين البرد","سيدي علي بن يوب","مرحوم"], "23":["عنابة","البوني","برحال","الحجار","عنابة","سيدي عمار","واد العنب","شطايبي","سرايدي","التريعات"], "24":["قالمة","بوشقوف","وادي الزناتي","عين مخلوف","عين حسنية","قلعة بوصبع","حمام دباغ","تاملوكة"], "25":["قسنطينة","الخروب","عين سمارة","حامة بوزيان","زيغود يوسف","ديدوش مراد","ابن زياد","عين عبيد","أولاد رحمون"], "26":["المدية","البرواقية","قصر البخاري","بني سليمان","العمارية","شلالة العذاورة","تابلاط","وزرة"], "27":["مستغانم","عشعاشة","عين النويصي","سيدي علي","ماسرة","بوقيرات","حاسي مماش","صيادة","سيدي لخضر"], "28":["المسيلة","بوسعادة","مقرة","سيدي عيسى","عين الملح","أولاد دراج","برهوم","حمام الضلعة","تارمونت"], "29":["معسكر","سيق","المحمدية","تيغنيف","بوحنيفية","غريس","واد الأبطال","زهانة","عقاز"], "30":["ورقلة","تقرت","حاسي مسعود","الرويسات","المنقر","سيدي خويلد","تماسين","المقارين","الزاوبة"], "31":["وهران","وهران","بئر الجير","السانية","أرزيو","قديل","بطيوة","عين الترك","بوسفر","المرسى الكبير","مسرغين","وادي تليلات","الكرمة","سيدي الشحمي","حاسي بونيف"], "32":["البيض","الأبيض سيدي الشيخ","بوقطب","بريزينة","الكراكمة","بوسمغون","عين العراك","الشلالة"], "33":["إليزي","جانت","إن أميناس","برج الحواس","دبداب","تارارت"], "34":["برج بوعريريج","رأس الوادي","مجانة","بئر قاصد علي","المنصورة","الجعافرة","عين تاغروت","برج الغدير"], "35":["بومرداس","بودواو","دلس","برج منايل","الثنية","يسر","بغلية","خميس الخشنة","أولاد موسى"], "36":["الطارف","القالة","الذرعان","بن مهيدي","بوحجار","البسباس","بوثلجة","الزيتونة"], "37":["تندوف","أم العسل"], "38":["تسمسيلت","ثنية الحد","برج بونعامة","خميستي","عماري","اليوسفية","سيدي عابد"], "39":["الوادي","جامعة","المغير","قمار","الدبيلة","الرقيبة","البياضة","طالب العربي","الرباح"], "40":["خنشلة","قايس","بوحمامة","أولاد رشاش","بابار","المحمل","عين الطويلة","ششار"], "41":["سوق أهراس","سدراتة","مداوروش","تاورة","المراهنة","بئر بوحوش","المشروحة"], "42":["تيبازة","القليعة","شرشال","حجوط","بواسماعيل","أحمر العين","قوراية","سيدي غيلاس","الداموس"], "43":["ميلة","شلغوم العيد","تاجنانت","فرجيوة","التلاغمة","القرارم قوقة","وادي النجاء","الرواشد"], "44":["عين الدفلى","خميس مليانة","مليانة","العطاف","الروينة","جليدة","العبادية","بومدفع"], "45":["النعامة","المشرية","عين الصفراء","مكمن بن عمار","عسلة","الصفيصيفة","مغرار"], "46":["عين تموشنت","بني صاف","حمام بوحجر","العامرية","المالح","ولهاصة الغرابة","عين الكيحل","عين الطلبة"], "47":["غرداية","القرارة","متليلي","المنيعة","بريان","زلفانة","بونورة","سبسب"], "48":["غليزان","وادي ارهيو","مازونة","يلل","المطمر","عمي موسى","زمورة","سيدي امحمد بن علي","جديوية"], "49":["تيميمون","شروين","أوقروت","طمين","قصابي","دلدول","أولاد سعيد"], "50":["برج باجي مختار","تيمياوين"], "51":["أولاد جلال","سيدي خالد","الدوسن","البسباس","الشعيبة","رأس الميعاد"], "52":["بني عباس","إقلي","الواتة","كرزاز","تبلبالة","أولاد خضير"], "53":["عين صالح","إينغر","فقارة الزوى"], "54":["عين قزام","تين زاوتين"], "55":["تقرت","تماسين","المقارين","الزاوية العابدية","الحجيرة","بلدة أعمر"], "56":["جانت","برج الحواس"], "57":["المغير","جامعة","تندلة","أم الطيور","المرارة","سيدي عمران","شبطيّة مختار"], "58":["المنيعة","حاسي القارة"] };
-        
         const wilayaSelect = document.getElementById("wilayaSelect");
         const communeSelect = document.getElementById("communeSelect");
+        
         wilayas.forEach(w => { let opt = document.createElement("option"); opt.value = w; opt.text = w; wilayaSelect.appendChild(opt); });
+
+        // جلب الـ 1541 بلدية من سيرفر CDN عالمي قوي
+        let fullCommunesData = [];
+        let isCommunesLoaded = false;
+        fetch('https://cdn.jsdelivr.net/gh/abdennour/algeria.json@master/algeria.json')
+            .then(res => res.json())
+            .then(data => { fullCommunesData = data; isCommunesLoaded = true; })
+            .catch(err => console.log("استخدام نظام الطوارئ للبلديات"));
+
+        // بلديات احتياطية في حال انقطاع النت تماماً
+        const emergencyCommunes = { "1":["أدرار","تمنطيط"], "2":["الشلف","الشطية"], "31":["وهران","السانية","بئر الجير"] };
 
         function onWilayaChange() {
             const val = wilayaSelect.value;
             communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
             document.getElementById("customCommune").style.display = "none";
             document.getElementById("customCommune").required = false;
+            
             if (val !== "") {
-                const id = val.split('-')[0];
-                const communes = internalCommunes[id] || [];
-                communes.forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
+                const id = parseInt(val.split('-')[0]);
+                
+                if(isCommunesLoaded) {
+                    // فرز البلديات الـ 1541 للولاية المختارة
+                    const filtered = fullCommunesData.filter(c => parseInt(c.wilaya_id) === id);
+                    filtered.forEach(c => { let opt = document.createElement("option"); opt.value = c.commune_name_ar; opt.text = c.commune_name_ar; communeSelect.appendChild(opt); });
+                } else {
+                    // نظام الطوارئ للإنترنت الضعيف جداً
+                    const fallback = emergencyCommunes[id] || [];
+                    fallback.forEach(c => { let opt = document.createElement("option"); opt.value = c; opt.text = c; communeSelect.appendChild(opt); });
+                }
+                
                 let otherOpt = document.createElement("option"); otherOpt.value = "أخرى"; otherOpt.text = "أخرى (كتابة يدوية)"; communeSelect.appendChild(otherOpt);
                 communeSelect.disabled = false;
-            } else { communeSelect.disabled = true; }
+            } else { 
+                communeSelect.disabled = true; 
+            }
             calculatePrice();
         }
 
@@ -402,18 +437,17 @@
         }
 
         // ==========================================
-        // الإرسال الصامت (AJAX) لظهور رسالة النجاح
+        // إرسال الطلب وإظهار رسالة النجاح
         // ==========================================
         const form = document.getElementById('orderForm');
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // إيقاف الانتقال لصفحة FormSubmit
+            e.preventDefault(); 
             const submitBtn = document.getElementById('submitOrderBtn');
             submitBtn.innerText = "جاري تأكيد طلبك... ⏳";
             submitBtn.disabled = true;
 
             const formData = new FormData(form);
             
-            // استخدام رابط الإرسال الصامت (AJAX)
             fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
                 method: "POST",
                 body: formData,
@@ -421,16 +455,14 @@
             })
             .then(response => response.json())
             .then(data => {
-                // إغلاق نافذة الطلب وإظهار رسالة النجاح الأنيقة
                 document.getElementById('orderModal').style.display = "none";
                 document.getElementById('successModal').style.display = "flex";
-                
-                form.reset(); // تفريغ الخانات لطلب جديد
+                form.reset(); 
                 submitBtn.innerText = "تأكيد الشراء 🛒";
                 submitBtn.disabled = false;
             })
             .catch(error => {
-                alert("عذراً، حدث خطأ في الاتصال. يرجى المحاولة لاحقاً.");
+                alert("عذراً، حدث خطأ يرجى التأكد من اتصالك بالإنترنت.");
                 submitBtn.innerText = "تأكيد الشراء 🛒";
                 submitBtn.disabled = false;
             });
