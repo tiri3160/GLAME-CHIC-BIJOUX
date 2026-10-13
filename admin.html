@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -28,26 +27,31 @@
         #statusMessage { text-align: center; font-weight: bold; margin: 15px 0; color: #28a745; font-size: 1.1em; }
         #errorMessage { text-align: center; font-weight: bold; margin: 15px 0; color: #dc3545; }
 
-        /* عرض المنتجات */
+        /* عرض المنتجات وترتيب الفئات */
         .products-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #D4AF37; margin-top: 40px; padding-bottom: 10px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; }
+        
+        /* تصميم شريط الفئة (المجموعة) */
+        .category-header { grid-column: 1 / -1; background: #111; color: #D4AF37; padding: 12px 20px; margin-top: 25px; border-radius: 8px; font-size: 1.3em; font-weight: bold; display: flex; justify-content: space-between; }
         
         .product-card { background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; display: flex; flex-direction: column; }
         .product-card:hover { border-color: #D4AF37; box-shadow: 0 8px 25px rgba(212,175,55,0.15); }
         
-        .product-img { width: 100%; height: 200px; object-fit: cover; background: #f9f9f9; border-bottom: 1px solid #eee; }
-        .product-details { padding: 15px; flex-grow: 1; }
-        .product-name { font-size: 1.2em; font-weight: bold; margin: 0 0 5px; color: #111; }
-        .product-category { background: rgba(212,175,55,0.15); color: #997A15; padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; display: inline-block; margin-bottom: 10px; }
-        .product-price { color: #D4AF37; font-size: 1.3em; font-weight: bold; margin-bottom: 10px; }
-        .product-stock { color: #666; font-size: 0.9em; margin-bottom: 15px; }
+        .product-img { width: 100%; height: 220px; object-fit: cover; background: #f9f9f9; border-bottom: 1px solid #eee; }
+        .product-details { padding: 15px; flex-grow: 1; text-align: center; }
+        .product-name { font-size: 1.3em; font-weight: bold; margin: 0 0 5px; color: #111; }
+        .product-price { color: #D4AF37; font-size: 1.4em; font-weight: bold; margin-bottom: 5px; }
+        .product-stock { color: #666; font-size: 0.95em; margin-bottom: 10px; background: #eee; display: inline-block; padding: 2px 10px; border-radius: 15px; }
         
-        .card-actions { display: flex; border-top: 1px solid #eee; }
-        .btn-edit, .btn-delete { flex: 1; padding: 12px; border: none; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.3s; border-radius: 0; margin: 0; }
-        .btn-edit { background: #f8f9fa; color: #333; }
-        .btn-edit:hover { background: #e2e6ea; color: #000; }
-        .btn-delete { background: #fff; color: #dc3545; border-right: 1px solid #eee; }
-        .btn-delete:hover { background: #dc3545; color: #fff; }
+        /* تصميم أزرار التعديل والحذف (جنباً إلى جنب) */
+        .card-actions { display: flex; gap: 10px; padding: 15px; border-top: 1px solid #eee; background: #fafafa; }
+        .btn-edit, .btn-delete { flex: 1; padding: 10px; border: none; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.3s; border-radius: 6px; margin: 0; }
+        
+        .btn-edit { background: #e0f2fe; color: #0284c7; }
+        .btn-edit:hover { background: #bae6fd; color: #0369a1; }
+        
+        .btn-delete { background: #fee2e2; color: #dc3545; }
+        .btn-delete:hover { background: #fecaca; color: #b91c1c; }
 
         @media(max-width: 600px) {
             .container { padding: 15px; }
@@ -60,17 +64,14 @@
 <div class="container">
     <h1>👑 الإدارة المتكاملة | GLAME CHIC</h1>
 
-    <!-- شاشة الدخول -->
     <div id="login-section">
         <p>أدخل المفتاح السري (Token) للاتصال بقاعدة بيانات متجرك.</p>
-        <!-- اسم حسابك مبرمج جاهز -->
-        <input type="text" id="githubUser" class="input-field" value="tiri3160" placeholder="اسم المستخدم" readonly style="background:#eee; color:#666; cursor:not-allowed;">
+        <input type="text" id="githubUser" class="input-field" value="tiri3160" readonly style="background:#eee; color:#666; cursor:not-allowed;">
         <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح السري هنا (ghp_...)">
         <button onclick="login()">تسجيل الدخول الآمن 🔐</button>
         <div id="loginError" style="color: red; margin-top: 10px; font-weight: bold;"></div>
     </div>
 
-    <!-- لوحة التحكم -->
     <div id="dashboard-section">
         <div class="form-group">
             <h2 style="margin-top: 0; color: #111;">➕ إضافة / تعديل منتج</h2>
@@ -79,8 +80,6 @@
             
             <div class="form-grid">
                 <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج (مثال: طقم السهرة)">
-                
-                <!-- خيار المجموعة الجديد -->
                 <select id="prodCategory" class="input-field">
                     <option value="" disabled selected>-- اختر مجموعة المنتج --</option>
                     <option value="خواتم">خواتم 💍</option>
@@ -95,7 +94,7 @@
                 <input type="number" id="prodQuantity" class="input-field" placeholder="الكمية المتوفرة في المخزن">
             </div>
             
-            <p style="font-size: 14px; margin: 10px 0 5px; color: #666; font-weight: bold;">صورة المنتج (اتركها فارغة عند التعديل إذا كنت لا تريد تغيير الصورة القديمة):</p>
+            <p style="font-size: 14px; margin: 10px 0 5px; color: #666; font-weight: bold;">صورة المنتج (اتركها فارغة عند التعديل إذا كنت لا تريد تغييرها):</p>
             <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg, image/webp">
             
             <button onclick="saveProduct()" id="saveBtn">حفظ ونشر في الموقع المباشر 🚀</button>
@@ -103,11 +102,10 @@
         </div>
 
         <div class="products-header">
-            <h2 style="margin: 0;">📦 منتجاتك الحالية</h2>
+            <h2 style="margin: 0;">📦 منتجاتك الحالية مرتبة بالفئة</h2>
             <span id="totalProducts" style="background: #111; color: #D4AF37; padding: 5px 15px; border-radius: 20px; font-weight: bold;">0 منتج</span>
         </div>
         
-        <!-- هنا تظهر المنتجات كبطاقات -->
         <div class="products-grid" id="productsContainer">
             <div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">
                 جاري تحميل منتجاتك من قاعدة البيانات... ⏳
@@ -118,19 +116,15 @@
 
 <script>
     const repoName = "GLAME-CHIC-BIJOUX"; 
-    let username = "tiri3160"; // حسابك
+    let username = "tiri3160"; 
     let token = "";
     let productsSha = "";
     let productsData = [];
-    let editingIndex = -1; // لمعرفة ما إذا كنا نعدل منتجاً أو نضيف جديداً
+    let editingIndex = -1;
 
     function login() {
         token = document.getElementById('githubToken').value.trim();
-        if(!token) { 
-            document.getElementById('loginError').innerText = "يرجى إدخال المفتاح السري!"; 
-            return; 
-        }
-        
+        if(!token) { document.getElementById('loginError').innerText = "يرجى إدخال المفتاح السري!"; return; }
         document.getElementById('loginError').innerText = "جاري الاتصال...";
         loadProducts();
     }
@@ -139,9 +133,7 @@
         const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
         try {
             const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-            
             if(response.status === 404) {
-                // إذا كان الملف غير موجود بعد، نقوم بإنشائه فارغاً
                 productsData = [];
                 await updateGitHubJson("إنشاء قاعدة البيانات");
             } else if (!response.ok) {
@@ -152,7 +144,6 @@
                 const decodedContent = decodeURIComponent(escape(atob(data.content)));
                 productsData = JSON.parse(decodedContent);
             }
-            
             document.getElementById('login-section').style.display = "none";
             document.getElementById('dashboard-section').style.display = "block";
             renderProducts();
@@ -171,33 +162,51 @@
             return; 
         }
 
-        // عرض المنتجات كبطاقات مرتبة
-        productsData.forEach((p, index) => {
-            // صورة افتراضية في حال لم تكن هناك صورة
-            const imgSrc = p.image ? `https://raw.githubusercontent.com/${username}/${repoName}/main/${p.image}` : 'https://via.placeholder.com/300x300/f4f4f4/D4AF37?text=GLAME+CHIC';
-            
-            container.innerHTML += `
-                <div class="product-card">
-                    <img src="${imgSrc}" class="product-img" alt="${p.name}">
-                    <div class="product-details">
-                        <span class="product-category">${p.category || 'غير محدد'}</span>
-                        <h3 class="product-name">${p.name}</h3>
-                        <div class="product-price">${p.price} د.ج</div>
-                        <div class="product-stock">الكمية المتوفرة: <b>${p.quantity}</b></div>
+        // الفئات (المجموعات) المتاحة
+        const categoriesList = ["خواتم", "أساور", "قلادات", "أطقم", "أخرى"];
+        
+        // ترتيب وتجميع المنتجات حسب الفئة
+        categoriesList.forEach(cat => {
+            // البحث عن المنتجات التابعة لهذه الفئة (ونحتفظ بالـ Index الأصلي لتعديلها لاحقاً)
+            const catProducts = productsData.map((p, i) => ({...p, originalIndex: i}))
+                .filter(p => p.category === cat || (!categoriesList.includes(p.category) && cat === "أخرى"));
+
+            if(catProducts.length > 0) {
+                // رسم شريط الفئة
+                container.innerHTML += `
+                    <div class="category-header">
+                        <span>✨ قسم: ${cat}</span>
+                        <span style="background: #D4AF37; color:#111; padding: 0 10px; border-radius: 5px; font-size: 0.8em;">${catProducts.length}</span>
                     </div>
-                    <div class="card-actions">
-                        <button class="btn-edit" onclick="editProduct(${index})">تعديل ✏️</button>
-                        <button class="btn-delete" onclick="deleteProduct(${index})">حذف 🗑️</button>
-                    </div>
-                </div>
-            `;
+                `;
+                
+                // رسم منتجات هذه الفئة
+                catProducts.forEach(p => {
+                    const imgSrc = p.image ? `https://raw.githubusercontent.com/${username}/${repoName}/main/${p.image}` : 'https://via.placeholder.com/300x300/f4f4f4/D4AF37?text=GLAME+CHIC';
+                    
+                    container.innerHTML += `
+                        <div class="product-card">
+                            <img src="${imgSrc}" class="product-img" alt="${p.name}">
+                            <div class="product-details">
+                                <h3 class="product-name">${p.name}</h3>
+                                <div class="product-price">${p.price} د.ج</div>
+                                <div class="product-stock">الكمية المتوفرة: <b>${p.quantity}</b></div>
+                            </div>
+                            <!-- الأزرار جنباً إلى جنب بشكل واضح -->
+                            <div class="card-actions">
+                                <button class="btn-edit" onclick="editProduct(${p.originalIndex})">تعديل ✏️</button>
+                                <button class="btn-delete" onclick="deleteProduct(${p.originalIndex})">حذف 🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
         });
     }
 
     function editProduct(index) {
         editingIndex = index;
         const p = productsData[index];
-        
         document.getElementById('prodName').value = p.name;
         document.getElementById('prodCategory').value = p.category || "";
         document.getElementById('prodPrice').value = p.price;
@@ -207,8 +216,6 @@
         document.getElementById('saveBtn').style.background = "#D4AF37";
         document.getElementById('saveBtn').style.color = "#111";
         document.getElementById('cancelBtn').style.display = "block";
-        
-        // الصعود للأعلى بسلاسة
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -241,87 +248,58 @@
 
         const status = document.getElementById('statusMessage');
         const errorMsg = document.getElementById('errorMessage');
-        status.innerText = "";
-        errorMsg.innerText = "";
+        status.innerText = ""; errorMsg.innerText = "";
 
-        if(!name || !category || !price || !qty) { 
-            errorMsg.innerText = "❌ يرجى تعبئة جميع الخانات الأساسية (الاسم، المجموعة، السعر، الكمية)!"; 
-            return; 
-        }
+        if(!name || !category || !price || !qty) { errorMsg.innerText = "❌ يرجى تعبئة جميع الخانات!"; return; }
 
         const btn = document.getElementById('saveBtn');
-        btn.innerText = "جاري العمل... الرجاء الانتظار ⏳";
-        btn.disabled = true;
+        btn.innerText = "جاري العمل... ⏳"; btn.disabled = true;
 
         try {
             let imageUrl = "";
+            if(editingIndex > -1) imageUrl = productsData[editingIndex].image;
 
-            // إذا كنا نعدل منتجاً، نحتفظ بصورته القديمة مبدئياً
-            if(editingIndex > -1) {
-                imageUrl = productsData[editingIndex].image;
-            }
-
-            // إذا رفع صورة جديدة (في حالة الإضافة أو التعديل)
             if(imageFile) {
-                status.innerText = "جاري رفع الصورة إلى سيرفر الموقع...";
+                status.innerText = "جاري الرفع...";
                 const base64 = await toBase64(imageFile);
                 const cleanBase64 = base64.split(",")[1];
-                // إنشاء اسم فريد للصورة لتجنب التكرار
                 const ext = imageFile.name.split('.').pop();
                 const imgFileName = "prod_" + Date.now() + "." + ext; 
                 
                 const imgUrlApi = `https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`;
-                
                 const imgResponse = await fetch(imgUrlApi, {
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        message: "رفع صورة منتج",
-                        content: cleanBase64
-                    })
+                    body: JSON.stringify({ message: "رفع صورة منتج", content: cleanBase64 })
                 });
-                
-                if(!imgResponse.ok) throw new Error("فشل في رفع الصورة. تأكد من حجمها وأن المفتاح صحيح.");
+                if(!imgResponse.ok) throw new Error("فشل في الرفع. تحقق من حجم الصورة.");
                 imageUrl = imgFileName; 
             } else if (editingIndex === -1) {
-                // إذا كان يضيف منتجاً جديداً ولم يرفع صورة
-                throw new Error("❌ يرجى اختيار صورة للمنتج الجديد!");
+                throw new Error("❌ يرجى اختيار صورة!");
             }
 
-            status.innerText = "جاري تحديث قاعدة بيانات المتجر...";
+            status.innerText = "جاري الحفظ...";
             
             const productObj = {
                 id: editingIndex > -1 ? productsData[editingIndex].id : Date.now(),
-                name: name,
-                category: category,
-                price: parseInt(price),
-                quantity: parseInt(qty),
-                image: imageUrl
+                name: name, category: category, price: parseInt(price), quantity: parseInt(qty), image: imageUrl
             };
 
             if(editingIndex > -1) {
-                // تحديث المنتج الحالي
                 productsData[editingIndex] = productObj;
                 await updateGitHubJson("تعديل منتج: " + name);
-                status.innerText = "✅ تم تعديل المنتج بنجاح!";
+                status.innerText = "✅ تم تعديل المنتج!";
             } else {
-                // إضافة منتج جديد
                 productsData.push(productObj);
-                await updateGitHubJson("إضافة منتج جديد: " + name);
-                status.innerText = "✅ تم إضافة المنتج ونشره بنجاح!";
+                await updateGitHubJson("إضافة منتج: " + name);
+                status.innerText = "✅ تمت الإضافة!";
             }
             
-            cancelEdit(); // تصفير الخانات
-            setTimeout(() => { status.innerText = ""; }, 4000);
-
+            cancelEdit(); setTimeout(() => { status.innerText = ""; }, 4000);
         } catch(err) {
             errorMsg.innerText = err.message;
         } finally {
-            if(editingIndex === -1) {
-                btn.innerText = "حفظ ونشر في الموقع المباشر 🚀";
-            } else {
-                btn.innerText = "حفظ التعديلات 🔄";
-            }
+            btn.innerText = editingIndex === -1 ? "حفظ ونشر في الموقع المباشر 🚀" : "حفظ التعديلات 🔄";
             btn.disabled = false;
         }
     }
@@ -329,31 +307,23 @@
     async function updateGitHubJson(commitMsg) {
         const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
         const contentStr = JSON.stringify(productsData, null, 2);
-        // التشفير الآمن للغة العربية
         const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
 
         const response = await fetch(url, {
             method: "PUT",
             headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
-            body: JSON.stringify({
-                message: commitMsg,
-                content: encodedContent,
-                sha: productsSha
-            })
+            body: JSON.stringify({ message: commitMsg, content: encodedContent, sha: productsSha })
         });
-
         if(!response.ok) throw new Error("فشل في تحديث قاعدة البيانات.");
         
         const data = await response.json();
         productsSha = data.content.sha; 
-        renderProducts(); // إعادة رسم المنتجات
+        renderProducts();
     }
 
     const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
+        const reader = new FileReader(); reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result); reader.onerror = error => reject(error);
     });
 </script>
 </body>
