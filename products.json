@@ -14,5 +14,13 @@
     "price": 2000,
     "quantity": 20,
     "image": "prod_1791894171520.jpeg"
+  },
+  {
+    "id": 1791894421199,
+    "name": "القطرة الذهبية Goutte d’or ",
+    "category": "أطقم",
+    "price": 1000,
+    "quantity": 20,
+    "image": "prod_1791894416977.jpeg"
   }
 ]
