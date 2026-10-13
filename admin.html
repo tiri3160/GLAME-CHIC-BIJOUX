@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم متجر GLAME CHIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+        body { background: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        h1 { text-align: center; color: #D4AF37; margin-bottom: 30px; }
+        
+        /* شاشة الدخول */
+        #login-section { display: block; text-align: center; }
+        input.input-field { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
+        button { background: #111; color: #D4AF37; border: none; padding: 12px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; }
+        button:hover { background: #D4AF37; color: #111; }
+        
+        /* لوحة التحكم */
+        #dashboard-section { display: none; }
+        .form-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-group > input { flex: 1; min-width: 150px; }
+        .product-list { margin-top: 30px; }
+        .product-item { background: #fafafa; padding: 15px; border: 1px solid #eee; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .product-info img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; vertical-align: middle; margin-left: 10px; }
+        .btn-delete { background: #ff4d4d; color: #fff; padding: 8px 15px; width: auto; }
+        .btn-delete:hover { background: #cc0000; color: #fff; }
+        #statusMessage { text-align: center; font-weight: bold; margin: 15px 0; color: green; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>👑 لوحة تحكم GLAME CHIC</h1>
+
+    <!-- شاشة إدخال المفتاح السري -->
+    <div id="login-section">
+        <p>مرحباً بك، يرجى إدخال اسم المستخدم ومفتاح غيت هب السري للاتصال بالمتجر.</p>
+        <input type="text" id="githubUser" class="input-field" placeholder="اسم المستخدم (مثال: mohammed-dz)">
+        <input type="password" id="githubToken" class="input-field" placeholder="المفتاح السري (Token)">
+        <button onclick="login()">دخول للوحة التحكم</button>
+    </div>
+
+    <!-- شاشة إدارة المنتجات -->
+    <div id="dashboard-section">
+        <h3 style="border-bottom: 2px solid #D4AF37; padding-bottom: 10px;">إضافة / تعديل منتج</h3>
+        <div id="statusMessage"></div>
+        
+        <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج">
+        <div class="form-group">
+            <input type="number" id="prodPrice" class="input-field" placeholder="السعر (د.ج)">
+            <input type="number" id="prodQuantity" class="input-field" placeholder="الكمية المتوفرة">
+        </div>
+        <p style="font-size: 14px; margin: 0 0 5px; color: #666;">صورة المنتج:</p>
+        <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg">
+        
+        <button onclick="saveProduct()" id="saveBtn">حفظ ونشر في الموقع 🚀</button>
+
+        <div class="product-list">
+            <h3 style="margin-top: 40px;">المنتجات الحالية:</h3>
+            <div id="productsContainer">جاري التحميل...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const repoName = "GLAME-CHIC-BIJOUX"; // اسم مستودعك ثابت هنا
+    let username = "";
+    let token = "";
+    let productsSha = "";
+    let productsData = [];
+
+    // تسجيل الدخول
+    function login() {
+        username = document.getElementById('githubUser').value.trim();
+        token = document.getElementById('githubToken').value.trim();
+        if(!username || !token) { alert("الرجاء إدخال اسم المستخدم والمفتاح السري!"); return; }
+        
+        // إخفاء تسجيل الدخول وإظهار اللوحة
+        document.getElementById('login-section').style.display = "none";
+        document.getElementById('dashboard-section').style.display = "block";
+        loadProducts();
+    }
+
+    // جلب المنتجات من ملف products.json
+    async function loadProducts() {
+        const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
+        try {
+            const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+            if(!response.ok) throw new Error("بيانات الدخول خاطئة أو الملف غير موجود!");
+            const data = await response.json();
+            productsSha = data.sha;
+            
+            // فك تشفير المحتوى
+            const decodedContent = decodeURIComponent(escape(atob(data.content)));
+            productsData = JSON.parse(decodedContent);
+            renderProducts();
+        } catch (error) {
+            alert(error.message);
+            location.reload(); // إعادة تحميل الصفحة إذا فشل
+        }
+    }
+
+    // عرض المنتجات في القائمة
+    function renderProducts() {
+        const container = document.getElementById('productsContainer');
+        container.innerHTML = "";
+        if(productsData.length === 0) { container.innerHTML = "<p>لا توجد منتجات حالياً.</p>"; return; }
+
+        productsData.forEach((p, index) => {
+            container.innerHTML += `
+                <div class="product-item">
+                    <div class="product-info">
+                        <strong>${p.name}</strong> - ${p.price} د.ج <br>
+                        <span style="font-size: 13px; color: #888;">الكمية المتوفرة: ${p.quantity}</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteProduct(${index})">حذف 🗑️</button>
+                </div>
+            `;
+        });
+    }
+
+    // حذف منتج
+    async function deleteProduct(index) {
+        if(!confirm("هل أنت متأكد من حذف هذا المنتج؟")) return;
+        productsData.splice(index, 1);
+        await updateGitHubJson("تم حذف منتج");
+    }
+
+    // حفظ منتج جديد
+    async function saveProduct() {
+        const name = document.getElementById('prodName').value;
+        const price = document.getElementById('prodPrice').value;
+        const qty = document.getElementById('prodQuantity').value;
+        const imageFile = document.getElementById('prodImage').files[0];
+
+        if(!name || !price || !qty) { alert("يرجى تعبئة الاسم والسعر والكمية!"); return; }
+
+        const btn = document.getElementById('saveBtn');
+        const status = document.getElementById('statusMessage');
+        btn.innerText = "جاري الرفع... الرجاء الانتظار ⏳";
+        btn.disabled = true;
+
+        try {
+            let imageUrl = "placeholder.jpg"; // صورة افتراضية
+
+            // إذا قام باختيار صورة، نرفعها أولاً إلى غيت هب
+            if(imageFile) {
+                status.innerText = "جاري رفع الصورة إلى الموقع...";
+                const base64 = await toBase64(imageFile);
+                const cleanBase64 = base64.split(",")[1]; // إزالة الترويسة
+                const imgFileName = Date.now() + "_" + imageFile.name.replace(/\\s/g, ''); // اسم فريد
+                
+                const imgUrlApi = `https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`;
+                
+                const imgResponse = await fetch(imgUrlApi, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: "رفع صورة منتج جديدة",
+                        content: cleanBase64
+                    })
+                });
+                
+                if(!imgResponse.ok) throw new Error("فشل في رفع الصورة.");
+                // حفظ رابط الصورة المرفوعة
+                imageUrl = imgFileName; 
+            }
+
+            status.innerText = "جاري تحديث قاعدة البيانات...";
+            
+            // إضافة المنتج لقاعدة البيانات
+            productsData.push({
+                id: Date.now(),
+                name: name,
+                price: parseInt(price),
+                quantity: parseInt(qty),
+                image: imageUrl
+            });
+
+            await updateGitHubJson("تم إضافة منتج جديد");
+            
+            // تصفير الخانات
+            document.getElementById('prodName').value = "";
+            document.getElementById('prodPrice').value = "";
+            document.getElementById('prodQuantity').value = "";
+            document.getElementById('prodImage').value = "";
+            
+            status.innerText = "✅ تم إضافة المنتج ونشره بنجاح!";
+            setTimeout(() => { status.innerText = ""; }, 3000);
+
+        } catch(err) {
+            alert(err.message);
+        } finally {
+            btn.innerText = "حفظ ونشر في الموقع 🚀";
+            btn.disabled = false;
+        }
+    }
+
+    // تحديث ملف products.json في غيت هب
+    async function updateGitHubJson(commitMsg) {
+        const url = `https://api.github.com/repos/${username}/${repoName}/contents/products.json`;
+        // تشفير المحتوى باللغة العربية بطريقة صحيحة
+        const contentStr = JSON.stringify(productsData, null, 2);
+        const encodedContent = btoa(unescape(encodeURIComponent(contentStr)));
+
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+            body: JSON.stringify({
+                message: commitMsg,
+                content: encodedContent,
+                sha: productsSha
+            })
+        });
+
+        if(!response.ok) throw new Error("فشل في تحديث المنتجات.");
+        
+        const data = await response.json();
+        productsSha = data.content.sha; // تحديث بصمة الملف للمرة القادمة
+        renderProducts();
+    }
+
+    // تحويل الصورة إلى نص Base64
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+</script>
+</body>
+</html>
