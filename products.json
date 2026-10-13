@@ -54,5 +54,13 @@
     "price": 1500,
     "quantity": 9,
     "image": "prod_1791895428569.jpeg"
+  },
+  {
+    "id": 1791895488659,
+    "name": "Bracelet 3",
+    "category": "أساور",
+    "price": 1500,
+    "quantity": 5,
+    "image": "prod_1791895485533.jpeg"
   }
 ]
