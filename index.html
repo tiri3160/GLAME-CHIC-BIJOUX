@@ -5,23 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
-    <!-- بطاقة المعاينة الفاخرة عند مشاركة الرابط في واتساب وفيسبوك وانستغرام (Open Graph) -->
+    <!-- بطاقة المعاينة الفاخرة عند مشاركة الرابط -->
     <meta property="og:title" content="GLAME CHIC BIJOUX | بريق الأناقة للمجوهرات والساعات">
     <meta property="og:description" content="تشكيلة حصرية من المجوهرات والساعات الفاخرة المقاومة للصدأ. توصيل لـ 58 ولاية جزائرية والدفع عند الاستلام.">
     <meta property="og:image" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/jewelry-bg.jpg">
     <meta property="og:url" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/">
     <meta property="og:type" content="website">
 
-    <!-- حماية ضد تحليلات البوتات (Bot Shield) -->
+    <!-- حماية ضد تحليلات البوتات -->
     <script>
         if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
             document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي 🤖</h2>";
         }
     </script>
 
-    <!-- ==========================================
-         مكان جاهز لربط Meta Pixel و TikTok Pixel مستقبلاً
-         ========================================== -->
+    <!-- تتبع بيكسل الإعلانات -->
     <script>
         function trackAdPurchase(productName, value) {
             if (typeof fbq === 'function') {
@@ -91,7 +89,6 @@
         .quick-cat-btn:hover { border-color: var(--gold-light); color: #fff; }
         .quick-cat-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: bold; box-shadow: 0 0 15px rgba(212,175,55,0.4); }
 
-        /* شريط البحث والفرز داخل القسم */
         .filter-tools-bar { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
         .search-box-wrapper { flex: 2; min-width: 220px; position: relative; }
         .search-box-wrapper input { width: 100%; background: var(--black-card); border: 1px solid #333; color: #fff; padding: 12px 40px 12px 15px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.95em; }
@@ -105,23 +102,21 @@
         .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 60px; margin: 0 auto; overflow: hidden; touch-action: pan-y; }
         .swiper-wrapper { transition-timing-function: ease-out !important; } 
         
-        /* بطاقة المنتج المطورة */
+        /* بطاقة المنتج مع تحسين دقة عرض الصور */
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.06); padding: 15px; text-align: center; transition: 0.3s ease; height: 100%; display: flex; flex-direction: column; border-radius: 8px; width: 100%; cursor: pointer; position: relative; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15); transform: translateY(-4px); }
         .product-img-wrapper { height: 280px; overflow: hidden; margin-bottom: 12px; background: #080808; border-radius: 5px; position: relative; width: 100%; }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s ease; image-rendering: -webkit-optimize-contrast; }
         .product-card:hover img { transform: scale(1.06); }
         .zoom-hint-badge { position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.75); color: var(--gold-light); padding: 4px 8px; border-radius: 4px; font-size: 0.75em; pointer-events: none; border: 1px solid rgba(212,175,55,0.3); }
         .sale-badge { position: absolute; top: 10px; left: 10px; background: #e63946; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; z-index: 5; box-shadow: 0 2px 8px rgba(230,57,70,0.5); }
 
         .product-title { font-size: 1.3em; font-family: 'Amiri', serif; color: var(--text-pure); margin-bottom: 6px; pointer-events: none; }
         
-        /* السعر المشطوب والسعر الجديد */
         .price-container { margin-bottom: 10px; pointer-events: none; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .old-price { color: #888; text-decoration: line-through; font-size: 0.95em; }
         .product-price { color: var(--gold); font-size: 1.4em; font-weight: bold; }
 
-        /* مؤشر الندرة */
         .scarcity-badge { color: #ff6b6b; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.25); font-size: 0.8em; font-weight: bold; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px; display: inline-block; animation: pulseUrgent 2s infinite; pointer-events: none; }
         
         .btn-order-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); width: 100%; padding: 11px; font-size: 1.05em; cursor: pointer; transition: 0.3s; font-family: 'Cairo'; font-weight: bold; margin-top: auto; border-radius: 5px; position: relative; z-index: 10; }
@@ -140,12 +135,65 @@
         .close-btn-prominent { position: absolute; top: 12px; right: 12px; width: 42px; height: 42px; background: #1a1a1a; color: var(--gold); border: 2px solid var(--gold); border-radius: 50%; font-size: 1.5em; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.8); line-height: 1; }
         .close-btn-prominent:hover { background: #dc3545; color: #fff; border-color: #dc3545; transform: scale(1.1); }
 
+        /* ==========================================
+           حاضنة الزوم التفاعلي الجديدة (تسمح بالتحريك في كل الاتجاهات بدون قص)
+           ========================================== */
+        .zoom-viewport {
+            width: 100%;
+            height: 350px;
+            background: #050505;
+            border: 1px solid #222;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: auto; /* يسمح بتحريك الصورة في كل الاتجاهات عند التكبير */
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-overflow-scrolling: touch;
+            user-select: none;
+        }
+        .zoom-viewport img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: width 0.25s ease, height 0.25s ease;
+            cursor: zoom-in;
+            display: block;
+            margin: auto;
+        }
+        /* حالة التكبير الفعلي بدون قص الأطراف */
+        .zoom-viewport.is-zoomed {
+            display: block; /* إلغاء التوسيط القسري للسماح بالتمرير الكامل للزوايا */
+            cursor: grab;
+        }
+        .zoom-viewport.is-zoomed:active {
+            cursor: grabbing;
+        }
+        .zoom-viewport.is-zoomed img {
+            width: 220%; /* تكبير حقيقي 2.2x مع إمكانية التمرير لكل الزوايا */
+            height: auto;
+            min-height: 100%;
+            max-width: none;
+            object-fit: contain;
+            cursor: zoom-out;
+        }
+
+        .zoom-controls-bar { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .btn-zoom-toggle { background: #1a1a1a; color: var(--gold-light); border: 1px solid rgba(212,175,55,0.4); padding: 6px 14px; border-radius: 20px; font-size: 0.85em; font-family: 'Cairo'; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
+        .btn-zoom-toggle:hover { background: var(--gold); color: #000; }
+
         .modal h2 { font-family: 'Amiri', serif; color: var(--gold); text-align: center; margin-bottom: 5px; font-size: 1.9em; margin-top: 10px; }
         .modal p.subtitle { text-align: center; color: var(--text-muted); margin-bottom: 20px; font-size: 0.9em;}
         
         .modal-input, .modal select { background: var(--black-card); color: var(--text-pure); border: 1px solid #333; padding: 12px; font-size: 1em; width: 100%; transition: 0.3s; font-family: 'Cairo'; margin-bottom: 12px; border-radius: 6px; }
         .modal-input:focus, .modal select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
         
+        /* شريط التحقق الفوري المرئي لرقم الهاتف */
+        .phone-feedback { font-size: 0.85em; font-weight: bold; margin-top: -6px; margin-bottom: 12px; padding: 6px 10px; border-radius: 5px; display: none; text-align: right; }
+        .phone-feedback.invalid { display: block; color: #ff6b6b; background: rgba(220, 53, 69, 0.12); border: 1px solid rgba(220, 53, 69, 0.3); }
+        .phone-feedback.valid { display: block; color: #2ecc71; background: rgba(46, 204, 113, 0.12); border: 1px solid rgba(46, 204, 113, 0.3); }
+
         .delivery-options { display: flex; gap: 10px; margin-bottom: 15px; }
         .delivery-options label { flex: 1; background: var(--black-card); border: 1px solid #333; padding: 10px; border-radius: 6px; text-align: center; cursor: pointer; color: var(--text-muted); transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; font-size: 0.95em; }
         .delivery-options label:hover { border-color: var(--gold); color: var(--gold-light); }
@@ -156,7 +204,6 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.25em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
-        /* زر الطلب السريع عبر واتساب داخل نافذة المعاينة */
         .btn-whatsapp-order { background: #25d366; color: #fff; border: none; width: 100%; padding: 11px; border-radius: 6px; font-family: 'Cairo'; font-weight: bold; font-size: 1em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; text-decoration: none; transition: 0.3s; }
         .btn-whatsapp-order:hover { background: #1ebe57; }
 
@@ -189,6 +236,7 @@
             .products-grid-static .product-title { font-size: 1.05em; }
             .products-grid-static .product-price { font-size: 1.15em; }
             .modal-content { padding: 25px 15px; width: 95%; }
+            .zoom-viewport { height: 300px; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
     </style>
@@ -295,7 +343,6 @@
             قسم <span>...</span>
         </h2>
 
-        <!-- شريط البحث والترتيب حسب السعر -->
         <div class="filter-tools-bar">
             <div class="search-box-wrapper">
                 <i class="fas fa-search"></i>
@@ -311,15 +358,26 @@
         <div class="products-grid-static" id="category-products-grid"></div>
     </div>
 
-    <!-- 3. نافذة معاينة وتكبير المنتج -->
+    <!-- ==========================================
+         3. نافذة معاينة وتكبير المنتج مع التحريك الحر (Pan & Zoom)
+         ========================================== -->
     <div id="productDetailModal" class="modal">
-        <div class="modal-content" style="text-align:center; max-width: 480px; padding: 35px 20px 25px;">
+        <div class="modal-content" style="text-align:center; max-width: 490px; padding: 35px 18px 25px;">
             <button type="button" class="close-btn-prominent" onclick="closeDetailModal()" title="إغلاق">✕</button>
             
-            <div style="background:#050505; border: 1px solid #222; padding:10px; border-radius:8px; margin-bottom:15px; overflow:hidden; position:relative;">
-                <img id="detailImg" src="" alt="معاينة" style="width:100%; height:320px; object-fit:contain; transition: transform 0.35s ease; cursor:zoom-in;" onclick="toggleZoom(this)">
+            <!-- حاضنة الزوم التفاعلية التي تسمح بالتحريك في كل الزوايا -->
+            <div class="zoom-viewport" id="zoomViewport">
+                <img id="detailImg" src="" alt="معاينة" onclick="toggleInteractiveZoom()">
             </div>
-            <p style="color:var(--gold-light); font-size:0.85em; margin-top:-5px; margin-bottom:12px;">🔍 اضغطي على الصورة لتكبيرها وفحص التفاصيل</p>
+
+            <div class="zoom-controls-bar">
+                <button type="button" class="btn-zoom-toggle" id="zoomToggleBtn" onclick="toggleInteractiveZoom()">
+                    <i class="fas fa-search-plus"></i> تكبير الصورة (2x)
+                </button>
+            </div>
+            <p id="zoomHintText" style="color:var(--gold-light); font-size:0.82em; margin-top:-8px; margin-bottom:12px;">
+                💡 اضغطي على الصورة لتكبيرها، ثم اسحبي بإصبعك لتحريكها ورؤية كافة الجوانب
+            </p>
             
             <h2 id="detailName" style="color:var(--text-pure); font-family:'Amiri', serif; font-size:1.7em; margin-bottom:6px;"></h2>
             <div id="detailScarcity" style="margin-bottom:8px;"></div>
@@ -329,21 +387,22 @@
                 <button id="detailOrderBtn" class="btn-gold" style="flex:2; padding: 12px; border-radius:6px; font-size:1.1em;">أطلبي عبر الموقع 🛒</button>
                 <button type="button" onclick="closeDetailModal()" style="flex:1; background:#222; color:#fff; border:1px solid #444; border-radius:6px; font-family:'Cairo'; font-weight:bold; cursor:pointer;">إغلاق</button>
             </div>
-            <!-- زر الطلب السريع عبر واتساب -->
             <a id="detailWhatsappBtn" href="#" target="_blank" class="btn-whatsapp-order">
                 <i class="fab fa-whatsapp" style="font-size:1.3em;"></i> طلب سريع عبر واتساب
             </a>
         </div>
     </div>
 
-    <!-- 4. نافذة استمارة الطلب -->
+    <!-- ==========================================
+         4. نافذة استمارة الطلب مع التحقق الفوري المرئي للهاتف
+         ========================================== -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <button type="button" class="close-btn-prominent" onclick="closeOrderModal()">✕</button>
             <h2>تأكيد الطلبية</h2>
             <p class="subtitle">أدخلي بياناتك وسنتصل بك هاتفياً لتأكيد الشحن</p>
             
-            <form id="orderForm">
+            <form id="orderForm" novalidate>
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
@@ -356,13 +415,13 @@
                 
                 <div class="product-name-display" id="productDisplay"></div>
                 
-                <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
+                <input type="text" id="customerName" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
                 
-                <!-- فلتر التحقق من رقم الهاتف الجزائري (10 أرقام يبدأ بـ 05 أو 06 أو 07) -->
+                <!-- خانة الهاتف مع التحقق الحي والمرئي أثناء الكتابة -->
                 <input type="tel" id="customerPhone" name="الهاتف" class="modal-input" required 
-                       pattern="^0[567][0-9]{8}$" maxlength="10"
-                       title="يرجى إدخال رقم هاتف جزائري صحيح مكون من 10 أرقام يبدأ بـ 05 أو 06 أو 07"
-                       placeholder="رقم الهاتف (مثال: 0770123456)">
+                       maxlength="10" inputmode="numeric" oninput="validatePhoneLive(this)"
+                       placeholder="رقم الهاتف (10 أرقام يبدأ بـ 05 أو 06 أو 07)">
+                <div id="phoneFeedback" class="phone-feedback"></div>
                 
                 <div class="delivery-options" style="margin-top: 10px;">
                     <label>
@@ -386,7 +445,7 @@
                     <input type="text" name="البلدية_اليدوية" id="customCommune" class="modal-input" style="display:none;" placeholder="اكتبي اسم بلديتك هنا">
                 </div>
 
-                <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان (أو اسم مكتب التوصيل)">
+                <input type="text" id="customerAddress" name="العنوان" class="modal-input" required placeholder="العنوان (أو اسم مكتب التوصيل)">
 
                 <div class="price-box">
                     <div class="price-row"><span>سعر المنتج:</span> <span><b id="summaryProduct">0</b> د.ج</span></div>
@@ -454,7 +513,6 @@
             
             const saleBadge = oldPrice > 0 ? `<span class="sale-badge">تخفيض 🔥</span>` : '';
 
-            // مؤشر الندرة إذا كانت الكمية بين 1 و 3
             const scarcityHTML = (product.quantity > 0 && product.quantity <= 3) 
                 ? `<div><span class="scarcity-badge">🔥 بقيت ${product.quantity === 1 ? 'قطعة واحدة' : product.quantity === 2 ? 'قطعتان' : '3 قطع'} فقط!</span></div>` 
                 : '';
@@ -468,7 +526,7 @@
                     <div class="product-img-wrapper">
                         ${stockBadge}
                         ${saleBadge}
-                        <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> تكبير</span>
+                        <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> فحص وتكبير</span>
                         <img src="${imgSrc}" alt="${product.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
                     </div>
                     <h3 class="product-title">${product.name}</h3>
@@ -503,14 +561,12 @@
             });
         }
 
-        // نظام الصفحات المستقلة مع البحث والترتيب
         function openCategoryPage(category, pushHistory = true) {
             currentActiveCategory = category;
             document.getElementById('home-page-view').style.display = 'none';
             document.getElementById('category-page-view').style.display = 'block';
             document.getElementById('category-page-title').innerHTML = `مجموعة <span>${category}</span>`;
             
-            // تصفير البحث والترتيب عند دخول قسم جديد
             document.getElementById('catSearchInput').value = '';
             document.getElementById('catSortSelect').value = 'default';
 
@@ -582,12 +638,18 @@
             }
         });
 
-        // نافذة معاينة المنتج + زر الواتساب السريع
+        // ==========================================
+        // نظام الزوم التفاعلي مع السحب والتحريك (Pan & Zoom)
+        // ==========================================
         function showProductDetail(name, img, price, oldPrice, quantity) {
+            const viewport = document.getElementById('zoomViewport');
             const imgEl = document.getElementById('detailImg');
+            const toggleBtn = document.getElementById('zoomToggleBtn');
+            
+            // إعادة ضبط الزوم للوضع الطبيعي عند الفتح
+            viewport.classList.remove('is-zoomed');
+            toggleBtn.innerHTML = '<i class="fas fa-search-plus"></i> تكبير الصورة (2x)';
             imgEl.src = img;
-            imgEl.style.transform = 'scale(1)';
-            imgEl.style.cursor = 'zoom-in';
             
             document.getElementById('detailName').innerText = name;
             
@@ -624,19 +686,88 @@
             document.getElementById('productDetailModal').style.display = 'flex';
         }
 
-        function toggleZoom(imgEl) {
-            if (imgEl.style.transform === 'scale(1.65)') {
-                imgEl.style.transform = 'scale(1)';
-                imgEl.style.cursor = 'zoom-in';
+        function toggleInteractiveZoom() {
+            const viewport = document.getElementById('zoomViewport');
+            const toggleBtn = document.getElementById('zoomToggleBtn');
+            
+            if (viewport.classList.contains('is-zoomed')) {
+                viewport.classList.remove('is-zoomed');
+                toggleBtn.innerHTML = '<i class="fas fa-search-plus"></i> تكبير الصورة (2x)';
             } else {
-                imgEl.style.transform = 'scale(1.65)';
-                imgEl.style.cursor = 'zoom-out';
+                viewport.classList.add('is-zoomed');
+                toggleBtn.innerHTML = '<i class="fas fa-search-minus"></i> تصغير الصورة للوضع الطبيعي';
+                // توسيط التمرير في منتصف الصورة المكبرة لسهولة التحريك في كل الاتجاهات
+                setTimeout(() => {
+                    viewport.scrollTop = (viewport.scrollHeight - viewport.clientHeight) / 2;
+                    viewport.scrollLeft = (viewport.scrollWidth - viewport.clientWidth) / 2;
+                }, 50);
             }
         }
+
+        // دعم السحب بالماوس على الحاسوب أيضاً بالإضافة للمس في الهاتف
+        const zv = document.getElementById('zoomViewport');
+        let isDragging = false, startX, startY, scrollLeft, scrollTop;
+        zv.addEventListener('mousedown', (e) => {
+            if(!zv.classList.contains('is-zoomed')) return;
+            isDragging = true;
+            startX = e.pageX - zv.offsetLeft;
+            startY = e.pageY - zv.offsetTop;
+            scrollLeft = zv.scrollLeft;
+            scrollTop = zv.scrollTop;
+        });
+        zv.addEventListener('mouseleave', () => { isDragging = false; });
+        zv.addEventListener('mouseup', () => { isDragging = false; });
+        zv.addEventListener('mousemove', (e) => {
+            if(!isDragging || !zv.classList.contains('is-zoomed')) return;
+            e.preventDefault();
+            const x = e.pageX - zv.offsetLeft;
+            const y = e.pageY - zv.offsetTop;
+            zv.scrollLeft = scrollLeft - (x - startX) * 1.5;
+            zv.scrollTop = scrollTop - (y - startY) * 1.5;
+        });
 
         function closeDetailModal() { document.getElementById('productDetailModal').style.display = 'none'; }
 
         window.addEventListener('DOMContentLoaded', fetchProducts);
+
+        // ==========================================
+        // التحقق الفوري المرئي من رقم الهاتف الجزائري
+        // ==========================================
+        function validatePhoneLive(input) {
+            // السماح بالأرقام فقط ومسح أي حروف أو مسافات فوراً
+            input.value = input.value.replace(/[^0-9]/g, '');
+            const val = input.value;
+            const feedback = document.getElementById('phoneFeedback');
+
+            if (val.length === 0) {
+                feedback.className = 'phone-feedback';
+                feedback.innerText = '';
+                input.style.borderColor = '#333';
+                return false;
+            }
+
+            if (!/^0[567]/.test(val)) {
+                feedback.className = 'phone-feedback invalid';
+                feedback.innerHTML = '❌ يجب أن يبدأ الرقم بـ <b>05</b> أو <b>06</b> أو <b>07</b>';
+                input.style.borderColor = '#dc3545';
+                return false;
+            }
+
+            if (val.length < 10) {
+                feedback.className = 'phone-feedback invalid';
+                feedback.innerHTML = `⏳ الرقم ناقص.. بقيت <b>${10 - val.length}</b> أرقام`;
+                input.style.borderColor = '#dc3545';
+                return false;
+            }
+
+            if (/^0[567][0-9]{8}$/.test(val)) {
+                feedback.className = 'phone-feedback valid';
+                feedback.innerHTML = '✅ رقم الهاتف صحيح ومقبول';
+                input.style.borderColor = '#2ecc71';
+                return true;
+            }
+            return false;
+        }
 
         // نظام الولايات والبلديات والتسعير
         const wilayas = ["1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة", "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة", "21- سكيكدة", "22- سيدي بلعباس", "23- عنابة", "24- قالمة", "25- قسنطينة", "26- المدية", "27- مستغانم", "28- المسيلة", "29- معسكر", "30- ورقلة", "31- وهران", "32- البيض", "33- إليزي", "34- برج بوعريريج", "35- بومرداس", "36- الطارف", "37- تندوف", "38- تسمسيلت", "39- الوادي", "40- خنشلة", "41- سوق أهراس", "42- تيبازة", "43- ميلة", "44- عين الدفلى", "45- النعامة", "46- عين تموشنت", "47- غرداية", "48- غليزان", "49- تيميمون", "50- برج باجي مختار", "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"];
@@ -702,6 +833,10 @@
             document.getElementById("hiddenProductPrice").value = productPrice + " د.ج"; 
             document.getElementById("summaryProduct").innerText = currentProductPrice;
             
+            document.getElementById("customerPhone").value = "";
+            document.getElementById("customerPhone").style.borderColor = "#333";
+            document.getElementById("phoneFeedback").className = "phone-feedback";
+            
             document.getElementById("wilayaSelect").value = "";
             document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
             document.getElementById("communeSelect").disabled = true;
@@ -742,13 +877,18 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault(); 
             
-            // تحقق إضافي من صحة رقم الهاتف الجزائري
-            const phoneVal = document.getElementById('customerPhone').value.trim();
-            const dzPhoneRegex = /^0[567][0-9]{8}$/;
-            if (!dzPhoneRegex.test(phoneVal)) {
-                alert("⚠️ يرجى إدخال رقم هاتف جزائري صحيح مكون من 10 أرقام ويبدأ بـ 05 أو 06 أو 07.");
+            const nameVal = document.getElementById('customerName').value.trim();
+            const phoneInput = document.getElementById('customerPhone');
+            const wilayaVal = document.getElementById('wilayaSelect').value;
+            const addressVal = document.getElementById('customerAddress').value.trim();
+
+            if (!nameVal) { alert("يرجى إدخال الاسم واللقب."); return; }
+            if (!validatePhoneLive(phoneInput)) {
+                phoneInput.focus();
                 return;
             }
+            if (!wilayaVal) { alert("يرجى اختيار الولاية."); return; }
+            if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
             const submitBtn = document.getElementById('submitOrderBtn');
             submitBtn.innerText = "جاري تأكيد طلبك... ⏳";
@@ -764,9 +904,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                // إرسال حدث الشراء لبيكسل الإعلانات
                 trackAdPurchase(orderedProdName, currentProductPrice);
-
                 document.getElementById('orderModal').style.display = "none";
                 document.getElementById('successModal').style.display = "flex";
                 form.reset(); 
