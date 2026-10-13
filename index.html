@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
+    <!-- حماية ضد تحليلات البوتات والمتصفحات الآلية -->
+    <script>
+        if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
+            document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي (Bot Detected)</h2>";
+        }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
@@ -178,6 +185,11 @@
             <img src="set-icon-transparent.png" alt="أطقم كاملة" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3592/3592888.png'">
             <div class="category-title">أطقم</div>
         </div>
+        <!-- تم إضافة قسم الساعات هنا -->
+        <div class="category-card" onclick="filterCategory('ساعات')">
+            <img src="watch-icon-transparent.png" alt="ساعات" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2784/2784459.png'">
+            <div class="category-title">ساعات</div>
+        </div>
     </div>
 
     <h2 class="section-title" id="collection">الإصدارات <span>الحصرية</span></h2>
@@ -200,6 +212,8 @@
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
                 <input type="hidden" name="_template" value="table">
+                <!-- مصيدة البوتات (Honeypot) للحماية من الطلبات الوهمية التلقائية -->
+                <input type="text" name="_honey" style="display:none">
                 
                 <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
                 <input type="hidden" id="hiddenProductPrice" name="سعر_المنتج_دج" value="">
