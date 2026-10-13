@@ -7,9 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    
-    <!-- هذا السطر هو السحر الذي يربط موقعك بملف البلديات الخاص بك -->
-    <script src="communes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <style>
         :root { --gold: #D4AF37; --gold-light: #FBF5B7; --gold-dark: #997A15; --black-bg: #050505; --black-card: #111111; --text-pure: #ffffff; --text-muted: #aaaaaa; }
@@ -50,7 +48,7 @@
         .category-card:hover img { filter: brightness(1); transform: scale(1.1); }
         .category-title { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px 0; text-align: center; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color: var(--gold-light); font-size: 2em; font-family: 'Amiri', serif; transition: 0.4s; }
 
-        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; }
+        .swiper { width: 100%; max-width: 1200px; padding: 20px 20px 70px; margin: 0 auto; }
         .swiper-wrapper { transition-timing-function: linear !important; } 
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.05); padding: 15px; text-align: center; transition: 0.4s ease; height: 100%; display: flex; flex-direction: column; border-radius: 5px; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15); transform: translateY(-5px); }
@@ -68,7 +66,6 @@
         .feature-box h3 { font-family: 'Amiri', serif; color: var(--gold-light); font-size: 1.5em; margin-bottom: 10px; }
         .feature-box p { color: var(--text-muted); font-size: 0.95em; line-height: 1.7; }
 
-        /* نافذة الطلب المطورة */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(8px); justify-content: center; align-items: center; overflow-y: auto; padding: 20px; }
         .modal-content { background: var(--black-bg); padding: 30px; width: 100%; max-width: 500px; position: relative; border: 1px solid var(--gold); box-shadow: 0 0 50px rgba(212,175,55,0.2); animation: fadeUp 0.4s ease-out; border-radius: 8px; margin: auto; }
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2em; cursor: pointer; color: var(--text-muted); transition: 0.3s; }
@@ -90,8 +87,16 @@
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.3em; margin-bottom: 0; }
         .product-name-display { color: var(--gold); text-align: center; font-family: 'Amiri', serif; font-size: 1.3em; margin-bottom: 15px; font-weight: bold; }
 
+        /* تعديلات الفوتر وأرقام الاتصال */
         footer { background: #020202; color: var(--text-muted); padding: 60px 20px; text-align: center; border-top: 1px solid #111; }
         footer .footer-logo { font-family: 'Playfair Display', serif; font-size: 2em; letter-spacing: 4px; display: block; margin-bottom: 15px; color: var(--gold); }
+        .contact-info { margin-top: 20px; }
+        .contact-info a { color: var(--gold); text-decoration: none; font-size: 1.2em; font-weight: bold; margin: 0 10px; display: inline-block; transition: 0.3s; }
+        .contact-info a:hover { color: var(--gold-light); transform: scale(1.05); }
+
+        /* زر الواتساب العائم */
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6); color: white; }
         
         @media(max-width: 768px) {
             nav { padding: 15px 20px; }
@@ -103,6 +108,7 @@
             .hero h1 { font-size: 2.8em; }
             .category-card { width: 100%; max-width: 320px; height: 300px; }
             .modal-content { padding: 25px 20px; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
     </style>
 </head>
@@ -153,58 +159,31 @@
 
     <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
     <div class="categories-grid">
-        <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
+        <div class="category-card" onclick="filterCategory('خواتم')">
             <img src="rings-cat.jpg" alt="خواتم" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">خواتم</div>
         </div>
-        <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
+        <div class="category-card" onclick="filterCategory('أساور')">
             <img src="bracelets-cat.jpg" alt="أساور" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">أساور</div>
         </div>
-        <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
+        <div class="category-card" onclick="filterCategory('قلادات')">
             <img src="necklaces-cat.jpg" alt="قلادات" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">قلادات</div>
         </div>
-        <div class="category-card" onclick="document.getElementById('collection').scrollIntoView({behavior: 'smooth'})">
+        <div class="category-card" onclick="filterCategory('أطقم')">
             <img src="sets-cat.jpg" alt="أطقم كاملة" onerror="this.src='https://via.placeholder.com/300x400/111/D4AF37?text=GLAME'">
             <div class="category-title">أطقم</div>
         </div>
     </div>
 
     <h2 class="section-title" id="collection">الإصدارات <span>الحصرية</span></h2>
+    
+    <!-- قسم المنتجات الديناميكي (يقرأ من products.json) -->
     <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <div class="product-img-wrapper"><img src="ring.jpg" alt="خاتم الملكة" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'"></div>
-                    <h3 class="product-title">خاتم الملكة الماسي</h3>
-                    <div class="product-price">2500 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('خاتم الملكة الماسي', 2500)">أطلبي الآن</button>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <div class="product-img-wrapper"><img src="bracelet.jpg" alt="سوار كلاسيك" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'"></div>
-                    <h3 class="product-title">سوار الأناقة الملكي</h3>
-                    <div class="product-price">3200 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('سوار الأناقة الملكي', 3200)">أطلبي الآن</button>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <div class="product-img-wrapper"><img src="necklace.jpg" alt="قلادة اللؤلؤ" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'"></div>
-                    <h3 class="product-title">قلادة سحر الألماس</h3>
-                    <div class="product-price">2900 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('قلادة سحر الألماس', 2900)">أطلبي الآن</button>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="product-card">
-                    <div class="product-img-wrapper"><img src="set1.jpg" alt="طقم السهرة" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'"></div>
-                    <h3 class="product-title">طقم السهرة الفاخر</h3>
-                    <div class="product-price">5500 د.ج</div>
-                    <button class="btn-order-outline" onclick="openOrderModal('طقم السهرة الفاخر', 5500)">أطلبي الآن</button>
-                </div>
+        <div class="swiper-wrapper" id="dynamic-products">
+            <div style="width: 100%; text-align: center; color: var(--gold); padding: 50px; font-size: 1.5em; font-family: 'Amiri', serif;">
+                جاري تحميل أحدث التشكيلات... ⏳
             </div>
         </div>
     </div>
@@ -215,7 +194,6 @@
             <h2>تأكيد الطلبية</h2>
             <p class="subtitle">أدخلي بياناتك وسنقوم بالاتصال بك لتأكيد الشحن</p>
             
-            <!-- تم الإبقاء على بريدك الخاص -->
             <form action="https://formsubmit.co/glamechic31@gmail.com" method="POST">
                 <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
                 <input type="hidden" name="_captcha" value="false">
@@ -230,7 +208,6 @@
                 <input type="text" name="الاسم" class="modal-input" required placeholder="الاسم واللقب">
                 <input type="tel" name="الهاتف" class="modal-input" required placeholder="رقم الهاتف">
                 
-                <!-- القوائم المنسدلة من الملف الداخلي communes.js -->
                 <select name="الولاية" id="wilayaSelect" class="modal-input" required onchange="onWilayaChange()">
                     <option value="">-- اختاري الولاية ليتم حساب التوصيل --</option>
                 </select>
@@ -239,9 +216,7 @@
                     <option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>
                 </select>
 
-                <!-- تظهر هذه الخانة فقط إذا اختار الزبون "أخرى" من البلديات -->
                 <input type="text" name="البلدية_اليدوية" id="customCommune" class="modal-input" style="display:none;" placeholder="اكتبي اسم بلديتك هنا">
-
                 <input type="text" name="العنوان" class="modal-input" required placeholder="العنوان بالتفصيل">
                 
                 <div class="delivery-options">
@@ -266,22 +241,110 @@
         </div>
     </div>
 
+    <!-- زر الواتساب العائم للرقم الأول -->
+    <a href="https://wa.me/213779665820" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- الفوتر مع أرقام التواصل -->
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
         <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 69 ولاية | الدفع عند الاستلام</p>
+        <div class="contact-info">
+            <p style="margin-bottom: 10px;">للاستفسار والتواصل:</p>
+            <a href="tel:0779665820"><i class="fas fa-phone-alt"></i> 0779665820</a>
+            <a href="tel:0671599739"><i class="fas fa-phone-alt"></i> 0671599739</a>
+        </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1, spaceBetween: 30, loop: true, speed: 4000,
-            autoplay: { delay: 0, disableOnInteraction: false },
-            breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
-        });
-
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
-        // قائمة الولايات
+        // ==========================================
+        // جلب المنتجات من products.json في المستودع
+        // ==========================================
+        const GITHUB_USERNAME = "tiri3160";
+        const REPO_NAME = "GLAME-CHIC-BIJOUX";
+        let allProducts = [];
+        let swiperInstance = null;
+
+        async function fetchProducts() {
+            // نستخدم raw url للحصول على الملف كـ JSON مباشرة لتجنب مشاكل التشفير مع الـ API
+            const rawUrl = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/products.json`;
+            try {
+                // نضيف طابع زمني لتجنب الكاش (Cache) ولتظهر التعديلات فوراً
+                const response = await fetch(rawUrl + '?t=' + new Date().getTime());
+                if (!response.ok) throw new Error("لا يمكن قراءة المنتجات.");
+                allProducts = await response.json();
+                displayProducts(allProducts);
+            } catch (error) {
+                console.error("خطأ في جلب المنتجات:", error);
+                document.getElementById('dynamic-products').innerHTML = 
+                    `<div style="width: 100%; text-align: center; color: red; padding: 50px;">
+                        تعذر تحميل المنتجات حالياً. تأكد من وجود ملف products.json في المستودع.
+                    </div>`;
+            }
+        }
+
+        function displayProducts(productsToDisplay) {
+            const wrapper = document.getElementById('dynamic-products');
+            wrapper.innerHTML = ''; 
+
+            if(productsToDisplay.length === 0) {
+                wrapper.innerHTML = `<div style="width: 100%; text-align: center; color: #fff; padding: 50px;">لا توجد منتجات في هذه المجموعة حالياً.</div>`;
+                return;
+            }
+
+            productsToDisplay.forEach(product => {
+                const imgSrc = product.image ? `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${product.image}` : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+                // التحقق من المخزون
+                const stockBadge = product.quantity > 0 ? 
+                    `<span style="position:absolute; top:10px; right:10px; background:var(--gold); color:#000; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">متوفر</span>` : 
+                    `<span style="position:absolute; top:10px; right:10px; background:red; color:#fff; padding:2px 8px; border-radius:3px; font-size:12px; font-weight:bold;">نفذت الكمية</span>`;
+                
+                const orderBtn = product.quantity > 0 ? 
+                    `<button class="btn-order-outline" onclick="openOrderModal('${product.name}', ${product.price})">أطلبي الآن</button>` :
+                    `<button class="btn-order-outline" style="border-color:#666; color:#666; cursor:not-allowed;" disabled>نفذت الكمية</button>`;
+
+                let slide = `
+                <div class="swiper-slide">
+                    <div class="product-card">
+                        <div class="product-img-wrapper" style="position:relative;">
+                            ${stockBadge}
+                            <img src="${imgSrc}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
+                        </div>
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-price">${product.price} د.ج</div>
+                        ${orderBtn}
+                    </div>
+                </div>`;
+                wrapper.innerHTML += slide;
+            });
+
+            // تدمير السوايبر القديم وبناء جديد لتحديث العرض
+            if(swiperInstance !== null) swiperInstance.destroy(true, true);
+            
+            swiperInstance = new Swiper(".mySwiper", {
+                slidesPerView: 1, spaceBetween: 30, loop: productsToDisplay.length > 3, speed: 1000, // إلغاء اللوب إذا المنتجات قليلة
+                autoplay: productsToDisplay.length > 1 ? { delay: 3000, disableOnInteraction: false } : false,
+                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
+            });
+        }
+
+        // دالة الفلترة عند الضغط على تصنيفات المجموعات
+        function filterCategory(category) {
+            document.getElementById('collection').scrollIntoView({behavior: 'smooth'});
+            const filtered = allProducts.filter(p => p.category === category);
+            displayProducts(filtered);
+        }
+
+        // تشغيل جلب المنتجات عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', fetchProducts);
+
+        // ==========================================
+        // نظام الولايات والأسعار
+        // ==========================================
         const wilayas = [
             "1- أدرار", "2- الشلف", "3- الأغواط", "4- أم البواقي", "5- باتنة", "6- بجاية", "7- بسكرة", "8- بشار", "9- البليدة", "10- البويرة",
             "11- تمنراست", "12- تبسة", "13- تلمسان", "14- تيارت", "15- تيزي وزو", "16- الجزائر", "17- الجلفة", "18- جيجل", "19- سطيف", "20- سعيدة",
@@ -291,7 +354,6 @@
             "51- أولاد جلال", "52- بني عباس", "53- عين صالح", "54- عين قزام", "55- تقرت", "56- جانت", "57- المغير", "58- المنيعة"
         ];
         
-        // تعبئة الولايات
         const wilayaSelect = document.getElementById("wilayaSelect");
         const communeSelect = document.getElementById("communeSelect");
         
@@ -301,7 +363,7 @@
             wilayaSelect.appendChild(option);
         });
 
-        // حدث تغيير الولاية (لقراءة البلديات من ملف communes.js)
+        // محاكاة البلديات (سيتم تحديثها يدويا كما طلب سابقا)
         function onWilayaChange() {
             const selectedWilaya = wilayaSelect.value;
             communeSelect.innerHTML = '<option value="">-- اختاري البلدية --</option>';
@@ -311,7 +373,6 @@
             if (selectedWilaya !== "") {
                 const wilayaId = selectedWilaya.split('-')[0];
                 
-                // جلب البلديات من المتغير الموجود في ملف communes.js
                 if(typeof algeriaCities !== 'undefined') {
                     const communes = algeriaCities[wilayaId] || [];
                     communes.forEach(c => {
@@ -321,7 +382,6 @@
                     });
                 }
                 
-                // إضافة خيار البلدية اليدوية كحماية
                 let otherOption = document.createElement("option");
                 otherOption.value = "أخرى"; otherOption.text = "أخرى (كتابة يدوية)";
                 communeSelect.appendChild(otherOption);
@@ -333,7 +393,6 @@
             calculatePrice();
         }
 
-        // حدث تغيير البلدية (لإظهار خانة الكتابة اليدوية إذا اختار أخرى)
         function onCommuneChange() {
             if(communeSelect.value === "أخرى") {
                 document.getElementById("customCommune").style.display = "block";
@@ -372,19 +431,15 @@
         function openOrderModal(productName, productPrice) {
             document.getElementById("productInput").value = productName;
             document.getElementById("productDisplay").innerText = productName;
-            
             currentProductPrice = productPrice;
             document.getElementById("hiddenProductPrice").value = productPrice + " د.ج"; 
-            
             document.getElementById("summaryProduct").innerText = currentProductPrice;
             document.getElementById("wilayaSelect").value = "";
             document.getElementById("communeSelect").innerHTML = '<option value="">-- اختاري البلدية أولاً باختيار الولاية --</option>';
             document.getElementById("communeSelect").disabled = true;
             document.getElementById("customCommune").style.display = "none";
-            
             document.getElementById("summaryDelivery").innerText = "0";
             document.getElementById("summaryTotal").innerText = currentProductPrice;
-            
             document.getElementById("orderModal").style.display = "flex";
         }
 
@@ -399,20 +454,13 @@
             if (selectedWilaya !== "") {
                 let wilayaNumber = parseInt(selectedWilaya.split('-')[0]);
                 let prices = deliveryPrices[wilayaNumber] || { home: 0, desk: 0 };
-
-                if (deliveryMethod.includes("مكتب")) {
-                    deliveryCost = prices.desk;
-                } else {
-                    deliveryCost = prices.home;
-                }
+                deliveryCost = deliveryMethod.includes("مكتب") ? prices.desk : prices.home;
             }
 
             let totalCost = currentProductPrice + deliveryCost;
-
             document.getElementById("summaryProduct").innerText = currentProductPrice;
             document.getElementById("summaryDelivery").innerText = deliveryCost;
             document.getElementById("summaryTotal").innerText = totalCost;
-
             document.getElementById("hiddenDeliveryCost").value = deliveryCost + " د.ج";
             document.getElementById("hiddenTotalCost").value = totalCost + " د.ج";
         }
