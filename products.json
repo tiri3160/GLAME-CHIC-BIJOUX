@@ -22,5 +22,13 @@
     "price": 1000,
     "quantity": 20,
     "image": "prod_1791894416977.jpeg"
+  },
+  {
+    "id": 1791894624363,
+    "name": "روبيرتو 2 بياس ",
+    "category": "أطقم",
+    "price": 1600,
+    "quantity": 10,
+    "image": "prod_1791894613840.jpeg"
   }
 ]
