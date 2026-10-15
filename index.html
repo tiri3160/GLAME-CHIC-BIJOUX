@@ -503,7 +503,7 @@
 
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
-        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 58 ولاية | الدفع عند الاستلام</p>
+        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 58 ولاية | الدفع عند الاستلاستيلي</p>
         <div class="contact-info">
             <p style="margin-bottom: 10px;">للاستفسار والتواصل:</p>
             <a href="tel:0779665820"><i class="fas fa-phone-alt"></i> 0779665820</a>
@@ -582,10 +582,22 @@
             if(swiperInstance !== null) swiperInstance.destroy(true, true);
             
             swiperInstance = new Swiper(".mySwiper", { 
-                slidesPerView: 1, spaceBetween: 25, loop: productsToDisplay.length > 3, speed: 700, 
-                autoplay: productsToDisplay.length > 1 ? { delay: 2800, disableOnInteraction: false } : false, 
-                breakpoints: { 640: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } },
-                on: { touchStart: function () { this.autoplay.stop(); }, sliderMove: function () { this.autoplay.start(); } }
+                slidesPerView: 1, 
+                spaceBetween: 20, 
+                loop: productsToDisplay.length > 3, 
+                speed: 600, 
+                grabCursor: true,
+                autoplay: productsToDisplay.length > 1 ? { 
+                    delay: 2200, 
+                    disableOnInteraction: false, 
+                    pauseOnMouseEnter: false
+                } : false, 
+                breakpoints: { 
+                    640: { slidesPerView: 2, spaceBetween: 20 }, 
+                    1024: { slidesPerView: 3, spaceBetween: 25 } 
+                },
+                observer: true,
+                observeParents: true
             });
         }
 
@@ -645,7 +657,10 @@
             document.getElementById('category-page-view').style.display = 'none';
             document.getElementById('home-page-view').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if(swiperInstance) swiperInstance.update();
+            if(swiperInstance) {
+                swiperInstance.update();
+                if(swiperInstance.autoplay) swiperInstance.autoplay.start();
+            }
             
             if(pushHistory && window.location.hash) {
                 history.pushState({ view: 'home' }, '', window.location.pathname);
@@ -755,7 +770,12 @@
             zv.scrollTop = scrollTop - (y - startY) * 1.5;
         });
 
-        function closeDetailModal() { document.getElementById('productDetailModal').style.display = 'none'; }
+        function closeDetailModal() { 
+            document.getElementById('productDetailModal').style.display = 'none';
+            if(swiperInstance && swiperInstance.autoplay) {
+                swiperInstance.autoplay.start();
+            }
+        }
 
         window.addEventListener('DOMContentLoaded', fetchProducts);
 
@@ -918,7 +938,6 @@
 
             const orderedProdName = document.getElementById("productInput").value;
 
-            // تسجيل الطلب محلياً وإظهار رسالة النجاح فوراً بدون أي انتظار للسيرفر الخارجي
             recordGlameEvent('purchase', orderedProdName, currentProductPrice, wilayaVal);
             trackAdPurchase(orderedProdName, currentProductPrice);
             
@@ -928,7 +947,6 @@
             const formData = new FormData(form);
             form.reset(); 
 
-            // إرسال البريد الإلكتروني في الخلفية بصمت تام
             fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
                 method: "POST",
                 body: formData,
