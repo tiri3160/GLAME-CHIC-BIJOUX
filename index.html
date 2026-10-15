@@ -18,7 +18,7 @@
         }
     </script>
 
-    <!-- محرك الإحصائيات المحلي المضمون 100% -->
+    <!-- محرك الإحصائيات المحلي السريع والمضمون -->
     <script>
         function detectTrafficSource() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -31,7 +31,7 @@
                 src = 'TikTok 🎵';
             } else if (utm.includes('insta') || ref.includes('instagram') || ua.includes('instagram')) {
                 src = 'Instagram 📸';
-            } else if (utm.includes('fb') || ref.includes('facebook') || ref.includes('facebook') || urlParams.has('fbclid')) {
+            } else if (utm.includes('fb') || utm.includes('facebook') || ref.includes('facebook') || urlParams.has('fbclid')) {
                 src = 'Facebook 📘';
             } else if (ref.includes('google')) {
                 src = 'بحث Google 🌐';
@@ -44,7 +44,7 @@
                 const eventObj = {
                     id: Date.now() + Math.random(),
                     ts: new Date().toISOString(),
-                    type: eventType, // 'visit', 'category', 'product_view', 'initiate_order', 'whatsapp_click', 'purchase'
+                    type: eventType, 
                     item: itemName,
                     price: Number(price) || 0,
                     wilaya: wilaya || '',
@@ -279,7 +279,7 @@
 
     <div class="top-marquee">
         <div class="marquee-content">
-            <span>✨ توصيل مضمون لـ 58 ولاية جزائرية ✨</span><span>|</span><span>💎 الدفع نقداً عند استلاستيلي طلبيتك 💎</span><span>|</span><span>✨ مجوهرات Stainless Steel لا يتغير لونها ✨</span>
+            <span>✨ توصيل مضمون لـ 58 ولاية جزائرية ✨</span><span>|</span><span>💎 الدفع نقداً عند استلام طلبيتك 💎</span><span>|</span><span>✨ مجوهرات Stainless Steel لا يتغير لونها ✨</span>
         </div>
     </div>
 
@@ -561,7 +561,7 @@
                     ${priceHTML}
                     ${scarcityHTML}
                     ${product.quantity > 0 
-                        ? `<button class="btn-order-outline" onclick="event.stopPropagation(); openOrderModal('${safeName}', ${product.price})">أطلبي الآن</button>` 
+                        ? `<button class="btn-order-outline" onclick="event.stopPropagation(); openOrderModal('${safeName}',${product.price})">أطلبي الآن</button>` 
                         : `<button class="btn-order-outline" style="border-color:#555; color:#555; cursor:not-allowed;" disabled>نفذت الكمية</button>`}
                 </div>
             `;
@@ -916,32 +916,25 @@
             if (!wilayaVal) { alert("يرجى اختيار الولاية."); return; }
             if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
-            const submitBtn = document.getElementById('submitOrderBtn');
-            submitBtn.innerText = "جاري تأكيد طلبك... ⏳";
-            submitBtn.disabled = true;
-
-            const formData = new FormData(form);
             const orderedProdName = document.getElementById("productInput").value;
+
+            // تسجيل الطلب محلياً وإظهار رسالة النجاح فوراً بدون أي انتظار للسيرفر الخارجي
+            recordGlameEvent('purchase', orderedProdName, currentProductPrice, wilayaVal);
+            trackAdPurchase(orderedProdName, currentProductPrice);
             
+            document.getElementById('orderModal').style.display = "none";
+            document.getElementById('successModal').style.display = "flex";
+            
+            const formData = new FormData(form);
+            form.reset(); 
+
+            // إرسال البريد الإلكتروني في الخلفية بصمت تام
             fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
                 method: "POST",
                 body: formData,
                 headers: { 'Accept': 'application/json' }
-            })
-            .then(response => response.json())
-            .then(data => {
-                recordGlameEvent('purchase', orderedProdName, currentProductPrice, wilayaVal);
-                trackAdPurchase(orderedProdName, currentProductPrice);
-                document.getElementById('orderModal').style.display = "none";
-                document.getElementById('successModal').style.display = "flex";
-                form.reset(); 
-                submitBtn.innerText = "تأكيد الشراء 🛒";
-                submitBtn.disabled = false;
-            })
-            .catch(error => {
-                alert("عذراً، حدث خطأ يرجى التأكد من اتصالك بالإنترنت.");
-                submitBtn.innerText = "تأكيد الشراء 🛒";
-                submitBtn.disabled = false;
+            }).catch(error => {
+                console.log("Background email sync note:", error);
             });
         });
     </script>
