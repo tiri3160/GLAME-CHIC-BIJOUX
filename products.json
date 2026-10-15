@@ -62,5 +62,14 @@
     "price": 1500,
     "quantity": 5,
     "image": "prod_1791895485533.jpeg"
+  },
+  {
+    "id": 1792083450009,
+    "name": "Montre perler",
+    "category": "ساعات",
+    "price": 950,
+    "oldPrice": 0,
+    "quantity": 8,
+    "image": "prod_1792083447407.jpg"
   }
 ]
