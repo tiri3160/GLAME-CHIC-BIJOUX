@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLAME CHIC | رادار الإحصائيات الحقيقية المباشر</title>
+    <title>GLAME CHIC | رادار الإحصائيات المحلي المباشر</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
@@ -53,11 +53,6 @@
         .badge-green { background: rgba(46, 204, 113, 0.15); color: var(--green); border-color: rgba(46, 204, 113, 0.3); }
         .badge-blue { background: rgba(52, 152, 219, 0.15); color: var(--blue); border-color: rgba(52, 152, 219, 0.3); }
 
-        .funnel-step { margin-bottom: 14px; }
-        .funnel-label { display: flex; justify-content: space-between; font-size: 0.88em; margin-bottom: 5px; }
-        .bar-bg { background: #1a1a1a; height: 9px; border-radius: 8px; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--gold); border-radius: 8px; width: 0%; transition: width 0.6s ease; }
-
         .empty-state { text-align: center; padding: 25px 10px; color: var(--muted); font-size: 0.9em; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed #2a2a2a; }
     </style>
 </head>
@@ -66,11 +61,11 @@
         <header>
             <div class="header-title">
                 <span class="live-dot"></span>
-                <h1>رادار GLAME CHIC | الإحصائيات الحقيقية</h1>
+                <h1>رادار GLAME CHIC | الإحصائيات المحلية</h1>
             </div>
             <div class="header-actions">
-                <button class="btn btn-gold" onclick="syncAndRender()"><i class="fas fa-sync-alt"></i> تحديث الآن</button>
-                <button class="btn btn-outline" onclick="resetAllStats()"><i class="fas fa-trash-alt"></i> تصفير العداد</button>
+                <button class="btn btn-gold" onclick="loadAndRenderStats()"><i class="fas fa-sync-alt"></i> تحديث الآن</button>
+                <button class="btn btn-outline" onclick="resetStats()"><i class="fas fa-trash-alt"></i> تصفير العداد</button>
             </div>
         </header>
 
@@ -109,18 +104,18 @@
         </div>
 
         <div class="main-grid">
-            <!-- 1. القطع الحقيقية من موقعك الأكثر مشاهدة وطلباً -->
+            <!-- 1. القطع الحقيقية الأكثر مشاهدة -->
             <div class="section-box">
                 <h2>
-                    <span><i class="fas fa-crown"></i> القطع الحقيقية الأكثر مشاهدة وطلباً</span>
+                    <span><i class="fas fa-crown"></i> القطع الأكثر مشاهدة وطلباً</span>
                     <span class="count-hint" id="catalogCountHint">جاري فحص كتالوج موقعك...</span>
                 </h2>
                 <ul class="stat-list" id="realProductsList">
-                    <li class="empty-state">جاري جلب بيانات القطع من متجرك...</li>
+                    <li class="empty-state">جاري جلب بيانات القطع...</li>
                 </ul>
             </div>
 
-            <!-- 2. المصادر + القمع الشرائي + الولايات -->
+            <!-- 2. المصادر والقمع -->
             <div style="display: flex; flex-direction: column; gap: 20px;">
                 <div class="section-box">
                     <h2><span><i class="fas fa-bullseye"></i> مصادر دخول الزوار</span></h2>
@@ -141,56 +136,36 @@
                 <ul class="stat-list" id="wilayasList"></ul>
             </div>
 
-            <!-- سجل النشاط الحي المباشر -->
+            <!-- سجل النشاط الحي -->
             <div class="section-box">
-                <h2><span><i class="fas fa-bolt"></i> آخر تحركات الزوار الحقيقية (مباشر)</span></h2>
+                <h2><span><i class="fas fa-bolt"></i> آخر تحركات الزوار (مباشر)</span></h2>
                 <ul class="stat-list" id="liveActivityFeed"></ul>
             </div>
         </div>
     </div>
 
     <script>
-        const GLAME_CLOUD_SYNC = "https://kvdb.io/A6Xy9kLmP3vR8nQw2jTz7B/glamechic_live_v1";
         let storeCatalog = [];
 
-        // جلب المنتجات الحقيقية الموجودة في ملف products.json الخاص بموقعك
-        async function loadRealStoreCatalog() {
+        async function loadStoreCatalog() {
             try {
                 const res = await fetch('products.json?t=' + Date.now());
                 if (res.ok) {
                     storeCatalog = await res.json();
-                    document.getElementById('catalogCountHint').innerText = `مربوط بـ ${storeCatalog.length} قطعة في متجرك ✅`;
+                    document.getElementById('catalogCountHint').innerText = `مربوط بـ ${storeCatalog.length} قطعة ✅`;
                 }
             } catch(e) {
-                document.getElementById('catalogCountHint').innerText = 'يتتبع النقرات مباشرة';
+                document.getElementById('catalogCountHint').innerText = 'جاهز للرصد';
             }
         }
 
-        async function syncAndRender() {
+        async function loadAndRenderStats() {
+            await loadStoreCatalog();
             let events = [];
-
-            // 1. جلب سجل كل الزوار من السحابة المركزية
             try {
-                const res = await fetch(GLAME_CLOUD_SYNC + '?t=' + Date.now());
-                if (res.ok) {
-                    const cloudData = await res.json();
-                    if (Array.isArray(cloudData)) events = cloudData;
-                }
-            } catch(e) {}
+                events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+            } catch(e) { events = []; }
 
-            // 2. دمج أي أحداث محلية لضمان عدم ضياع أي نقرة
-            try {
-                const localData = JSON.parse(localStorage.getItem('glame_real_events') || '[]');
-                const existingIds = new Set(events.map(ev => ev.id));
-                localData.forEach(ev => {
-                    if (ev.id && !existingIds.has(ev.id)) events.push(ev);
-                });
-            } catch(e) {}
-
-            renderDashboard(events);
-        }
-
-        function renderDashboard(events) {
             const visits = events.filter(e => e.type === 'visit');
             const prodViews = events.filter(e => e.type === 'product_view');
             const initOrders = events.filter(e => e.type === 'initiate_order');
@@ -198,15 +173,14 @@
             const purchases = events.filter(e => e.type === 'purchase');
             const catViews = events.filter(e => e.type === 'category');
 
-            // حساب الإجماليات
-            const totalVisitsCount = visits.length || (events.length > 0 ? 1 : 0);
-            document.getElementById('statVisits').innerText = visits.length;
+            document.getElementById('statVisits').innerText = visits.length || (events.length > 0 ? 1 : 0);
             document.getElementById('statProductViews').innerText = prodViews.length;
             document.getElementById('statInitiateOrder').innerText = initOrders.length;
             document.getElementById('statWhatsappClicks').innerText = `طلبات واتساب: ${waClicks.length}`;
             document.getElementById('statPurchases').innerText = purchases.length;
 
-            const conv = visits.length > 0 ? ((purchases.length / visits.length) * 100).toFixed(1) : 0;
+            const totalV = visits.length || 1;
+            const conv = ((purchases.length / totalV) * 100).toFixed(1);
             document.getElementById('statConvRate').innerText = `معدل التحويل: ${conv}%`;
 
             const totalRev = purchases.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
@@ -216,17 +190,12 @@
             const mobPct = events.length > 0 ? Math.round((mobileEvents / events.length) * 100) : 0;
             document.getElementById('statDeviceRatio').innerText = `هاتف: ${mobPct}% | كمبيوتر: ${100 - mobPct}%`;
 
-            // ==========================================
-            // 1. ترتيب وعرض منتجاتك الحقيقية (من products.json + تفاعلات الزوار)
-            // ==========================================
+            // القطع
             const prodStats = {};
-            
-            // تهيئة كل منتجات المتجر الحقيقية أولاً لتكون معروفة بصورها وأسعارها
             storeCatalog.forEach(p => {
                 prodStats[p.name] = { name: p.name, img: p.image, views: 0, orders: 0, bought: 0 };
             });
 
-            // حساب المشاهدات والطلبات الفعلية لكل قطعة
             prodViews.forEach(e => {
                 if (!prodStats[e.item]) prodStats[e.item] = { name: e.item, img: '', views: 0, orders: 0, bought: 0 };
                 prodStats[e.item].views++;
@@ -240,15 +209,11 @@
                 prodStats[e.item].bought++;
             });
 
-            const sortedProds = Object.values(prodStats).sort((a, b) => {
-                const scoreA = (a.bought * 10) + (a.orders * 3) + a.views;
-                const scoreB = (b.bought * 10) + (b.orders * 3) + b.views;
-                return scoreB - scoreA;
-            });
-
+            const sortedProds = Object.values(prodStats).sort((a, b) => (b.bought*10 + b.orders*3 + b.views) - (a.bought*10 + a.orders*3 + a.views));
             const prodListEl = document.getElementById('realProductsList');
+            
             if (sortedProds.length === 0) {
-                prodListEl.innerHTML = `<div class="empty-state">لم يتم النقر على أي قطعة بعد. جرب فتح موقعك والضغط على أي منتج لترى اسمه الحقيقي يظهر هنا فوراً!</div>`;
+                prodListEl.innerHTML = `<div class="empty-state">لم يتم النقر على أي قطعة بعد. جرب فتح موقعك والضغط على أي منتج!</div>`;
             } else {
                 prodListEl.innerHTML = sortedProds.slice(0, 10).map((p, idx) => {
                     const thumb = p.img ? `<img src="${p.img}" class="prod-thumb" onerror="this.style.display='none'">` : '';
@@ -269,85 +234,58 @@
                 }).join('');
             }
 
-            // ==========================================
-            // 2. مصادر الزيارات الحقيقية
-            // ==========================================
+            // المصادر
             const srcMap = {};
-            (visits.length > 0 ? visits : events).forEach(e => {
-                const s = e.source || 'دخول مباشر 🔍';
-                srcMap[s] = (srcMap[s] || 0) + 1;
-            });
+            events.forEach(e => { srcMap[e.source] = (srcMap[e.source] || 0) + 1; });
             const sortedSources = Object.entries(srcMap).sort((a,b) => b[1] - a[1]);
             document.getElementById('sourcesList').innerHTML = sortedSources.length
                 ? sortedSources.map(([src, cnt]) => `<li><span>${src}</span><span class="badge">${cnt} زائر</span></li>`).join('')
-                : `<div class="empty-state">بانتظار دخول الزوار...</div>`;
+                : `<div class="empty-state">بانتظار حركة الزوار...</div>`;
 
-            // ==========================================
-            // 3. الأقسام الأكثر تصفحاً
-            // ==========================================
+            // الأقسام
             const catMap = {};
             catViews.forEach(e => { catMap[e.item] = (catMap[e.item] || 0) + 1; });
             const sortedCats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
             document.getElementById('categoriesList').innerHTML = sortedCats.length
                 ? sortedCats.map(([c, cnt]) => `<li><span>${c}</span><span class="badge">${cnt} تصفح</span></li>`).join('')
-                : `<div class="empty-state">لم يتم تصفح الأقسام الفرعية بعد</div>`;
+                : `<div class="empty-state">لم يتم تصفح الأقسام بعد</div>`;
 
-            // ==========================================
-            // 4. الولايات الأكثر طلباً
-            // ==========================================
+            // الولايات
             const wilayaMap = {};
-            purchases.forEach(e => {
-                if (e.wilaya) wilayaMap[e.wilaya] = (wilayaMap[e.wilaya] || 0) + 1;
-            });
+            purchases.forEach(e => { if (e.wilaya) wilayaMap[e.wilaya] = (wilayaMap[e.wilaya] || 0) + 1; });
             const sortedWilayas = Object.entries(wilayaMap).sort((a,b) => b[1] - a[1]);
             document.getElementById('wilayasList').innerHTML = sortedWilayas.length
                 ? sortedWilayas.map(([w, cnt]) => `<li><span>📍 ${w}</span><span class="badge badge-green">${cnt} طلبية</span></li>`).join('')
-                : `<div class="empty-state">ستظهر هنا الولايات فور إرسال أول طلبية شراء</div>`;
+                : `<div class="empty-state">ستظهر هنا الولايات فور إرسال الطلبات</div>`;
 
-            // ==========================================
-            // 5. آخر التحركات الحية
-            // ==========================================
+            // السجل الحي
             const typeLabels = {
                 'visit': '👋 دخل إلى المتجر',
                 'category': '📂 تصفح مجموعة',
                 'product_view': '🔍 فحص وكبّر صورة قطعة',
                 'initiate_order': '🛒 فتح استمارة شراء',
-                'whatsapp_click': '💬 ضغط للطلب عبر واتساب',
-                'purchase': '🎉 أرسل طلبية شراء مؤكدة!'
+                'whatsapp_click': '💬 طلب عبر واتساب',
+                'purchase': '🎉 طلبية شراء مؤكدة!'
             };
-
             const recent = events.slice(-8).reverse();
             document.getElementById('liveActivityFeed').innerHTML = recent.length
                 ? recent.map(e => {
                     const timeStr = new Date(e.ts).toLocaleTimeString('ar-DZ', { hour: '2-digit', minute: '2-digit' });
-                    const actionText = typeLabels[e.type] || 'تفاعل';
                     return `<li>
-                        <span><b>${actionText}:</b> ${e.item} <small style="color:var(--muted)">(${e.source})</small></span>
+                        <span><b>${typeLabels[e.type] || 'تفاعل'}:</b> ${e.item} <small style="color:var(--muted)">(${e.source})</small></span>
                         <span style="color:var(--gold-light); font-size:0.8em;">${timeStr}</span>
                     </li>`;
                 }).join('')
                 : `<div class="empty-state">لا توجد تحركات مسجلة حتى الآن</div>`;
         }
 
-        async function resetAllStats() {
-            if (!confirm('هل أنت متأكد من تصفير جميع الإحصائيات والبدء من الصفر؟')) return;
-            localStorage.removeItem('glame_real_events');
-            try {
-                await fetch(GLAME_CLOUD_SYNC, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify([])
-                });
-            } catch(e) {}
-            syncAndRender();
+        function resetStats() {
+            if (!confirm('هل تريد تصفير العدادات والبدء من الصفر؟')) return;
+            localStorage.removeItem('glame_local_analytics');
+            loadAndRenderStats();
         }
 
-        window.addEventListener('DOMContentLoaded', async () => {
-            await loadRealStoreCatalog();
-            await syncAndRender();
-            // تحديث تلقائي كل 15 ثانية بدون تدخل منك
-            setInterval(syncAndRender, 15000);
-        });
+        window.onload = loadAndRenderStats;
     </script>
 </body>
 </html>
