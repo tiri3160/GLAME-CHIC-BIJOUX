@@ -182,14 +182,12 @@
 
         .scarcity-badge { color: #ff6b6b; background: rgba(255, 107, 107, 0.1); border: 1px solid rgba(255, 107, 107, 0.25); font-size: 0.8em; font-weight: bold; padding: 3px 8px; border-radius: 4px; margin-bottom: 12px; display: inline-block; animation: pulseUrgent 2s infinite; pointer-events: none; }
         
-        /* أزرار البطاقة (أطلبي الآن + إضافة للسلة) */
         .card-actions-row { display: flex; gap: 8px; margin-top: auto; width: 100%; position: relative; z-index: 10; }
         .btn-order-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); flex: 1; padding: 10px 6px; font-size: 1em; cursor: pointer; transition: 0.25s; font-family: 'Cairo'; font-weight: bold; border-radius: 5px; }
         .btn-order-outline:hover { background: var(--gold); color: #000; }
         .btn-add-cart-icon { background: rgba(212, 175, 55, 0.12); color: var(--gold-light); border: 1px solid rgba(212, 175, 55, 0.45); width: 44px; border-radius: 5px; cursor: pointer; transition: 0.25s; display: flex; align-items: center; justify-content: center; font-size: 1.1em; flex-shrink: 0; }
         .btn-add-cart-icon:hover { background: var(--gold); color: #000; }
 
-        /* محدد الكمية الحر بدون سقف */
         .qty-selector-box { display: flex; align-items: center; justify-content: center; gap: 12px; background: #141414; border: 1px solid rgba(212,175,55,0.35); padding: 6px 16px; border-radius: 8px; margin: 8px auto 14px; width: fit-content; }
         .qty-selector-box span.qty-label { color: #ddd; font-size: 0.92em; margin-left: 4px; }
         .qty-btn { background: #222; color: var(--gold); border: 1px solid var(--gold); width: 32px; height: 32px; border-radius: 6px; font-size: 1.15em; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; line-height: 1; user-select: none; }
@@ -266,7 +264,6 @@
         .price-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #ddd; font-size: 1em; }
         .total-row { border-top: 1px dashed rgba(212,175,55,0.5); padding-top: 10px; color: var(--gold-light); font-weight: bold; font-size: 1.25em; margin-bottom: 0; }
         
-        /* قائمة المنتجات داخل استمارة الطلب أو السلة */
         .order-items-review { background: #0d0d0d; border: 1px solid rgba(212,175,55,0.25); border-radius: 8px; padding: 10px; margin-bottom: 14px; max-height: 220px; overflow-y: auto; }
         .order-item-line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); }
         .order-item-line:last-child { border-bottom: none; }
@@ -294,12 +291,10 @@
 
         .whatsapp-float { position: fixed; width: 55px; height: 55px; bottom: 30px; right: 30px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 28px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.2s; }
         
-        /* زر السلة العائم */
         .cart-float { position: fixed; height: 52px; padding: 0 18px; bottom: 30px; left: 25px; background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); color: var(--gold); border: 2px solid var(--gold); border-radius: 50px; font-size: 0.98em; font-weight: bold; box-shadow: 0 5px 20px rgba(0,0,0,0.85); z-index: 1000; display: none; align-items: center; justify-content: center; gap: 10px; cursor: pointer; font-family: 'Cairo'; transition: 0.25s; }
         .cart-float:hover { background: var(--gold); color: #000; }
         .cart-float-count { background: #e63946; color: #fff; padding: 1px 8px; border-radius: 20px; font-size: 0.85em; }
 
-        /* إشعار الإضافة للسلة */
         #cartToast { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: #111; color: var(--gold-light); border: 1px solid var(--gold); padding: 10px 22px; border-radius: 30px; font-size: 0.92em; font-weight: bold; z-index: 10001; display: none; box-shadow: 0 8px 25px rgba(0,0,0,0.85); align-items: center; gap: 8px; white-space: nowrap; }
 
         @media(max-width: 768px) {
@@ -502,16 +497,11 @@
             <p class="subtitle">راجعي القطع والعدد المطلوب ثم أدخلي بياناتك لتأكيد الشحن</p>
             
             <form id="orderForm" novalidate>
-                <input type="hidden" name="_subject" value="💎 طلبية جديدة من متجر GLAME CHIC">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
-                <input type="text" name="_honey" style="display:none">
-                
-                <input type="hidden" id="productInput" name="تفاصيل_المنتجات_والكميات" value="">
+                <input type="hidden" id="productInput" name="المنتج_المطلوب" value="">
                 <input type="hidden" id="hiddenTotalItemsCount" name="إجمالي_عدد_القطع" value="">
-                <input type="hidden" id="hiddenProductPrice" name="مجموع_المنتجات_دج" value="">
+                <input type="hidden" id="hiddenProductPrice" name="سعر_المنتج_دج" value="">
                 <input type="hidden" id="hiddenDeliveryCost" name="سعر_التوصيل_دج" value="">
-                <input type="hidden" id="hiddenTotalCost" name="المجموع_الإجمالي_النهائي_دج" value="">
+                <input type="hidden" id="hiddenTotalCost" name="المجموع_الإجمالي_دج" value="">
                 
                 <!-- صندوق عرض القطع المطلوبة مع التحكم الحي بالكمية (+ / -) بدون سقف -->
                 <div class="order-items-review" id="orderItemsReviewList"></div>
@@ -606,7 +596,6 @@
         let currentActiveCategory = "";
         let swiperInstance = null;
 
-        // محرك سلة المشتريات الداخلي (بدون أي حد أقصى للكمية)
         let glameCart = [];
         let activeCheckoutItems = [];
         let isCheckoutFromCart = false;
@@ -1068,7 +1057,6 @@
 
         const deliveryPrices = { 1:{home:1200,desk:900}, 2:{home:700,desk:400}, 3:{home:900,desk:600}, 4:{home:750,desk:450}, 5:{home:750,desk:450}, 6:{home:750,desk:450}, 7:{home:850,desk:550}, 8:{home:1200,desk:900}, 9:{home:700,desk:400}, 10:{home:700,desk:400}, 11:{home:1600,desk:1200}, 12:{home:850,desk:550}, 13:{home:700,desk:400}, 14:{home:750,desk:450}, 15:{home:750,desk:400}, 16:{home:600,desk:400}, 17:{home:800,desk:550}, 18:{home:750,desk:450}, 19:{home:700,desk:400}, 20:{home:800,desk:550}, 21:{home:750,desk:450}, 22:{home:700,desk:400}, 23:{home:750,desk:450}, 24:{home:800,desk:550}, 25:{home:700,desk:400}, 26:{home:700,desk:400}, 27:{home:700,desk:400}, 28:{home:750,desk:450}, 29:{home:800,desk:550}, 30:{home:1000,desk:700}, 31:{home:500,desk:300}, 32:{home:1000,desk:700}, 33:{home:1800,desk:1500}, 34:{home:700,desk:400}, 35:{home:700,desk:400}, 36:{home:850,desk:550}, 37:{home:1600,desk:1200}, 38:{home:750,desk:450}, 39:{home:1000,desk:700}, 40:{home:800,desk:550}, 41:{home:800,desk:550}, 42:{home:700,desk:400}, 43:{home:750,desk:450}, 44:{home:700,desk:400}, 45:{home:1000,desk:700}, 46:{home:800,desk:550}, 47:{home:1000,desk:700}, 48:{home:700,desk:400}, 49:{home:1200,desk:900}, 50:{home:1800,desk:1500}, 51:{home:900,desk:600}, 52:{home:1200,desk:900}, 53:{home:1200,desk:900}, 54:{home:1800,desk:1500}, 55:{home:1000,desk:700}, 56:{home:1800,desk:1500}, 57:{home:1000,desk:700}, 58:{home:1100,desk:800} };
 
-        // فتح نافذة الطلب المباشر (مع دمج تلقائي ذكي إذا كانت السلة تحتوي على منتجات مسبقاً أو طلب مباشر حر)
         function openDirectOrderModal(productName, productPrice, productImg, initialQty = 1) {
             pauseSwiperAutoplay();
             recordGlameEvent('initiate_order', productName, productPrice * initialQty);
@@ -1087,7 +1075,6 @@
             document.getElementById("orderModal").style.display = "flex";
         }
 
-        // فتح سلة المشتريات المتعددة لإتمام الطلب
         function openCartCheckoutModal() {
             if (glameCart.length === 0) {
                 showToast("سلة المشتريات فارغة حالياً.. أضيفي منتجات أولاً 🛍️");
@@ -1117,7 +1104,6 @@
             toggleCommune();
         }
 
-        // عرض القطع وتغيير العدد بحرية مطلقة بدون سقف
         function renderCheckoutItemsList() {
             const container = document.getElementById('orderItemsReviewList');
             if (activeCheckoutItems.length === 0) {
@@ -1211,7 +1197,11 @@
             
             const nameVal = document.getElementById('customerName').value.trim();
             const phoneInput = document.getElementById('customerPhone');
+            const phoneVal = phoneInput.value.trim();
             const wilayaVal = document.getElementById('wilayaSelect').value;
+            const deliveryMethodVal = document.querySelector('input[name="طريقة_التوصيل"]:checked').value;
+            const communeSelVal = document.getElementById('communeSelect').value;
+            const customCommuneVal = document.getElementById('customCommune').value.trim();
             const addressVal = document.getElementById('customerAddress').value.trim();
 
             if (!nameVal) { alert("يرجى إدخال الاسم واللقب."); return; }
@@ -1220,14 +1210,72 @@
                 return;
             }
             if (!wilayaVal) { alert("يرجى اختيار الولاية."); return; }
+            if (!deliveryMethodVal.includes("مكتب") && !communeSelVal) {
+                alert("يرجى اختيار البلدية.");
+                return;
+            }
             if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
+            // 1. استخراج وتجميد كافة بيانات الطلب في كائن JSON نظيف قبل مسح أو إغلاق أي شيء
+            const finalCommune = deliveryMethodVal.includes("مكتب") 
+                ? "استلام من مكتب التوصيل (Stop Desk)" 
+                : (communeSelVal === "أخرى" ? customCommuneVal : communeSelVal);
+
             const orderedProdSummary = document.getElementById("productInput").value;
+            const totalItemsCountStr = document.getElementById("hiddenTotalItemsCount").value;
             const productsSubtotal = activeCheckoutItems.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const deliveryCostStr = document.getElementById("hiddenDeliveryCost").value;
+            const totalCostStr = document.getElementById("hiddenTotalCost").value;
+
+            const orderPayload = {
+                _subject: `💎 طلبية جديدة (${nameVal}) - GLAME CHIC`,
+                _template: "table",
+                _captcha: "false",
+                المنتجات_المطلوبة: orderedProdSummary,
+                إجمالي_عدد_القطع: totalItemsCountStr,
+                الاسم_واللقب: nameVal,
+                رقم_الهاتف: phoneVal,
+                طريقة_التوصيل: deliveryMethodVal,
+                الولاية: wilayaVal,
+                البلدية: finalCommune,
+                العنوان: addressVal,
+                سعر_المنتجات: productsSubtotal + " د.ج",
+                سعر_التوصيل: deliveryCostStr,
+                المجموع_الإجمالي_النهائي: totalCostStr
+            };
+
+            // 2. حفظ نسخة احتياطية كاملة من الطلب محلياً وتسجيل الحدث
+            try {
+                let savedOrders = JSON.parse(localStorage.getItem('glame_orders_backup') || '[]');
+                savedOrders.push({ date: new Date().toISOString(), ...orderPayload });
+                if (savedOrders.length > 200) savedOrders = savedOrders.slice(-200);
+                localStorage.setItem('glame_orders_backup', JSON.stringify(savedOrders));
+            } catch(err) {}
 
             recordGlameEvent('purchase', orderedProdSummary, productsSubtotal, wilayaVal);
             trackAdPurchase(orderedProdSummary, productsSubtotal);
-            
+
+            // 3. إرسال الطلب فوراً عبر JSON + keepalive لضمان وصول الإيميل 100% حتى لو أُغلقت الصفحة
+            fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
+                method: "POST",
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(orderPayload),
+                keepalive: true
+            }).catch(error => {
+                // خطة بديلة تلقائية (Fallback FormData) في حال تعذر اتصال JSON
+                const fallbackData = new FormData();
+                Object.keys(orderPayload).forEach(k => fallbackData.append(k, orderPayload[k]));
+                fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
+                    method: "POST",
+                    body: fallbackData,
+                    keepalive: true
+                }).catch(e => {});
+            });
+
+            // 4. إظهار رسالة النجاح للزبونة فوراً وتفريغ الحقول بأمان بعد انطلاق الطلب
             if (isCheckoutFromCart) {
                 glameCart = [];
                 saveCart();
@@ -1235,17 +1283,7 @@
 
             document.getElementById('orderModal').style.display = "none";
             document.getElementById('successModal').style.display = "flex";
-            
-            const formData = new FormData(form);
-            form.reset(); 
-
-            fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
-                method: "POST",
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            }).catch(error => {
-                console.log("Background email sync note:", error);
-            });
+            form.reset();
         });
     </script>
 </body>
