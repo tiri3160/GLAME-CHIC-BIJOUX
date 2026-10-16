@@ -34,7 +34,7 @@
         .product-card { background: #fff; border: 1px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: 0.3s; display: flex; flex-direction: column; }
         .product-card:hover { border-color: #D4AF37; box-shadow: 0 8px 25px rgba(212,175,55,0.15); }
         
-        .product-img { width: 100%; height: 210px; object-fit: cover; background: #f9f9f9; border-bottom: 1px solid #eee; }
+        .product-img { width: 100%; height: 210px; object-fit: contain; background: #f9f9f9; border-bottom: 1px solid #eee; padding: 5px; }
         .product-details { padding: 15px; flex-grow: 1; text-align: center; }
         .product-name { font-size: 1.25em; font-weight: bold; margin: 0 0 5px; color: #111; }
         .product-price { color: #D4AF37; font-size: 1.35em; font-weight: bold; margin-bottom: 5px; }
@@ -62,7 +62,7 @@
     <div id="login-section">
         <p>أدخل المفتاح السري (Token) للاتصال بقاعدة بيانات متجرك.</p>
         <input type="text" id="githubUser" class="input-field" value="tiri3160" readonly style="background:#eee; color:#666; cursor:not-allowed;">
-        <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح السري هنا (ghp_...)">
+        <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح السري هنا (ghp_...)" autocomplete="new-password">
         <button onclick="login()">تسجيل الدخول الآمن 🔐</button>
         <div id="loginError" style="color: red; margin-top: 10px; font-weight: bold;"></div>
     </div>
@@ -93,7 +93,7 @@
             </div>
             
             <p style="font-size: 14px; margin: 10px 0 5px; color: #666; font-weight: bold;">
-                صورة المنتج (يتم رفعها ومعالجتها بدقة HD فائقة 💎 - اتركها فارغة عند التعديل للاحتفاظ بالصورة القديمة):
+                صورة المنتج (يتم تحويلها وضغطها تلقائياً بصيغة WebP فائقة الخفة 💎):
             </p>
             <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg, image/webp">
             
@@ -122,9 +122,20 @@
     let productsData = [];
     let editingIndex = -1;
 
+    // استرجاع التوكن المحفوظ محلياً تلقائياً عند فتح الصفحة
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedToken = localStorage.getItem('glame_internal_token');
+        if (savedToken) {
+            document.getElementById('githubToken').value = savedToken;
+            token = savedToken;
+            loadProducts();
+        }
+    });
+
     function login() {
         token = document.getElementById('githubToken').value.trim();
         if(!token) { document.getElementById('loginError').innerText = "يرجى إدخال المفتاح السري!"; return; }
+        localStorage.setItem('glame_internal_token', token);
         document.getElementById('loginError').innerText = "جاري الاتصال...";
         loadProducts();
     }
@@ -152,6 +163,15 @@
         }
     }
 
+    function getFastImageUrl(url, width = 300) {
+        if (!url) return 'https://via.placeholder.com/300x300/f4f4f4/D4AF37?text=GLAME+CHIC';
+        if (url.startsWith('data:') || url.startsWith('http')) {
+            return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=${width}&output=webp&q=80`;
+        }
+        const fullUrl = `https://glamechic.com/${url}`;
+        return `https://wsrv.nl/?url=${encodeURIComponent(fullUrl)}&w=${width}&output=webp&q=80`;
+    }
+
     function renderProducts() {
         const container = document.getElementById('productsContainer');
         document.getElementById('totalProducts').innerText = productsData.length + " منتج";
@@ -177,12 +197,12 @@
                 `;
                 
                 catProducts.forEach(p => {
-                    const imgSrc = p.image ? `https://raw.githubusercontent.com/${username}/${repoName}/main/${p.image}` : 'https://via.placeholder.com/300x300/f4f4f4/D4AF37?text=GLAME+CHIC';
+                    const imgSrc = getFastImageUrl(p.image, 300);
                     const oldPriceHTML = (p.oldPrice && p.oldPrice > p.price) ? `<span class="old-price-tag">${p.oldPrice} د.ج</span>` : '';
                     
                     container.innerHTML += `
                         <div class="product-card">
-                            <img src="${imgSrc}" class="product-img" alt="${p.name}">
+                            <img src="${imgSrc}" class="product-img" alt="${p.name}" loading="lazy">
                             <div class="product-details">
                                 <h3 class="product-name">${p.name}</h3>
                                 <div class="product-price">${oldPriceHTML} ${p.price} د.ج</div>
@@ -236,24 +256,18 @@
         await updateGitHubJson("حذف منتج");
     }
 
-    // معالج الصور الذكي فائق الوضوح وضغط المساحة (HD 1600px وبجودة 95% مع الحفاظ على شفافية PNG)
-    function processHighResImage(file) {
+    // معالج الصور الذكي لتحويل الضغط الفوري إلى صيغة WebP فائقة الخفة والوضوح
+    function processImageToWebP(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = event => {
-                if (file.size <= 1200 * 1024) {
-                    const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
-                    resolve({ base64: event.target.result.split(',')[1], ext: ext });
-                    return;
-                }
-
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = () => {
                     let width = img.width;
                     let height = img.height;
-                    const maxDim = 1600; 
+                    const maxDim = 1000; 
                     if (width > maxDim || height > maxDim) {
                         if (width > height) {
                             height = Math.round((height * maxDim) / width);
@@ -271,11 +285,8 @@
                     ctx.imageSmoothingQuality = 'high';
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    const isPng = file.type === 'image/png';
-                    const mimeType = isPng ? 'image/png' : 'image/jpeg';
-                    const ext = isPng ? 'png' : 'jpg';
-                    const dataUrl = canvas.toDataURL(mimeType, 0.95);
-                    resolve({ base64: dataUrl.split(',')[1], ext: ext });
+                    const dataUrl = canvas.toDataURL('image/webp', 0.82);
+                    resolve({ base64: dataUrl.split(',')[1], ext: 'webp' });
                 };
                 img.onerror = err => reject(err);
             };
@@ -305,15 +316,15 @@
             if(editingIndex > -1) imageUrl = productsData[editingIndex].image;
 
             if(imageFile) {
-                status.innerText = "💎 جاري معالجة الصورة بدقة HD ورفعها...";
-                const processed = await processHighResImage(imageFile);
+                status.innerText = "💎 جاري ضغط وتحويل الصورة إلى WebP...";
+                const processed = await processImageToWebP(imageFile);
                 const imgFileName = "prod_" + Date.now() + "." + processed.ext; 
                 
                 const imgUrlApi = `https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`;
                 const imgResponse = await fetch(imgUrlApi, {
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: "رفع صورة منتج HD", content: processed.base64 })
+                    body: JSON.stringify({ message: "رفع صورة منتج WebP", content: processed.base64 })
                 });
                 if(!imgResponse.ok) throw new Error("فشل في رفع الصورة.");
                 imageUrl = imgFileName; 
@@ -340,7 +351,7 @@
             } else {
                 productsData.push(productObj);
                 await updateGitHubJson("إضافة منتج: " + name);
-                status.innerText = "✅ تمت الإضافة بدقة HD بنجاح!";
+                status.innerText = "✅ تمت الإضافة بنجاح!";
             }
             
             cancelEdit(); setTimeout(() => { status.innerText = ""; }, 4000);
