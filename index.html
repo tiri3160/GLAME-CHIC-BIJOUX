@@ -6,7 +6,7 @@
     <title>GLAME CHIC BIJOUX | بريق الأناقة</title>
     
     <meta property="og:title" content="GLAME CHIC BIJOUX | بريق الأناقة للمجوهرات والساعات">
-    <meta property="og:description" content="تشكيلة حصرية من المجوهرات والساعات الفاخرة المقاومة للصدأ. توصيل لـ 58 ولاية جزائرية والدفع عند الاستلاستلام.">
+    <meta property="og:description" content="تشكيلة حصرية من المجوهرات والساعات الفاخرة المقاومة للصدأ. توصيل لـ 58 ولاية جزائرية والدفع عند الاستلام.">
     <meta property="og:image" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/jewelry-bg.jpg">
     <meta property="og:url" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/">
     <meta property="og:type" content="website">
@@ -332,7 +332,7 @@
 
     <div class="top-marquee">
         <div class="marquee-content">
-            <span>✨ توصيل مضمون لـ 58 ولاية جزائرية ✨</span><span>|</span><span>💎 الدفع نقداً عند استلاستلام طلبيتك 💎</span><span>|</span><span>✨ مجوهرات Stainless Steel لا يتغير لونها ✨</span>
+            <span>✨ توصيل مضمون لـ 58 ولاية جزائرية ✨</span><span>|</span><span>💎 الدفع نقداً عند استلام طلبيتك 💎</span><span>|</span><span>✨ مجوهرات Stainless Steel لا يتغير لونها ✨</span>
         </div>
     </div>
 
@@ -376,13 +376,17 @@
             </div>
             <div class="feature-box">
                 <div class="feature-icon">💵</div>
-                <h3>الدفع عند الاستلاستلام</h3>
+                <h3>الدفع عند الاستلام</h3>
                 <p>تسوقي بثقة، ولا تدفعي شيئاً حتى تستلمي وتتأكدي من طلبك.</p>
             </div>
         </div>
 
         <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
         <div class="categories-grid">
+            <div class="category-card" onclick="openCategoryPage('أقراط')">
+                <img src="earrings-icon-transparent.png" alt="أقراط" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/963/963116.png'">
+                <div class="category-title">أقراط</div>
+            </div>
             <div class="category-card" onclick="openCategoryPage('خواتم')">
                 <img src="ring-icon-transparent.png" alt="خواتم" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/83/83546.png'">
                 <div class="category-title">خواتم</div>
@@ -423,6 +427,7 @@
             
             <div class="quick-cats-list">
                 <span style="color:var(--text-muted); font-size:0.85em; margin-left:5px;">انتقال سريع:</span>
+                <button class="quick-cat-btn" data-cat="أقراط" onclick="openCategoryPage('أقراط')">أقراط 💎</button>
                 <button class="quick-cat-btn" data-cat="خواتم" onclick="openCategoryPage('خواتم')">خواتم 💍</button>
                 <button class="quick-cat-btn" data-cat="أساور" onclick="openCategoryPage('أساور')">أساور 📿</button>
                 <button class="quick-cat-btn" data-cat="قلادات" onclick="openCategoryPage('قلادات')">قلادات 💎</button>
@@ -519,7 +524,7 @@
                 <div class="delivery-options" style="margin-top: 10px;">
                     <label>
                         <input type="radio" name="طريقة_التوصيل" value="مكتب توصيل (Stop Desk)" onchange="toggleCommune()"> 
-                        الاستلاستلام من المكتب
+                        الاستلام من المكتب
                     </label>
                     <label>
                         <input type="radio" name="طريقة_التوصيل" value="توصيل للمنزل" checked onchange="toggleCommune()"> 
@@ -574,7 +579,7 @@
 
     <footer id="contact">
         <span class="footer-logo">GLAME CHIC BIJOUX</span>
-        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 58 ولاية | الدفع عند الاستلاستلام</p>
+        <p>الأناقة التي تليق بك &copy; 2026<br>توصيل لـ 58 ولاية | الدفع عند الاستلام</p>
         <div class="contact-info">
             <p style="margin-bottom: 10px;">للاستفسار والتواصل:</p>
             <a href="tel:0779665820"><i class="fas fa-phone-alt"></i> 0779665820</a>
@@ -1211,7 +1216,7 @@
             if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
             const finalCommune = deliveryMethodVal.includes("مكتب") 
-                ? "استلاستلام من مكتب التوصيل (Stop Desk)" 
+                ? "استلام من مكتب التوصيل (Stop Desk)" 
                 : (communeSelVal === "أخرى" ? customCommuneVal : communeSelVal);
 
             const orderedProdSummary = document.getElementById("productInput").value;
