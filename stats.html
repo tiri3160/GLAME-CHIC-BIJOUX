@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رادار الإحصائيات والسجل التاريخي | GLAME CHIC</title>
+    <title>رادار الإحصائيات (Cloudflare D1) | GLAME CHIC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
@@ -20,8 +20,6 @@
         .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
         .btn-action { background: #1e1e1e; color: var(--gold); border: 1px solid var(--gold); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; font-size: 0.9em; display: flex; align-items: center; gap: 6px; transition: 0.2s; text-decoration: none; }
         .btn-action:hover { background: var(--gold); color: #000; }
-        .btn-danger { background: rgba(230,57,70,0.15); border-color: #dc3545; color: #ff6b6b; }
-        .btn-danger:hover { background: #dc3545; color: #fff; }
 
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .kpi-card { background: var(--card); border: 1px solid rgba(255,255,255,0.07); padding: 18px; border-radius: 10px; position: relative; overflow: hidden; }
@@ -30,14 +28,9 @@
         .kpi-value { font-size: 2em; font-weight: bold; color: #fff; }
         .kpi-sub { font-size: 0.8em; color: var(--gold); margin-top: 4px; }
 
-        .calendar-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px; margin-bottom: 25px; }
-        .calendar-section h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .calendar-tools { display: flex; gap: 15px; flex-wrap: wrap; align-items: center; margin-bottom: 15px; }
-        .calendar-tools input[type="date"] { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 10px 15px; border-radius: 8px; font-family: 'Cairo'; font-size: 1em; }
-
         .panels-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
         .panel-box { background: var(--card); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 18px; }
-        .panel-box h3 { color: var(--gold); font-size: 1.15em; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: 'Amiri', serif; }
+        .panel-box h3 { color: var(--gold); font-size: 1.15em; margin-bottom: 15px; border-bottom: 1px solid #222; padding-bottom: 10px; font-family: 'Amiri', serif; }
 
         .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 8px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.95em; }
         .badge-count { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.35); padding: 2px 10px; border-radius: 20px; font-weight: bold; font-size: 0.85em; }
@@ -47,16 +40,6 @@
         th { background: #1a1a1a; color: var(--gold); padding: 11px 10px; border-bottom: 1px solid #333; white-space: nowrap; }
         td { padding: 10px; border-bottom: 1px solid #1e1e1e; color: #ddd; }
         tr:hover td { background: rgba(212,175,55,0.04); }
-
-        .type-tag { padding: 3px 8px; border-radius: 5px; font-size: 0.8em; font-weight: bold; display: inline-block; }
-        .tag-visit { background: rgba(52, 152, 219, 0.15); color: #5dade2; }
-        .tag-view { background: rgba(155, 89, 182, 0.15); color: #af7ac5; }
-        .tag-cart { background: rgba(243, 156, 18, 0.15); color: #f5b041; }
-        .tag-buy { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
-        .tag-wa { background: rgba(37, 211, 102, 0.15); color: #25d366; }
-
-        .btn-del { background: rgba(230,57,70,0.15); color: #ff6b6b; border: 1px solid rgba(230,57,70,0.4); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85em; }
-        .btn-del:hover { background: #dc3545; color: #fff; }
     </style>
 </head>
 <body>
@@ -64,23 +47,21 @@
 <div class="container">
     <div class="header-bar">
         <div class="header-title">
-            <h1><span class="live-dot"></span> رادار الإحصائيات والسجل التاريخي | GLAME CHIC</h1>
+            <h1><span class="live-dot"></span> رادار الإحصائيات (Cloudflare D1)</h1>
         </div>
         <div class="btn-group">
-            <button class="btn-action" onclick="syncAllAnalytics()"><i class="fas fa-sync-alt"></i> تحديث مباشر</button>
+            <button class="btn-action" onclick="fetchWorkerData()"><i class="fas fa-sync-alt"></i> تحديث مباشر</button>
             <a href="index.html" class="btn-action"><i class="fas fa-store"></i> عرض المتجر</a>
-            <button class="btn-action btn-danger" onclick="clearAllAnalytics()"><i class="fas fa-trash"></i> تصفير الإحصائيات</button>
         </div>
     </div>
 
-    <!-- البطاقات الرئيسية -->
     <div class="kpi-grid">
         <div class="kpi-card">
-            <div class="kpi-title">إجمالي الزوار (الجلسات) 👥</div>
+            <div class="kpi-title">إجمالي الزوار 👥</div>
             <div class="kpi-value" id="kpiVisitors">0</div>
         </div>
         <div class="kpi-card">
-            <div class="kpi-title">فحص وتكبير القطع 🔍</div>
+            <div class="kpi-title">فحص القطع 🔍</div>
             <div class="kpi-value" id="kpiProductViews">0</div>
         </div>
         <div class="kpi-card">
@@ -94,47 +75,8 @@
         </div>
     </div>
 
-    <!-- الرزنامة التاريخية (باليوم والشهر والسنة) -->
-    <div class="calendar-section">
-        <h3>
-            <span>📅 الرزنامة والسجل التاريخي للأيام</span>
-            <button type="button" class="btn-action" onclick="setTodayCalendar()">عرض اليوم الحالي 🌟</button>
-        </h3>
-        <div class="calendar-tools">
-            <div style="flex:1; min-width:240px;">
-                <label style="display:block; color:#aaa; font-size:0.85em; margin-bottom:5px;">اختر تاريخ اليوم:</label>
-                <input type="date" id="calendarFilterDate" onchange="renderCalendarJournal()">
-            </div>
-            <div style="background:#1a1a1a; padding:10px 15px; border-radius:8px; border:1px solid #333;">
-                <span style="color:#aaa; font-size:0.8em; display:block;">مبيعات اليوم المحدد:</span>
-                <b id="calDayRev" style="color:#2ecc71; font-size:1.1em;">0 د.ج</b>
-            </div>
-        </div>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>التوقيت</th>
-                        <th>نوع الحدث</th>
-                        <th>التفاصيل والمشتري</th>
-                        <th>المبلغ</th>
-                        <th>حذف</th>
-                    </tr>
-                </thead>
-                <tbody id="calendarEventsBody">
-                    <tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">اختر تاريخاً أعلاه لعرض أحداث اليوم.</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- سجل الطلبيات المباشر -->
     <div class="panel-box" style="margin-bottom: 25px; border-color: rgba(46, 204, 113, 0.35);">
-        <h3>
-            <span>📦 سجل الطلبيات المؤكدة</span>
-            <span class="badge-count" id="ordersCountBadge" style="background:rgba(46,204,113,0.2); color:#2ecc71;">0 طلبية</span>
-        </h3>
+        <h3>📦 سجل الطلبيات المؤكدة</h3>
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -144,11 +86,10 @@
                         <th>المنتجات والكمية</th>
                         <th>الولاية والعنوان</th>
                         <th>المبلغ</th>
-                        <th>إجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
-                    <tr><td colspan="6" style="text-align:center; color:#777; padding:20px;">لا توجد طلبيات مسجلة بعد.</td></tr>
+                    <tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">جاري جلب الطلبيات...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -164,62 +105,23 @@
             <div id="trafficSourcesList"></div>
         </div>
     </div>
-
-    <!-- البث الحي الشامل -->
-    <div class="panel-box">
-        <h3>⚡ البث الحي لحركة الزبائن (آخر 100 حركة)</h3>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>الوقت</th>
-                        <th>نوع الحركة</th>
-                        <th>القطعة / القسم</th>
-                        <th>المصدر</th>
-                        <th>الجهاز</th>
-                        <th>حذف</th>
-                    </tr>
-                </thead>
-                <tbody id="liveEventsBody"></tbody>
-            </table>
-        </div>
-    </div>
 </div>
 
 <script>
-    const GLAME_BIN_ID = "66f427fce41b4d34e432a677";
+    // ضع هنا رابط جلب البيانات من Cloudflare Worker الخاص بك
+    const CLOUDFLARE_WORKER_FETCH_URL = "https://رابط_الـ_worker_الخاص_بك.workers.dev/api/events";
 
-    async function syncAllAnalytics() {
-        let localEvents = [];
+    async function fetchWorkerData() {
+        if (!CLOUDFLARE_WORKER_FETCH_URL.startsWith('http')) return;
         try {
-            localEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-        } catch(e) {}
-
-        let cloudEvents = [];
-        try {
-            const res = await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}/latest`, {
-                headers: { 'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe' },
-                cache: 'no-store'
-            });
+            const res = await fetch(CLOUDFLARE_WORKER_FETCH_URL);
             if (res.ok) {
-                const json = await res.json();
-                let cloudData = json.record || [];
-                if (Array.isArray(cloudData)) cloudEvents = cloudData;
+                const events = await res.json();
+                if (Array.isArray(events)) {
+                    renderDashboard(events);
+                }
             }
-        } catch(err) {}
-
-        const map = new Map();
-        [...localEvents, ...cloudEvents].forEach(ev => {
-            if (ev && ev.id) map.set(ev.id, ev);
-        });
-
-        const allEvents = Array.from(map.values()).sort((a, b) => new Date(b.ts) - new Date(a.ts));
-        localStorage.setItem('glame_local_analytics', JSON.stringify(allEvents.slice(0, 400)));
-
-        renderDashboard(allEvents);
-        if(document.getElementById('calendarFilterDate').value) {
-            renderCalendarJournal();
-        }
+        } catch(e) {}
     }
 
     function renderDashboard(events) {
@@ -228,8 +130,7 @@
         const carts = events.filter(e => e.type === 'add_to_cart' || e.type === 'initiate_order');
         const purchases = events.filter(e => e.type === 'purchase');
 
-        const uniqueSessions = new Set(events.map(e => e.sid || e.id)).size;
-        document.getElementById('kpiVisitors').innerText = Math.max(visits.length, uniqueSessions);
+        document.getElementById('kpiVisitors').innerText = new Set(events.map(e => e.sid)).size || visits.length;
         document.getElementById('kpiProductViews').innerText = views.length;
         document.getElementById('kpiCartAdds').innerText = carts.length;
         document.getElementById('kpiPurchases').innerText = purchases.length;
@@ -237,15 +138,15 @@
         const totalRev = purchases.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
         document.getElementById('kpiRevenue').innerText = `${totalRev.toLocaleString()} د.ج إجمالي المبيعات`;
 
-        // 1. جدول الطلبيات
-        document.getElementById('ordersCountBadge').innerText = `${purchases.length} طلبية`;
         const ordersBody = document.getElementById('ordersTableBody');
         if (purchases.length === 0) {
-            ordersBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#777; padding:20px;">لا توجد طلبيات مسجلة حتى الآن.</td></tr>`;
+            ordersBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">لا توجد طلبيات مسجلة حتى الآن.</td></tr>`;
         } else {
-            ordersBody.innerHTML = purchases.map((p, i) => {
+            ordersBody.innerHTML = purchases.map(p => {
                 const timeStr = new Date(p.ts).toLocaleString('ar-DZ', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
-                const ex = p.extra || {};
+                let ex = {};
+                try { ex = typeof p.extra === 'string' ? JSON.parse(p.extra) : (p.extra || {}); } catch(err) {}
+                
                 const customerInfo = ex.name ? `<b>${ex.name}</b><br><a href="tel:${ex.phone}" style="color:var(--gold); text-decoration:none;">📞 ${ex.phone}</a>` : 'طلب مؤكد';
                 const locationInfo = `${p.wilaya || ''}<br><span style="color:#aaa; font-size:0.85em;">${ex.commune || ''} - ${ex.address || ''}</span>`;
                 return `
@@ -255,13 +156,11 @@
                         <td style="color:var(--gold-light); font-weight:bold;">${p.item}</td>
                         <td>${locationInfo}</td>
                         <td style="color:#2ecc71; font-weight:bold; white-space:nowrap;">${ex.total || (p.price + ' د.ج')}</td>
-                        <td><button class="btn-del" onclick="deleteEvent('${p.id}')">حذف</button></td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // 2. أكثر المنتجات تفاعلاً
         const prodCounts = {};
         views.forEach(v => { prodCounts[v.item] = (prodCounts[v.item] || 0) + 1; });
         const sortedProds = Object.entries(prodCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
@@ -272,7 +171,6 @@
             </div>
         `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد معاينات بعد</p>';
 
-        // 3. مصادر الزيارات
         const srcCounts = {};
         events.forEach(e => {
             const s = e.source || 'دخول مباشر 🔍';
@@ -285,110 +183,11 @@
                 <span class="badge-count">${count} حركة</span>
             </div>
         `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد بيانات بعد</p>';
-
-        // 4. البث الحي
-        const typeLabels = {
-            'visit': '<span class="type-tag tag-visit">دخول للمتجر 🏠</span>',
-            'category': '<span class="type-tag tag-visit">تصفح قسم 📂</span>',
-            'product_view': '<span class="type-tag tag-view">فحص وتكبير 🔍</span>',
-            'add_to_cart': '<span class="type-tag tag-cart">إضافة للسلة 🛍️</span>',
-            'initiate_order': '<span class="type-tag tag-cart">فتح استمارة 📝</span>',
-            'purchase': '<span class="type-tag tag-buy">شراء مؤكد ✅</span>',
-            'whatsapp_click': '<span class="type-tag tag-wa">واتساب 💬</span>'
-        };
-
-        const liveBody = document.getElementById('liveEventsBody');
-        liveBody.innerHTML = events.slice(0, 100).map(ev => {
-            const t = new Date(ev.ts).toLocaleTimeString('ar-DZ', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-            return `
-                <tr>
-                    <td style="white-space:nowrap; color:#888;">${t}</td>
-                    <td>${typeLabels[ev.type] || ev.type}</td>
-                    <td style="font-weight:bold; color:#fff;">${ev.item} ${ev.price ? `<span style="color:var(--gold); font-size:0.85em;">(${ev.price} د.ج)</span>` : ''}</td>
-                    <td>${ev.source || '-'}</td>
-                    <td>${ev.device || '-'}</td>
-                    <td><button class="btn-del" onclick="deleteEvent('${ev.id}')">حذف</button></td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    function setTodayCalendar() {
-        const todayStr = new Date().toISOString().split('T')[0];
-        document.getElementById('calendarFilterDate').value = todayStr;
-        renderCalendarJournal();
-    }
-
-    function renderCalendarJournal() {
-        const selectedDate = document.getElementById('calendarFilterDate').value;
-        if(!selectedDate) return;
-
-        let events = [];
-        try {
-            events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-        } catch(e) {}
-
-        const dayEvents = events.filter(e => e.ts && e.ts.startsWith(selectedDate));
-        const dayPurchases = dayEvents.filter(e => e.type === 'purchase');
-        let dayRev = dayPurchases.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
-
-        document.getElementById('calDayRev').innerText = `${dayRev.toLocaleString()} د.ج`;
-
-        const tbody = document.getElementById('calendarEventsBody');
-        if (dayEvents.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777; padding:25px;">لا توجد أحداث مسجلة في تاريخ ${selectedDate}.</td></tr>`;
-            return;
-        }
-
-        tbody.innerHTML = dayEvents.map(ev => {
-            const timeStr = new Date(ev.ts).toLocaleTimeString('ar-DZ', { hour:'2-digit', minute:'2-digit' });
-            const ex = ev.extra || {};
-            let details = ev.item;
-            if(ex.name) details = `<b>${ex.name}</b> (${ex.phone}) - ${ev.item}`;
-            
-            return `
-                <tr>
-                    <td>${timeStr}</td>
-                    <td><span class="type-tag tag-${ev.type === 'purchase' ? 'buy' : 'view'}">${ev.type}</span></td>
-                    <td>${details}</td>
-                    <td style="color:var(--gold);">${ev.price ? ev.price + ' د.ج' : '-'}</td>
-                    <td><button class="btn-del" onclick="deleteEvent('${ev.id}')"><i class="fas fa-trash"></i> حذف</button></td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    function deleteEvent(id) {
-        if(!confirm("هل تريد حذف هذا الحدث من السجل؟")) return;
-        try {
-            let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-            events = events.filter(e => String(e.id) !== String(id));
-            localStorage.setItem('glame_local_analytics', JSON.stringify(events));
-            renderDashboard(events);
-            if(document.getElementById('calendarFilterDate').value) renderCalendarJournal();
-        } catch(e) {}
-    }
-
-    async function clearAllAnalytics() {
-        if (!confirm("هل أنت متأكد من تصفير جميع الإحصائيات والتحليلات؟")) return;
-        localStorage.removeItem('glame_local_analytics');
-        try {
-            await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe'
-                },
-                body: JSON.stringify([])
-            });
-        } catch(e) {}
-        syncAllAnalytics();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-        setTodayCalendar();
-        syncAllAnalytics();
-        setInterval(syncAllAnalytics, 8000);
+        fetchWorkerData();
+        setInterval(fetchWorkerData, 6000);
     });
 </script>
 </body>
