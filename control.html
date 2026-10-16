@@ -55,7 +55,7 @@
         td { padding: 12px; border-bottom: 1px solid #1a1a1a; color: #ddd; }
         tr:hover td { background: rgba(212,175,55,0.03); }
 
-        .btn-del { background: rgba(220,53,69,0.15); color: #ff6b6b; border: 1px solid rgba(220,53,69,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-del { background: rgba(230,57,70,0.15); color: #ff6b6b; border: 1px solid rgba(230,57,70,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
         .btn-del:hover { background: #dc3545; color: #fff; }
         .btn-edit { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-left: 5px; }
         .btn-edit:hover { background: #3498db; color: #fff; }
@@ -71,7 +71,6 @@
 </head>
 <body>
 
-    <!-- شاشة حماية كلمة المرور -->
     <div id="authScreen">
         <div class="auth-box">
             <h2>🛡️ GLAME CHIC COMMAND</h2>
@@ -85,7 +84,7 @@
         <div class="top-header">
             <div class="logo-area">
                 <h1>💎 GLAME CHIC COMMAND CENTER</h1>
-                <p>إدارة المخزون، الحملات مع التوقيت، الروتور، والأرباح بحرية تامة</p>
+                <p>إدارة المخزون، الحملات، السجل التاريخي الرزنامي، والأرباح بحرية تامة</p>
             </div>
             <div class="nav-actions">
                 <a href="index.html" class="btn-outline"><i class="fas fa-store"></i> متجري</a>
@@ -100,6 +99,7 @@
             <button class="tab-btn active" onclick="switchTab('tabProducts')">💎 إدارة المخزون والمنتجات</button>
             <button class="tab-btn" onclick="switchTab('tabAds')">📢 الحملات الإعلانية والتوقيت</button>
             <button class="tab-btn" onclick="switchTab('tabReturns')">📦 الروتور والمرتجعات (Stop Desk)</button>
+            <button class="tab-btn" onclick="switchTab('tabCalendar')">📅 الرزنامة والسجل التاريخي</button>
             <button class="tab-btn" onclick="switchTab('tabFinance')">💰 الحسابات والأرباح الصافية</button>
         </div>
 
@@ -277,7 +277,55 @@
             </div>
         </div>
 
-        <!-- 4. تبويب الحسابات والأرباح -->
+        <!-- 4. تبويب الرزنامة والسجل التاريخي الشامل -->
+        <div id="tabCalendar" class="tab-content">
+            <div class="form-card">
+                <h3>📅 الرزنامة والسجل التاريخي الأسبوعي والشهري</h3>
+                <div class="form-grid" style="align-items: flex-end;">
+                    <div class="input-group">
+                        <label>اختر اليوم المحدد للتفقد أو المراجعة:</label>
+                        <input type="date" id="calendarFilterDate" onchange="renderCalendarJournal()">
+                    </div>
+                    <div class="input-group">
+                        <button type="button" class="btn-outline" onclick="setTodayCalendar()">عرض اليوم الحالي 🌟</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <h4>مبيعات هذا اليوم</h4>
+                    <div class="kpi-val" id="calDayRev" style="color:#2ecc71;">0 د.ج</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>مصاريف الحملات في هذا اليوم</h4>
+                    <div class="kpi-val" id="calDayAds" style="color:#e63946;">0 د.ج</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>خسائر الروتور في هذا اليوم</h4>
+                    <div class="kpi-val" id="calDayReturns" style="color:#f1c40f;">0 د.ج</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <h3 style="padding:15px; color:var(--gold); border-bottom:1px solid #222; font-family:'Amiri',serif;">تفاصيل الأحداث والطلبيات في هذا التاريخ:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>نوع الحدث</th>
+                            <th>التفاصيل والمشتري</th>
+                            <th>المبلغ / التكلفة</th>
+                            <th>إجراءات التعديل والتحكم</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarEventsBody">
+                        <tr><td colspan="4" style="text-align:center; color:#777; padding:20px;">اختر تاريخاً أعلاه لعرض السجل الرزنامي.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5. تبويب الحسابات والأرباح -->
         <div id="tabFinance" class="tab-content">
             <div class="kpi-grid">
                 <div class="kpi-card">
@@ -326,6 +374,13 @@
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
             if(tabId === 'tabFinance') calculateFinance();
+            if(tabId === 'tabCalendar') {
+                if(!document.getElementById('calendarFilterDate').value) {
+                    setTodayCalendar();
+                } else {
+                    renderCalendarJournal();
+                }
+            }
         }
 
         let productsDB = [];
@@ -534,6 +589,7 @@
         function saveReturn(e) {
             e.preventDefault();
             const r = {
+                date: new Date().toISOString().split('T')[0],
                 client: document.getElementById('rClient').value.trim(),
                 phone: document.getElementById('rPhone').value.trim(),
                 wilaya: document.getElementById('rWilaya').value.trim(),
@@ -577,7 +633,97 @@
             renderReturns();
         }
 
-        // --- 4. الحسابات والأرباح ---
+        // --- 4. الرزنامة والسجل التاريخي الشامل ---
+        function setTodayCalendar() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            document.getElementById('calendarFilterDate').value = todayStr;
+            renderCalendarJournal();
+        }
+
+        function renderCalendarJournal() {
+            const selectedDate = document.getElementById('calendarFilterDate').value;
+            if(!selectedDate) return;
+
+            // 1. تصفية المبيعات في هذا اليوم
+            let purchases = [];
+            try {
+                let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+                purchases = events.filter(e => e.type === 'purchase' && e.ts.startsWith(selectedDate));
+            } catch(e) {}
+
+            // 2. تصفية الحملات النشطة في هذا اليوم
+            const activeAds = adsDB.filter(a => selectedDate >= a.startDate && selectedDate <= a.endDate);
+
+            // 3. تصفية الروتور في هذا اليوم
+            const dayReturns = returnsDB.filter(r => (r.date || '').startsWith(selectedDate));
+
+            let dayRev = purchases.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
+            let dayAdsCost = activeAds.reduce((sum, a) => sum + Math.round(a.budget / (a.days || 1)), 0);
+            let dayLoss = dayReturns.reduce((sum, r) => sum + r.loss, 0);
+
+            document.getElementById('calDayRev').innerText = `${dayRev.toLocaleString()} د.ج`;
+            document.getElementById('calDayAds').innerText = `${dayAdsCost.toLocaleString()} د.ج`;
+            document.getElementById('calDayReturns').innerText = `${dayLoss.toLocaleString()} د.ج`;
+
+            const tbody = document.getElementById('calendarEventsBody');
+            let rowsHTML = '';
+
+            // عرض المبيعات
+            purchases.forEach((p, idx) => {
+                const ex = p.extra || {};
+                rowsHTML += `
+                    <tr>
+                        <td><span style="background:rgba(46,204,113,0.15); color:#2ecc71; padding:3px 8px; border-radius:4px; font-weight:bold;">عملية بيع ✅</span></td>
+                        <td><b>${ex.name || 'زبون'}</b> (${ex.phone || '-'})<br><span style="color:var(--gold);">${p.item}</span></td>
+                        <td style="color:#2ecc71; font-weight:bold;">+${ex.total || (p.price + ' د.ج')}</td>
+                        <td><button class="btn-del" onclick="deleteStoreEvent('${p.id}')"><i class="fas fa-trash"></i> حذف</button></td>
+                    </tr>
+                `;
+            });
+
+            // عرض الحملات النشطة
+            activeAds.forEach((a, idx) => {
+                const daily = Math.round(a.budget / (a.days || 1));
+                rowsHTML += `
+                    <tr>
+                        <td><span style="background:rgba(212,175,55,0.15); color:var(--gold); padding:3px 8px; border-radius:4px; font-weight:bold;">حملة إعلانية 📢</span></td>
+                        <td><b>${a.name}</b><br><span style="color:#aaa; font-size:0.85em;">حصة اليوم من الميزانية</span></td>
+                        <td style="color:#e63946; font-weight:bold;">-${daily.toLocaleString()} د.ج</td>
+                        <td><span style="color:#888; font-size:0.85em;">من تبويب الحملات</span></td>
+                    </tr>
+                `;
+            });
+
+            // عرض الروتور
+            dayReturns.forEach((r, idx) => {
+                rowsHTML += `
+                    <tr>
+                        <td><span style="background:rgba(230,57,70,0.15); color:#e63946; padding:3px 8px; border-radius:4px; font-weight:bold;">مرتجع روتور ⚠️</span></td>
+                        <td><b>${r.client}</b> (${r.phone}) - ${r.wilaya}</td>
+                        <td style="color:#e63946; font-weight:bold;">-${r.loss} د.ج</td>
+                        <td><button class="btn-del" onclick="deleteReturn(${idx})"><i class="fas fa-trash"></i></button></td>
+                    </tr>
+                `;
+            });
+
+            if(rowsHTML === '') {
+                rowsHTML = `<tr><td colspan="4" style="text-align:center; color:#777; padding:25px;">لا توجد أحداث مسجلة في تاريخ ${selectedDate}.</td></tr>`;
+            }
+
+            tbody.innerHTML = rowsHTML;
+        }
+
+        function deleteStoreEvent(eventId) {
+            if(!confirm("هل تريد حذف هذا الحدث من السجل؟")) return;
+            try {
+                let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+                events = events.filter(e => String(e.id) !== String(eventId));
+                localStorage.setItem('glame_local_analytics', JSON.stringify(events));
+                renderCalendarJournal();
+            } catch(e) {}
+        }
+
+        // --- 5. الحسابات والأرباح ---
         function calculateFinance() {
             let totalAds = adsDB.reduce((sum, a) => sum + a.budget, 0);
             let totalLoss = returnsDB.reduce((sum, r) => sum + r.loss, 0);
