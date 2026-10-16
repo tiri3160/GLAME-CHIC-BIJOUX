@@ -10,18 +10,18 @@
             --accent-color: #e74c3c;
             --gold-color: #d4af37;
             --bg-color: #f8f9fa;
-            --sidebar-width: 260px;
+            --sidebar-width: 250px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: #333; display: flex; height: 100vh; overflow: hidden; }
+        body { background-color: var(--bg-color); color: #333; display: flex; height: 100vh; overflow: hidden; position: relative; }
         
         /* شاشة تسجيل الدخول الآمنة */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;
+            background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; padding: 15px;
         }
         .login-card {
-            background: #fff; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px;
+            background: #fff; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center;
         }
         .login-card h2 { margin-bottom: 10px; color: var(--primary-color); }
@@ -37,28 +37,46 @@
         .login-card button:hover { background: #b3922b; }
         .error-msg { color: var(--accent-color); font-size: 13px; margin-bottom: 10px; display: none; }
 
-        /* هيكل التطبيق الجانبي */
+        /* القائمة الجانبية المتجاوبة */
         .sidebar {
             width: var(--sidebar-width); background: var(--primary-color); color: #fff; display: flex; flex-direction: column; justify-content: space-between;
+            transition: transform 0.3s ease; z-index: 1000; flex-shrink: 0;
         }
-        .sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .sidebar-header h1 { font-size: 20px; color: var(--gold-color); }
-        .sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
-        .sidebar-menu li { padding: 12px 20px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .sidebar-header { padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h1 { font-size: 18px; color: var(--gold-color); }
+        .sidebar-menu { list-style: none; padding: 10px 0; flex-grow: 1; overflow-y: auto; }
+        .sidebar-menu li { padding: 12px 15px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 10px; font-size: 14px; }
         .sidebar-menu li:hover, .sidebar-menu li.active { background: rgba(255,255,255,0.1); border-right: 4px solid var(--gold-color); }
-        .sidebar-footer { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center; opacity: 0.7; }
+        .sidebar-footer { padding: 12px 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center; }
 
-        /* منطقة المحتوى الرئيسي */
-        .main-content { flex-grow: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        .top-bar { height: 60px; background: #fff; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
-        .workspace { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--bg-color); }
-        iframe { width: 100%; height: 100%; border: none; border-radius: 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logout-btn { background: #e74c3c; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+        /* زر إظهار/إخفاء القائمة في الموبايل */
+        .menu-toggle {
+            display: none; background: var(--primary-color); color: #fff; border: none; padding: 8px 12px; font-size: 18px; cursor: pointer; border-radius: 4px;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; width: calc(100% - var(--sidebar-width)); }
+        .top-bar { height: 55px; background: #fff; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; flex-shrink: 0; }
+        .top-bar h3 { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+        .workspace { flex-grow: 1; padding: 10px; overflow-y: auto; background: var(--bg-color); }
+        iframe { width: 100%; height: 100%; border: none; border-radius: 6px; background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .logout-btn { background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; width: 100%; }
+
+        /* تحسين العرض على الشاشات الصغيرة (الهواتف) */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar {
+                position: fixed; height: 100%; right: -250px; top: 0; transition: right 0.3s ease;
+            }
+            .sidebar.mobile-open { right: 0; }
+            .main-content { width: 100%; height: 100vh; }
+            .menu-toggle { display: inline-block; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول الآمنة والخالية من أي كلمات سر مكشوفة -->
+    <!-- شاشة تسجيل الدخول الآمنة -->
     <div id="login-screen">
         <div class="login-card">
             <h2>Glam Chic Enterprise</h2>
@@ -73,18 +91,18 @@
         </div>
     </div>
 
-    <!-- القائمة الجانبية للتنقل بين الأدوات الأربع -->
-    <div class="sidebar">
+    <!-- القائمة الجانبية -->
+    <div class="sidebar" id="sidebar">
         <div>
             <div class="sidebar-header">
                 <h1>GLAME CHIC</h1>
-                <p style="font-size: 11px; color: #aaa; margin-top: 5px;">Enterprise Suite</p>
+                <p style="font-size: 10px; color: #aaa; margin-top: 3px;">Enterprise Suite</p>
             </div>
             <ul class="sidebar-menu">
                 <li onclick="switchTab('command')" id="menu-command" class="active">📦 لوحة الطلبيات</li>
                 <li onclick="switchTab('admin')" id="menu-admin">⚙️ لوحة الإدارة</li>
                 <li onclick="switchTab('stats')" id="menu-stats">📊 لوحة الإحصائيات</li>
-                <li onclick="switchTab('control')" id="menu-control">📋 إدارة المخزون (Control)</li>
+                <li onclick="switchTab('control')" id="menu-control">📋 إدارة المخزون</li>
             </ul>
         </div>
         <div class="sidebar-footer">
@@ -95,8 +113,11 @@
     <!-- المحتوى وعرض الصفحات -->
     <div class="main-content">
         <div class="top-bar">
-            <h3 id="current-title">لوحة الطلبيات (Command)</h3>
-            <span style="font-size: 13px; color: #27ae60;">● محمي محلياً بأمان تام</span>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+                <h3 id="current-title">لوحة الطلبيات</h3>
+            </div>
+            <span style="font-size: 12px; color: #27ae60;">● محمي محلياً</span>
         </div>
         <div class="workspace">
             <iframe id="content-frame" src="command.html"></iframe>
@@ -104,6 +125,8 @@
     </div>
 
     <script>
+        let currentStoredToken = '';
+
         window.addEventListener('DOMContentLoaded', () => {
             const savedSession = localStorage.getItem('glame_enterprise_auth');
             const savedToken = localStorage.getItem('glame_api_token');
@@ -111,6 +134,7 @@
             if (savedSession === 'active') {
                 document.getElementById('login-screen').style.display = 'none';
                 if (savedToken) {
+                    currentStoredToken = savedToken;
                     document.getElementById('api-token').value = savedToken;
                 }
             }
@@ -122,9 +146,9 @@
             const remember = document.getElementById('remember-me').checked;
             const errorAlert = document.getElementById('error-alert');
 
-            // التحقق البرمجي الداخلي (لا يظهر لأي زائر)
             if (pass === 'glame2026') {
                 errorAlert.style.display = 'none';
+                currentStoredToken = token;
                 if (remember) {
                     localStorage.setItem('glame_enterprise_auth', 'active');
                     if(token) {
@@ -133,6 +157,7 @@
                 }
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('master-password').value = '';
+                injectTokenToFrame();
             } else {
                 errorAlert.style.display = 'block';
             }
@@ -144,6 +169,10 @@
             location.reload();
         }
 
+        function toggleMobileMenu() {
+            document.getElementById('sidebar').classList.toggle('mobile-open');
+        }
+
         function switchTab(tab) {
             document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
             
@@ -152,20 +181,48 @@
 
             if (tab === 'command') {
                 frame.src = 'command.html';
-                title.innerText = 'لوحة الطلبيات (Command)';
+                title.innerText = 'لوحة الطلبيات';
                 document.getElementById('menu-command').classList.add('active');
             } else if (tab === 'admin') {
                 frame.src = 'admin.html';
-                title.innerText = 'لوحة الإدارة (Admin)';
+                title.innerText = 'لوحة الإدارة';
                 document.getElementById('menu-admin').classList.add('active');
             } else if (tab === 'stats') {
                 frame.src = 'stats.html';
-                title.innerText = 'لوحة الإحصائيات (Stats)';
+                title.innerText = 'لوحة الإحصائيات';
                 document.getElementById('menu-stats').classList.add('active');
             } else if (tab === 'control') {
                 frame.src = 'control.html';
-                title.innerText = 'إدارة المخزون (Control)';
+                title.innerText = 'إدارة المخزون';
                 document.getElementById('menu-control').classList.add('active');
+            }
+
+            // إغلاق القائمة في الجوال عند اختيار قسم
+            if(window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+
+            // حقن التوكن تلقائياً بعد تحميل الصفحة الداخلية
+            frame.onload = function() {
+                injectTokenToFrame();
+            };
+        }
+
+        // دالة لحقن التوكن تلقائياً داخل الصفحات الفرعية لمنع إعادته يدويًا
+        function injectTokenToFrame() {
+            try {
+                const frame = document.getElementById('content-frame');
+                if (frame && frame.contentWindow && currentStoredToken) {
+                    // محاولة تعبئة حقل التوكن أو إرساله للـ iframe إن وجد حقل مشابه
+                    const innerDoc = frame.contentDocument || frame.contentWindow.document;
+                    const tokenInput = innerDoc.querySelector('input[type="password"], input[type="text"], textarea');
+                    if (tokenInput && !tokenInput.value) {
+                        tokenInput.value = currentStoredToken;
+                        tokenInput.dispatchEvent(new Event('input'));
+                    }
+                }
+            } catch(e) {
+                // تجاوز قيود الأمان إن وجدت بين النطاقات الفرعية
             }
         }
     </script>
