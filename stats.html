@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رادار الإحصائيات (Cloudflare D1) | GLAME CHIC</title>
+    <title>رادار الإحصائيات (Cloudflare Worker) | GLAME CHIC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
@@ -40,6 +40,7 @@
         th { background: #1a1a1a; color: var(--gold); padding: 11px 10px; border-bottom: 1px solid #333; white-space: nowrap; }
         td { padding: 10px; border-bottom: 1px solid #1e1e1e; color: #ddd; }
         tr:hover td { background: rgba(212,175,55,0.04); }
+        @media(max-width: 768px) { .panels-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -47,7 +48,7 @@
 <div class="container">
     <div class="header-bar">
         <div class="header-title">
-            <h1><span class="live-dot"></span> رادار الإحصائيات (Cloudflare D1)</h1>
+            <h1><span class="live-dot"></span> رادار الإحصائيات (Cloudflare Worker)</h1>
         </div>
         <div class="btn-group">
             <button class="btn-action" onclick="fetchWorkerData()"><i class="fas fa-sync-alt"></i> تحديث مباشر</button>
@@ -108,11 +109,9 @@
 </div>
 
 <script>
-    // ضع هنا رابط جلب البيانات من Cloudflare Worker الخاص بك
-    const CLOUDFLARE_WORKER_FETCH_URL = "https://رابط_الـ_worker_الخاص_بك.workers.dev/api/events";
+    const CLOUDFLARE_WORKER_FETCH_URL = "https://glame-tracker.warriorlegend3160.workers.dev/";
 
     async function fetchWorkerData() {
-        if (!CLOUDFLARE_WORKER_FETCH_URL.startsWith('http')) return;
         try {
             const res = await fetch(CLOUDFLARE_WORKER_FETCH_URL);
             if (res.ok) {
