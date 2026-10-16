@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة الإدارة المباشرة (Admin Panel) | GLAME CHIC</title>
+    <title>لوحة الإدارة المتكاملة | GLAME CHIC</title>
     <meta name="robots" content="noindex, nofollow">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -57,19 +57,19 @@
 <body>
 
 <div class="container">
-    <h1>👑 الإدارة المباشرة (Admin Panel) | GLAME CHIC</h1>
+    <h1>👑 الإدارة المتكاملة | GLAME CHIC</h1>
 
     <div id="login-section">
-        <p>أدخل مفتاح GitHub الآمن (Token) للاتصال المباشر بملفات المتجر.</p>
+        <p>أدخل المفتاح السري (Token) للاتصال بقاعدة بيانات متجرك.</p>
         <input type="text" id="githubUser" class="input-field" value="tiri3160" readonly style="background:#eee; color:#666; cursor:not-allowed;">
-        <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح هنا (ghp_...)">
-        <button onclick="login()">تسجيل الدخول المباشر 🔐</button>
+        <input type="password" id="githubToken" class="input-field" placeholder="الصق المفتاح السري هنا (ghp_...)">
+        <button onclick="login()">تسجيل الدخول الآمن 🔐</button>
         <div id="loginError" style="color: red; margin-top: 10px; font-weight: bold;"></div>
     </div>
 
     <div id="dashboard-section">
         <div class="form-group">
-            <h2 style="margin-top: 0; color: #111;">➕ إضافة أو تعديل منتج</h2>
+            <h2 style="margin-top: 0; color: #111;">➕ إضافة / تعديل منتج</h2>
             <div id="statusMessage"></div>
             <div id="errorMessage"></div>
             
@@ -77,38 +77,38 @@
                 <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج (مثال: أقراط اللؤلؤ الملكية)">
                 <select id="prodCategory" class="input-field">
                     <option value="" disabled selected>-- اختر مجموعة المنتج --</option>
-                    <option value="أقراط">أقراط 💎</option>
+                    <option value="أقراط">أقراط 🪞</option>
                     <option value="خواتم">خواتم 💍</option>
                     <option value="أساور">أساور 📿</option>
                     <option value="قلادات">قلادات 💎</option>
-                    <option value="أطقم">أطقم كاملة ✨</option>
+                    <option value="أطقم">أطقم كاملة 👑</option>
                     <option value="ساعات">ساعات ⌚</option>
                 </select>
             </div>
 
             <div class="form-grid">
-                <input type="number" id="prodPrice" class="input-field" placeholder="السعر الحالي (د.ج)">
-                <input type="number" id="prodOldPrice" class="input-field" placeholder="السعر القديم للتخفيض (اختياري)">
+                <input type="number" id="prodPrice" class="input-field" placeholder="السعر الحالي للبيع (د.ج)">
+                <input type="number" id="prodOldPrice" class="input-field" placeholder="السعر القديم قبل التخفيض (اختياري)">
                 <input type="number" id="prodQuantity" class="input-field" placeholder="الكمية المتوفرة">
             </div>
             
             <p style="font-size: 14px; margin: 10px 0 5px; color: #666; font-weight: bold;">
-                صورة المنتج (يتم رفعها وربطها تلقائياً بالمتجر):
+                صورة المنتج (يتم رفعها ومعالجتها بدقة HD فائقة 💎 - اتركها فارغة عند التعديل للاحتفاظ بالصورة القديمة):
             </p>
             <input type="file" id="prodImage" class="input-field" accept="image/png, image/jpeg, image/webp">
             
-            <button onclick="saveProduct()" id="saveBtn">حفظ ونشر فوري على الموقع 🚀</button>
+            <button onclick="saveProduct()" id="saveBtn">حفظ ونشر في الموقع المباشر 🚀</button>
             <button onclick="cancelEdit()" id="cancelBtn" style="display:none; background:#6c757d; color:#fff;">إلغاء التعديل</button>
         </div>
 
         <div class="products-header">
-            <h2 style="margin: 0;">📦 منتجاتك الحالية على GitHub</h2>
+            <h2 style="margin: 0;">📦 منتجاتك الحالية مرتبة بالفئة</h2>
             <span id="totalProducts" style="background: #111; color: #D4AF37; padding: 5px 15px; border-radius: 20px; font-weight: bold;">0 منتج</span>
         </div>
         
         <div class="products-grid" id="productsContainer">
             <div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">
-                جاري تحميل منتجاتك الحقيقية من GitHub... ⏳
+                جاري تحميل منتجاتك من قاعدة البيانات... ⏳
             </div>
         </div>
     </div>
@@ -124,8 +124,8 @@
 
     function login() {
         token = document.getElementById('githubToken').value.trim();
-        if(!token) { document.getElementById('loginError').innerText = "يرجى إدخال المفتاح!"; return; }
-        document.getElementById('loginError').innerText = "جاري الاتصال بقاعدة البيانات...";
+        if(!token) { document.getElementById('loginError').innerText = "يرجى إدخال المفتاح السري!"; return; }
+        document.getElementById('loginError').innerText = "جاري الاتصال...";
         loadProducts();
     }
 
@@ -137,7 +137,7 @@
                 productsData = [];
                 await updateGitHubJson("إنشاء قاعدة البيانات");
             } else if (!response.ok) {
-                throw new Error("المفتاح غير صحيح أو منتهي الصلاحية.");
+                throw new Error("المفتاح السري (Token) غير صحيح أو منتهي الصلاحية.");
             } else {
                 const data = await response.json();
                 productsSha = data.sha;
@@ -158,7 +158,7 @@
         container.innerHTML = "";
         
         if(productsData.length === 0) { 
-            container.innerHTML = `<div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">لا توجد أي منتجات حالياً. أضف منتجك الأول!</div>`; 
+            container.innerHTML = `<div style="text-align: center; width: 100%; grid-column: 1 / -1; padding: 40px; color: #888;">لا توجد أي منتجات حالياً. أضف منتجك الأول من الأعلى!</div>`; 
             return; 
         }
 
@@ -186,7 +186,7 @@
                             <div class="product-details">
                                 <h3 class="product-name">${p.name}</h3>
                                 <div class="product-price">${oldPriceHTML} ${p.price} د.ج</div>
-                                <div class="product-stock">الكمية: <b>${p.quantity}</b></div>
+                                <div class="product-stock">الكمية المتوفرة: <b>${p.quantity}</b></div>
                             </div>
                             <div class="card-actions">
                                 <button class="btn-edit" onclick="editProduct(${p.originalIndex})">تعديل ✏️</button>
@@ -208,7 +208,9 @@
         document.getElementById('prodOldPrice').value = p.oldPrice || "";
         document.getElementById('prodQuantity').value = p.quantity;
         
-        document.getElementById('saveBtn').innerText = "تحديث المنتج 🔄";
+        document.getElementById('saveBtn').innerText = "حفظ التعديلات 🔄";
+        document.getElementById('saveBtn').style.background = "#D4AF37";
+        document.getElementById('saveBtn').style.color = "#111";
         document.getElementById('cancelBtn').style.display = "block";
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -222,19 +224,63 @@
         document.getElementById('prodQuantity').value = "";
         document.getElementById('prodImage').value = "";
         
-        document.getElementById('saveBtn').innerText = "حفظ ونشر فوري على الموقع 🚀";
+        document.getElementById('saveBtn').innerText = "حفظ ونشر في الموقع المباشر 🚀";
+        document.getElementById('saveBtn').style.background = "#111";
+        document.getElementById('saveBtn').style.color = "#D4AF37";
         document.getElementById('cancelBtn').style.display = "none";
     }
 
     async function deleteProduct(index) {
         if(!confirm("هل أنت متأكد من حذف هذا المنتج نهائياً من الموقع؟")) return;
         productsData.splice(index, 1);
-        try {
-            await updateGitHubJson("حذف منتج عبر لوحة التحكم");
-            alert("تم الحذف وتحديث الموقع فوراً! 🗑️");
-        } catch(err) {
-            alert("حدث خطأ أثناء الحذف على GitHub.");
-        }
+        await updateGitHubJson("حذف منتج");
+    }
+
+    // معالج الصور الذكي فائق الوضوح وضغط المساحة (HD 1600px وبجودة 95% مع الحفاظ على شفافية PNG)
+    function processHighResImage(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = event => {
+                if (file.size <= 1200 * 1024) {
+                    const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
+                    resolve({ base64: event.target.result.split(',')[1], ext: ext });
+                    return;
+                }
+
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 1600; 
+                    if (width > maxDim || height > maxDim) {
+                        if (width > height) {
+                            height = Math.round((height * maxDim) / width);
+                            width = maxDim;
+                        } else {
+                            width = Math.round((width * maxDim) / height);
+                            height = maxDim;
+                        }
+                    }
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const isPng = file.type === 'image/png';
+                    const mimeType = isPng ? 'image/png' : 'image/jpeg';
+                    const ext = isPng ? 'png' : 'jpg';
+                    const dataUrl = canvas.toDataURL(mimeType, 0.95);
+                    resolve({ base64: dataUrl.split(',')[1], ext: ext });
+                };
+                img.onerror = err => reject(err);
+            };
+            reader.onerror = err => reject(err);
+        });
     }
 
     async function saveProduct() {
@@ -249,44 +295,38 @@
         const errorMsg = document.getElementById('errorMessage');
         status.innerText = ""; errorMsg.innerText = "";
 
-        if(!name || !category || !price || !qty) { errorMsg.innerText = "❌ يرجى تعبئة الحقول الأساسية!"; return; }
+        if(!name || !category || !price || !qty) { errorMsg.innerText = "❌ يرجى تعبئة الخانات الأساسية (الاسم، المجموعة، السعر، الكمية)!"; return; }
 
         const btn = document.getElementById('saveBtn');
-        btn.innerText = "جاري النشر على الموقع... ⏳"; btn.disabled = true;
+        btn.innerText = "جاري المعالجة والرفع... ⏳"; btn.disabled = true;
 
         try {
             let imageUrl = "";
             if(editingIndex > -1) imageUrl = productsData[editingIndex].image;
 
             if(imageFile) {
-                status.innerText = "جاري رفع الصورة...";
-                const reader = new FileReader();
-                reader.readAsDataURL(imageFile);
-                await new Promise((resolve, reject) => {
-                    reader.onload = async event => {
-                        try {
-                            const base64Content = event.target.result.split(',')[1];
-                            const ext = imageFile.name.split('.').pop() || 'jpg';
-                            const imgFileName = "prod_" + Date.now() + "." + ext;
-                            
-                            const imgRes = await fetch(`https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`, {
-                                method: "PUT",
-                                headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
-                                body: JSON.stringify({ message: "رفع صورة منتج", content: base64Content })
-                            });
-                            if(!imgRes.ok) throw new Error("فشل رفع الصورة");
-                            imageUrl = imgFileName;
-                            resolve();
-                        } catch(e) { reject(e); }
-                    };
+                status.innerText = "💎 جاري معالجة الصورة بدقة HD ورفعها...";
+                const processed = await processHighResImage(imageFile);
+                const imgFileName = "prod_" + Date.now() + "." + processed.ext; 
+                
+                const imgUrlApi = `https://api.github.com/repos/${username}/${repoName}/contents/${imgFileName}`;
+                const imgResponse = await fetch(imgUrlApi, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: "رفع صورة منتج HD", content: processed.base64 })
                 });
+                if(!imgResponse.ok) throw new Error("فشل في رفع الصورة.");
+                imageUrl = imgFileName; 
             } else if (editingIndex === -1) {
                 throw new Error("❌ يرجى اختيار صورة للمنتج الجديد!");
             }
 
+            status.innerText = "جاري تحديث قاعدة البيانات...";
+            
             const productObj = {
                 id: editingIndex > -1 ? productsData[editingIndex].id : Date.now(),
-                name: name, category: category, 
+                name: name, 
+                category: category, 
                 price: parseInt(price), 
                 oldPrice: oldPrice ? parseInt(oldPrice) : 0,
                 quantity: parseInt(qty), 
@@ -296,18 +336,18 @@
             if(editingIndex > -1) {
                 productsData[editingIndex] = productObj;
                 await updateGitHubJson("تعديل منتج: " + name);
+                status.innerText = "✅ تم تعديل المنتج بنجاح!";
             } else {
                 productsData.push(productObj);
                 await updateGitHubJson("إضافة منتج: " + name);
+                status.innerText = "✅ تمت الإضافة بدقة HD بنجاح!";
             }
             
-            cancelEdit();
-            status.innerText = "✅ تم النشر بنجاح على الموقع!";
-            setTimeout(() => { status.innerText = ""; }, 4000);
+            cancelEdit(); setTimeout(() => { status.innerText = ""; }, 4000);
         } catch(err) {
             errorMsg.innerText = err.message;
         } finally {
-            btn.innerText = "حفظ ونشر فوري على الموقع 🚀";
+            btn.innerText = editingIndex === -1 ? "حفظ ونشر في الموقع المباشر 🚀" : "حفظ التعديلات 🔄";
             btn.disabled = false;
         }
     }
@@ -322,7 +362,7 @@
             headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
             body: JSON.stringify({ message: commitMsg, content: encodedContent, sha: productsSha })
         });
-        if(!response.ok) throw new Error("فشل تحديث قاعدة البيانات.");
+        if(!response.ok) throw new Error("فشل في تحديث قاعدة البيانات.");
         
         const data = await response.json();
         productsSha = data.content.sha; 
