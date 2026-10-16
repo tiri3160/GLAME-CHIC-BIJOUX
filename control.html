@@ -12,14 +12,12 @@
         body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; padding: 20px 15px 80px; }
         .container { max-width: 1200px; margin: 0 auto; }
 
-        /* شاشة تسجيل الدخول السريعة */
         #authScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .auth-box { background: var(--card); border: 2px solid var(--gold); padding: 40px 30px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; }
         .auth-box h2 { color: var(--gold); font-family: 'Amiri', serif; margin-bottom: 20px; font-size: 1.8em; }
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 1.1em; text-align: center; margin-bottom: 15px; font-family: 'Cairo'; }
         .auth-input:focus { outline: none; border-color: var(--gold); }
 
-        /* الهيدر والأزرار الرئيسية */
         .top-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
         .logo-area h1 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.6em; }
         .logo-area p { color: #888; font-size: 0.85em; }
@@ -28,8 +26,8 @@
         .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 8px; font-size: 0.95em; transition: 0.2s; }
         .btn-outline:hover { background: var(--gold); color: #000; }
+        .btn-danger-all { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid #e63946; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
 
-        /* التبويبات (Tabs) */
         .tabs-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; border-bottom: 1px solid #222; padding-bottom: 15px; }
         .tab-btn { background: #1a1a1a; color: #aaa; border: 1px solid #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.2s; }
         .tab-btn.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
@@ -38,21 +36,18 @@
         .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* البطاقات الإحصائية (KPIs) */
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .kpi-card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 10px; position: relative; }
         .kpi-card h4 { color: #aaa; font-size: 0.9em; margin-bottom: 8px; }
         .kpi-val { font-size: 1.8em; font-weight: bold; color: #fff; }
 
-        /* النماذج وجداول الإدخال الحر */
         .form-card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
-        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .input-group label { display: block; color: #ccc; font-size: 0.9em; margin-bottom: 6px; }
         .input-group input, .input-group select { width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 11px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.95em; }
         .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--gold); }
 
-        /* الجداول العامة */
         .table-wrapper { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
         table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.95em; }
         th { background: #1a1a1a; color: var(--gold); padding: 12px; border-bottom: 1px solid #333; white-space: nowrap; }
@@ -65,9 +60,7 @@
         .btn-edit:hover { background: #3498db; color: #fff; }
 
         .badge-status { padding: 4px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; }
-        .st-delivered { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
         .st-return { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid rgba(230,57,70,0.3); }
-        .st-pending { background: rgba(241,196,15,0.15); color: #f1c40f; border: 1px solid rgba(241,196,15,0.3); }
 
         @media(max-width: 768px) {
             .top-header { flex-direction: column; align-items: stretch; text-align: center; }
@@ -91,7 +84,7 @@
         <div class="top-header">
             <div class="logo-area">
                 <h1>💎 GLAME CHIC COMMAND CENTER</h1>
-                <p>إدارة المخزون، الحملات التمويلية، الروتور، والأرباح بحرية تامة</p>
+                <p>إدارة المخزون، الحملات مع التوقيت والأيام، الروتور، والأرباح بحرية تامة</p>
             </div>
             <div class="nav-actions">
                 <a href="index.html" class="btn-outline"><i class="fas fa-store"></i> متجري</a>
@@ -104,7 +97,7 @@
         <!-- الأزرار والتبويبات -->
         <div class="tabs-nav">
             <button class="tab-btn active" onclick="switchTab('tabProducts')">💎 إدارة المخزون والمنتجات</button>
-            <button class="tab-btn" onclick="switchTab('tabAds')">📢 الحملات الإعلانية والتمويل</button>
+            <button class="tab-btn" onclick="switchTab('tabAds')">📢 الحملات الإعلانية والتوقيت</button>
             <button class="tab-btn" onclick="switchTab('tabReturns')">📦 الروتور والمرتجعات (Stop Desk)</button>
             <button class="tab-btn" onclick="switchTab('tabFinance')">💰 الحسابات والأرباح الصافية</button>
         </div>
@@ -112,7 +105,7 @@
         <!-- 1. تبويب إدارة المنتجات والمخزون -->
         <div id="tabProducts" class="tab-content active">
             <div class="form-card">
-                <h3>إضافة أو تعديل منتج (حر وبدون قيود)</h3>
+                <h3 id="prodFormTitle">إضافة أو تعديل منتج (حر وبدون قيود)</h3>
                 <form id="productForm" onsubmit="saveProduct(event)">
                     <input type="hidden" id="prodEditIndex" value="-1">
                     <div class="form-grid">
@@ -151,7 +144,10 @@
                         <label>رابط الصورة (URL أو اسم الملف):</label>
                         <input type="text" id="pImg" required placeholder="product1.jpg أو رابط مباشر">
                     </div>
-                    <button type="submit" class="btn-gold">حفظ المنتج في النظام 💾</button>
+                    <div style="display:flex; gap:10px;">
+                        <button type="submit" class="btn-gold" id="prodSubmitBtn">حفظ المنتج في النظام 💾</button>
+                        <button type="button" class="btn-danger-all" id="prodCancelBtn" style="display:none;" onclick="cancelProdEdit()">إلغاء التعديل</button>
+                    </div>
                 </form>
             </div>
 
@@ -173,30 +169,41 @@
             </div>
         </div>
 
-        <!-- 2. تبويب الحملات الإعلانية والتمويل -->
+        <!-- 2. تبويب الحملات الإعلانية والتوقيت وعدد الأيام -->
         <div id="tabAds" class="tab-content">
             <div class="form-card">
-                <h3>تسجيل حملة إعلانية جديدة (TikTok / Instagram)</h3>
+                <h3 id="adFormTitle">
+                    <span>تسجيل أو تعديل حملة إعلانية (حسب اليوم، الشهر، والسنة)</span>
+                    <button type="button" class="btn-danger-all" onclick="resetAdForm()" style="font-size:0.8em; padding:4px 10px;">تصفير النموذج</button>
+                </h3>
                 <form id="adForm" onsubmit="saveAd(event)">
+                    <input type="hidden" id="adEditIndex" value="-1">
                     <div class="form-grid">
                         <div class="input-group">
                             <label>اسم الحملة / المنصة:</label>
                             <input type="text" id="adName" required placeholder="مثال: حملة تيك توك - طقم العقدة">
                         </div>
                         <div class="input-group">
-                            <label>ميزانية الحملة (د.ج):</label>
+                            <label>تاريخ البداية (اليوم / الشهر / السنة):</label>
+                            <input type="date" id="adStartDate" required>
+                        </div>
+                        <div class="input-group">
+                            <label>تاريخ النهاية:</label>
+                            <input type="date" id="adEndDate" required>
+                        </div>
+                        <div class="input-group">
+                            <label>الميزانية الإجمالية للحملة (د.ج):</label>
                             <input type="number" id="adBudget" required placeholder="5000">
                         </div>
                         <div class="input-group">
-                            <label>عدد الطلبات الواردة منها:</label>
+                            <label>عدد الطلبات المحققة منها:</label>
                             <input type="number" id="adOrders" value="0" placeholder="12">
                         </div>
-                        <div class="input-group">
-                            <label>التاريخ:</label>
-                            <input type="date" id="adDate" required>
-                        </div>
                     </div>
-                    <button type="submit" class="btn-gold">حفظ بيانات الحملة 📊</button>
+                    <div style="display:flex; gap:10px;">
+                        <button type="submit" class="btn-gold" id="adSubmitBtn">حفظ الحملة في السجل 📊</button>
+                        <button type="button" class="btn-danger-all" id="adCancelBtn" style="display:none;" onclick="cancelAdEdit()">إلغاء التعديل</button>
+                    </div>
                 </form>
             </div>
 
@@ -204,11 +211,13 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>التاريخ</th>
+                            <th>الفترة الزمنية (من - إلى)</th>
                             <th>اسم الحملة</th>
-                            <th>الميزانية المستهلكة</th>
-                            <th>الطلبات المحققة</th>
-                            <th>تكلفة الطلب الواحد (CPA)</th>
+                            <th>عدد الأيام</th>
+                            <th>الميزانية الإجمالية</th>
+                            <th>الميزانية اليومية</th>
+                            <th>الطلبات</th>
+                            <th>تكلفة الطلب (CPA)</th>
                             <th>إجراءات</th>
                         </tr>
                     </thead>
@@ -225,7 +234,7 @@
                     <div class="form-grid">
                         <div class="input-group">
                             <label>اسم الزبون:</label>
-                            <input type="text" id="rClient" required placeholder="اسم وللقب">
+                            <input type="text" id="rClient" required placeholder="الاسم واللقب">
                         </div>
                         <div class="input-group">
                             <label>رقم الهاتف:</label>
@@ -284,13 +293,12 @@
             
             <div class="form-card" style="text-align:center; padding:30px;">
                 <h3 style="border:none; margin-bottom:10px;">تقرير الأداء المالي المؤسسي</h3>
-                <p style="color:#aaa; font-size:1em;">يتم حساب الصافي تلقائياً بناءً على ما أدخلته في الأقسام السابقة بدقة تامة ودون قيود.</p>
+                <p style="color:#aaa; font-size:1em;">يتم حساب الصافي تلقائياً بناءً على إجمالي مبيعات المتجر مطروحاً منها مصاريف الحملات الإعلانية وخسائر الروتور بدقة تامة.</p>
             </div>
         </div>
     </div>
 
     <script>
-        // حماية بكلمة مرور (يمكنك تغيير "glame2026" إلى ما تحب)
         const ADMIN_PASS = "glame2026";
 
         function verifyPassword() {
@@ -312,7 +320,6 @@
             if(tabId === 'tabFinance') calculateFinance();
         }
 
-        // قواعد البيانات المحلية
         let productsDB = [];
         let adsDB = [];
         let returnsDB = [];
@@ -328,7 +335,7 @@
             renderReturns();
         }
 
-        // --- 1. إدارة المنتجات ---
+        // --- 1. المنتجات والمخزون ---
         function saveProduct(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('prodEditIndex').value);
@@ -346,11 +353,10 @@
                 productsDB.push(p);
             } else {
                 productsDB[idx] = p;
-                document.getElementById('prodEditIndex').value = -1;
+                cancelProdEdit();
             }
 
             localStorage.setItem('glame_admin_products', JSON.stringify(productsDB));
-            localStorage.setItem('glame_products_backup_sync', JSON.stringify(productsDB)); // مزامنة مع products.json لو أردت
             document.getElementById('productForm').reset();
             renderProducts();
             alert("تم حفظ المنتج بنجاح!");
@@ -388,7 +394,18 @@
             document.getElementById('pQty').value = p.quantity;
             document.getElementById('pCost').value = p.cost || '';
             document.getElementById('pImg').value = p.image;
+            document.getElementById('prodFormTitle').innerText = "تعديل بيانات المنتج:";
+            document.getElementById('prodSubmitBtn').innerText = "تحديث المنتج ✏️";
+            document.getElementById('prodCancelBtn').style.display = 'inline-block';
             window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function cancelProdEdit() {
+            document.getElementById('prodEditIndex').value = -1;
+            document.getElementById('productForm').reset();
+            document.getElementById('prodFormTitle').innerText = "إضافة أو تعديل منتج (حر وبدون قيود)";
+            document.getElementById('prodSubmitBtn').innerText = "حفظ المنتج في النظام 💾";
+            document.getElementById('prodCancelBtn').style.display = 'none';
         }
 
         function deleteProduct(i) {
@@ -398,40 +415,92 @@
             renderProducts();
         }
 
-        // --- 2. إدارة الإعلانات ---
+        // --- 2. الحملات الإعلانية والتوقيت وعدد الأيام ---
         function saveAd(e) {
             e.preventDefault();
+            const idx = parseInt(document.getElementById('adEditIndex').value);
+            const startDate = document.getElementById('adStartDate').value;
+            const endDate = document.getElementById('adEndDate').value;
+
+            // حساب عدد الأيام بدقة
+            const startMs = new Date(startDate).getTime();
+            const endMs = new Date(endDate).getTime();
+            let diffDays = Math.round((endMs - startMs) / (1000 * 60 * 60 * 24)) + 1;
+            if (diffDays < 1) diffDays = 1;
+
             const ad = {
                 name: document.getElementById('adName').value.trim(),
+                startDate: startDate,
+                endDate: endDate,
+                days: diffDays,
                 budget: Number(document.getElementById('adBudget').value),
-                orders: Number(document.getElementById('adOrders').value) || 0,
-                date: document.getElementById('adDate').value || new Date().toISOString().split('T')[0]
+                orders: Number(document.getElementById('adOrders').value) || 0
             };
-            adsDB.push(ad);
+
+            if (idx === -1) {
+                adsDB.push(ad);
+            } else {
+                adsDB[idx] = ad;
+                resetAdForm();
+            }
+
             localStorage.setItem('glame_admin_ads', JSON.stringify(adsDB));
             document.getElementById('adForm').reset();
             renderAds();
+            alert("تم حفظ الحملة بنجاح!");
         }
 
         function renderAds() {
             const tbody = document.getElementById('adsTableBody');
             if (adsDB.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#777; padding:20px;">لا توجد حملات مسجلة.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#777; padding:20px;">لا توجد حملات مسجلة.</td></tr>`;
                 return;
             }
             tbody.innerHTML = adsDB.map((ad, i) => {
+                const dailySpend = Math.round(ad.budget / (ad.days || 1));
                 const cpa = ad.orders > 0 ? Math.round(ad.budget / ad.orders) : ad.budget;
                 return `
                     <tr>
-                        <td>${ad.date}</td>
+                        <td style="font-size:0.88em; color:#ccc;">${ad.startDate} ➔ ${ad.endDate}</td>
                         <td style="font-weight:bold;">${ad.name}</td>
-                        <td style="color:#e63946;">${ad.budget} د.ج</td>
+                        <td><span style="background:rgba(212,175,55,0.12); color:var(--gold); padding:2px 8px; border-radius:4px; font-weight:bold;">${ad.days} أيام</span></td>
+                        <td style="color:#e63946;">${ad.budget.toLocaleString()} د.ج</td>
+                        <td style="color:#aaa;">${dailySpend.toLocaleString()} د.ج / يوم</td>
                         <td>${ad.orders} طلب</td>
-                        <td style="color:var(--gold); font-weight:bold;">${cpa} د.ج / طلب</td>
-                        <td><button class="btn-del" onclick="deleteAd(${i})"><i class="fas fa-trash"></i></button></td>
+                        <td style="color:var(--gold); font-weight:bold;">${cpa.toLocaleString()} د.ج</td>
+                        <td>
+                            <button class="btn-edit" onclick="editAd(${i})"><i class="fas fa-edit"></i></button>
+                            <button class="btn-del" onclick="deleteAd(${i})"><i class="fas fa-trash"></i></button>
+                        </td>
                     </tr>
                 `;
             }).join('');
+        }
+
+        function editAd(i) {
+            const ad = adsDB[i];
+            document.getElementById('adEditIndex').value = i;
+            document.getElementById('adName').value = ad.name;
+            document.getElementById('adStartDate').value = ad.startDate;
+            document.getElementById('adEndDate').value = ad.endDate;
+            document.getElementById('adBudget').value = ad.budget;
+            document.getElementById('adOrders').value = ad.orders;
+            document.getElementById('adFormTitle').querySelector('span').innerText = "تعديل الحملة الإعلانية:";
+            document.getElementById('adSubmitBtn').innerText = "تحديث الحملة ✏️";
+            document.getElementById('adCancelBtn').style.display = 'inline-block';
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function resetAdForm() {
+            document.getElementById('adEditIndex').value = -1;
+            document.getElementById('adForm').reset();
+            document.getElementById('adFormTitle').querySelector('span').innerText = "تسجيل أو تعديل حملة إعلانية (حسب اليوم، الشهر، والسنة)";
+            document.getElementById('adSubmitBtn').innerText = "حفظ الحملة في السجل 📊";
+            document.getElementById('adCancelBtn').style.display = 'none';
+        }
+
+        function cancelAdEdit() {
+            resetAdForm();
         }
 
         function deleteAd(i) {
@@ -440,7 +509,7 @@
             renderAds();
         }
 
-        // --- 3. إدارة الروتور والمرتجعات ---
+        // --- 3. الروتور والمرتجعات ---
         function saveReturn(e) {
             e.preventDefault();
             const r = {
@@ -480,12 +549,11 @@
             renderReturns();
         }
 
-        // --- 4. الحسابات المالية والأرباح ---
+        // --- 4. الحسابات المالية ---
         function calculateFinance() {
             let totalAds = adsDB.reduce((sum, a) => sum + a.budget, 0);
             let totalLoss = returnsDB.reduce((sum, r) => sum + r.loss, 0);
 
-            // جلب المبيعات المؤكدة من رادار المتجر
             let purchases = [];
             try {
                 let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
