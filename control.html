@@ -108,7 +108,7 @@
             <div class="form-card">
                 <h3 id="prodFormTitle">
                     <span>إضافة أو تعديل منتج</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllProducts()"><i class="fas fa-trash-alt"></i> تصفير جميع المنتجات</button>
+                    <button type="button" class="btn-danger-all" onclick="clearAllProducts()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
                 </h3>
                 <form id="productForm" onsubmit="saveProduct(event)">
                     <input type="hidden" id="prodEditIndex" value="-1">
@@ -165,7 +165,7 @@
                             <th>السعر</th>
                             <th>الكمية</th>
                             <th>التكلفة</th>
-                            <th>إجراءات</th>
+                            <th>إجراءات (تعديل / حذف)</th>
                         </tr>
                     </thead>
                     <tbody id="productsTableBody"></tbody>
@@ -178,7 +178,7 @@
             <div class="form-card">
                 <h3 id="adFormTitle">
                     <span>تسجيل أو تعديل حملة إعلانية</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllAds()"><i class="fas fa-trash-alt"></i> تصفير سجل الحملات</button>
+                    <button type="button" class="btn-danger-all" onclick="clearAllAds()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
                 </h3>
                 <form id="adForm" onsubmit="saveAd(event)">
                     <input type="hidden" id="adEditIndex" value="-1">
@@ -217,12 +217,12 @@
                         <tr>
                             <th>الفترة</th>
                             <th>اسم الحملة</th>
-                            <th>عدد الأيام</th>
+                            <th>الأيام</th>
                             <th>الميزانية</th>
-                            <th>الميزانية اليومية</th>
+                            <th>اليومية</th>
                             <th>الطلبات</th>
-                            <th>تكلفة الطلب (CPA)</th>
-                            <th>إجراءات</th>
+                            <th>CPA</th>
+                            <th>إجراءات (تعديل / حذف)</th>
                         </tr>
                     </thead>
                     <tbody id="adsTableBody"></tbody>
@@ -233,11 +233,12 @@
         <!-- 3. تبويب الروتور -->
         <div id="tabReturns" class="tab-content">
             <div class="form-card">
-                <h3>
-                    <span>تسجيل طلبية مرجعة (روتور)</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllReturns()"><i class="fas fa-trash-alt"></i> تصفير سجل الروتور</button>
+                <h3 id="returnFormTitle">
+                    <span>تسجيل أو تعديل طلبية مرجعة (روتور)</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllReturns()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
                 </h3>
                 <form id="returnForm" onsubmit="saveReturn(event)">
+                    <input type="hidden" id="returnEditIndex" value="-1">
                     <div class="form-grid">
                         <div class="input-group">
                             <label>اسم الزبون:</label>
@@ -256,7 +257,10 @@
                             <input type="number" id="rLoss" required placeholder="600">
                         </div>
                     </div>
-                    <button type="submit" class="btn-gold">تسجيل الروتور ⚠️</button>
+                    <div style="display:flex; gap:10px;">
+                        <button type="submit" class="btn-gold" id="returnSubmitBtn">تسجيل الروتور ⚠️</button>
+                        <button type="button" class="btn-danger-all" id="returnCancelBtn" style="display:none;" onclick="cancelReturnEdit()">إلغاء التعديل</button>
+                    </div>
                 </form>
             </div>
 
@@ -269,7 +273,7 @@
                             <th>الولاية</th>
                             <th>خسارة التوصيل</th>
                             <th>الحالة</th>
-                            <th>إجراءات</th>
+                            <th>إجراءات (تعديل / حذف)</th>
                         </tr>
                     </thead>
                     <tbody id="returnsTableBody"></tbody>
@@ -315,7 +319,7 @@
                             <th>نوع الحدث</th>
                             <th>التفاصيل والمشتري</th>
                             <th>المبلغ / التكلفة</th>
-                            <th>إجراءات التعديل والتحكم</th>
+                            <th>إجراءات التحكم</th>
                         </tr>
                     </thead>
                     <tbody id="calendarEventsBody">
@@ -440,8 +444,8 @@
                     <td>${p.quantity} قطعة</td>
                     <td>${p.cost || 0} د.ج</td>
                     <td>
-                        <button class="btn-edit" onclick="editProduct(${i})"><i class="fas fa-edit"></i></button>
-                        <button class="btn-del" onclick="deleteProduct(${i})"><i class="fas fa-trash"></i></button>
+                        <button class="btn-edit" onclick="editProduct(${i})"><i class="fas fa-edit"></i> تعديل</button>
+                        <button class="btn-del" onclick="deleteProduct(${i})"><i class="fas fa-trash"></i> حذف</button>
                     </td>
                 </tr>
             `).join('');
@@ -538,8 +542,8 @@
                         <td>${ad.orders} طلب</td>
                         <td style="color:var(--gold); font-weight:bold;">${cpa.toLocaleString()} د.ج</td>
                         <td>
-                            <button class="btn-edit" onclick="editAd(${i})"><i class="fas fa-edit"></i></button>
-                            <button class="btn-del" onclick="deleteAd(${i})"><i class="fas fa-trash"></i></button>
+                            <button class="btn-edit" onclick="editAd(${i})"><i class="fas fa-edit"></i> تعديل</button>
+                            <button class="btn-del" onclick="deleteAd(${i})"><i class="fas fa-trash"></i> حذف</button>
                         </td>
                     </tr>
                 `;
@@ -585,21 +589,30 @@
             renderAds();
         }
 
-        // --- 3. الروتور ---
+        // --- 3. الروتور والمرتجعات (مع خيار التعديل والحذف) ---
         function saveReturn(e) {
             e.preventDefault();
+            const idx = parseInt(document.getElementById('returnEditIndex').value);
             const r = {
-                date: new Date().toISOString().split('T')[0],
+                date: document.getElementById('rDate') ? document.getElementById('rDate').value : new Date().toISOString().split('T')[0],
                 client: document.getElementById('rClient').value.trim(),
                 phone: document.getElementById('rPhone').value.trim(),
                 wilaya: document.getElementById('rWilaya').value.trim(),
                 loss: Number(document.getElementById('rLoss').value) || 0,
                 status: 'مرتجع مؤكد'
             };
-            returnsDB.push(r);
+
+            if (idx === -1) {
+                returnsDB.push(r);
+            } else {
+                returnsDB[idx] = r;
+                cancelReturnEdit();
+            }
+
             localStorage.setItem('glame_admin_returns', JSON.stringify(returnsDB));
             document.getElementById('returnForm').reset();
             renderReturns();
+            alert("تم حفظ الروتور بنجاح!");
         }
 
         function renderReturns() {
@@ -615,9 +628,33 @@
                     <td>${r.wilaya}</td>
                     <td style="color:#e63946; font-weight:bold;">${r.loss} د.ج</td>
                     <td><span class="badge-status st-return">${r.status}</span></td>
-                    <td><button class="btn-del" onclick="deleteReturn(${i})"><i class="fas fa-trash"></i></button></td>
+                    <td>
+                        <button class="btn-edit" onclick="editReturn(${i})"><i class="fas fa-edit"></i> تعديل</button>
+                        <button class="btn-del" onclick="deleteReturn(${i})"><i class="fas fa-trash"></i> حذف</button>
+                    </td>
                 </tr>
             `).join('');
+        }
+
+        function editReturn(i) {
+            const r = returnsDB[i];
+            document.getElementById('returnEditIndex').value = i;
+            document.getElementById('rClient').value = r.client;
+            document.getElementById('rPhone').value = r.phone;
+            document.getElementById('rWilaya').value = r.wilaya;
+            document.getElementById('rLoss').value = r.loss;
+            document.getElementById('returnFormTitle').querySelector('span').innerText = "تعديل بيانات الروتور:";
+            document.getElementById('returnSubmitBtn').innerText = "تحديث الروتور ✏️";
+            document.getElementById('returnCancelBtn').style.display = 'inline-block';
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function cancelReturnEdit() {
+            document.getElementById('returnEditIndex').value = -1;
+            document.getElementById('returnForm').reset();
+            document.getElementById('returnFormTitle').querySelector('span').innerText = "تسجيل أو تعديل طلبية مرجعة (روتور)";
+            document.getElementById('returnSubmitBtn').innerText = "تسجيل الروتور ⚠️";
+            document.getElementById('returnCancelBtn').style.display = 'none';
         }
 
         function deleteReturn(i) {
@@ -644,17 +681,13 @@
             const selectedDate = document.getElementById('calendarFilterDate').value;
             if(!selectedDate) return;
 
-            // 1. تصفية المبيعات في هذا اليوم
             let purchases = [];
             try {
                 let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
                 purchases = events.filter(e => e.type === 'purchase' && e.ts.startsWith(selectedDate));
             } catch(e) {}
 
-            // 2. تصفية الحملات النشطة في هذا اليوم
             const activeAds = adsDB.filter(a => selectedDate >= a.startDate && selectedDate <= a.endDate);
-
-            // 3. تصفية الروتور في هذا اليوم
             const dayReturns = returnsDB.filter(r => (r.date || '').startsWith(selectedDate));
 
             let dayRev = purchases.reduce((sum, p) => sum + (Number(p.price) || 0), 0);
@@ -668,7 +701,6 @@
             const tbody = document.getElementById('calendarEventsBody');
             let rowsHTML = '';
 
-            // عرض المبيعات
             purchases.forEach((p, idx) => {
                 const ex = p.extra || {};
                 rowsHTML += `
@@ -681,7 +713,6 @@
                 `;
             });
 
-            // عرض الحملات النشطة
             activeAds.forEach((a, idx) => {
                 const daily = Math.round(a.budget / (a.days || 1));
                 rowsHTML += `
@@ -694,14 +725,13 @@
                 `;
             });
 
-            // عرض الروتور
             dayReturns.forEach((r, idx) => {
                 rowsHTML += `
                     <tr>
                         <td><span style="background:rgba(230,57,70,0.15); color:#e63946; padding:3px 8px; border-radius:4px; font-weight:bold;">مرتجع روتور ⚠️</span></td>
                         <td><b>${r.client}</b> (${r.phone}) - ${r.wilaya}</td>
                         <td style="color:#e63946; font-weight:bold;">-${r.loss} د.ج</td>
-                        <td><button class="btn-del" onclick="deleteReturn(${idx})"><i class="fas fa-trash"></i></button></td>
+                        <td><button class="btn-del" onclick="deleteReturn(${idx})"><i class="fas fa-trash"></i> حذف</button></td>
                     </tr>
                 `;
             });
