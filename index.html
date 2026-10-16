@@ -7,17 +7,26 @@
     
     <meta property="og:title" content="GLAME CHIC BIJOUX | بريق الأناقة للمجوهرات والساعات">
     <meta property="og:description" content="تشكيلة حصرية من المجوهرات والساعات الفاخرة المقاومة للصدأ. توصيل لـ 58 ولاية جزائرية والدفع عند الاستلام.">
-    <meta property="og:image" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/jewelry-bg.jpg">
-    <meta property="og:url" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/">
+    <meta property="og:image" content="https://glamechic.com/jewelry-bg.jpg">
+    <meta property="og:url" content="https://glamechic.com/">
     <meta property="og:type" content="website">
 
     <script>
         if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
             document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي 🤖</h2>";
         }
+        // حماية متقدمة ضد النقر بالزر الأيمن واختصارات فحص الكود
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'F12' || 
+                (event.ctrlKey && event.shiftKey && event.key === 'I'.charCodeAt(0)) || 
+                (event.ctrlKey && event.key === 'U'.charCodeAt(0))) {
+                event.preventDefault();
+            }
+        });
     </script>
 
-    <!-- محرك التتبع الذكي المتصل برابط Cloudflare Worker الحقيقي الخاص بك -->
+    <!-- محرك التتبع الذكي ومتتبع Cloudflare -->
     <script>
         const CLOUDFLARE_WORKER_URL = "https://glame-tracker.warriorlegend3160.workers.dev";
 
@@ -589,6 +598,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
+        // محرك تسريع وتحويل الصور الفوري عبر وكيل سحابي مجاني لضمان سرعة فائقة
+        function getFastImageUrl(url, width = 450) {
+            if (!url) return 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+            if (url.startsWith('data:') || url.startsWith('http')) {
+                return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=${width}&output=webp&q=80`;
+            }
+            const fullUrl = `https://glamechic.com/${url}`;
+            return `https://wsrv.nl/?url=${encodeURIComponent(fullUrl)}&w=${width}&output=webp&q=80`;
+        }
+
         function toggleMenu() { if(window.innerWidth <= 768) document.getElementById("navLinks").classList.toggle("active"); }
 
         let allProducts = [];
@@ -665,7 +684,8 @@
 
         function createProductCardHTML(product) {
             const safeName = product.name.replace(/'/g, "\\'");
-            const imgSrc = product.image ? product.image : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+            const rawImg = product.image ? product.image : 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
+            const fastImg = getFastImageUrl(rawImg, 450);
             const oldPrice = product.oldPrice && product.oldPrice > product.price ? product.oldPrice : 0;
 
             const stockBadge = product.quantity > 0 
@@ -683,20 +703,20 @@
                 : `<div class="price-container"><span class="product-price">${product.price} د.ج</span></div>`;
 
             return `
-                <div class="product-card" onclick="showProductDetail('${safeName}', '${imgSrc}', ${product.price}, ${oldPrice}, ${product.quantity})">
+                <div class="product-card" onclick="showProductDetail('${safeName}', '${rawImg}', ${product.price}, ${oldPrice}, ${product.quantity})">
                     <div class="product-img-wrapper">
                         ${stockBadge}
                         ${saleBadge}
                         <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> فحص وتكبير</span>
-                        <img src="${imgSrc}" alt="${product.name}" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC'">
+                        <img src="${fastImg}" alt="${product.name}" loading="lazy" decoding="async" onerror="this.src='${rawImg}'">
                     </div>
                     <h3 class="product-title">${product.name}</h3>
                     ${priceHTML}
                     ${scarcityHTML}
                     ${product.quantity > 0 
                         ? `<div class="card-actions-row">
-                               <button type="button" class="btn-order-outline" onclick="event.stopPropagation(); openDirectOrderModal('${safeName}', ${product.price}, '${imgSrc}', 1)">أطلبي الآن</button>
-                               <button type="button" class="btn-add-cart-icon" title="إضافة إلى السلة" onclick="event.stopPropagation(); addToCart('${safeName}', ${product.price}, '${imgSrc}', 1)"><i class="fas fa-cart-plus"></i></button>
+                             <button type="button" class="btn-order-outline" onclick="event.stopPropagation(); openDirectOrderModal('${safeName}', ${product.price}, '${rawImg}', 1)">أطلبي الآن</button>
+                             <button type="button" class="btn-add-cart-icon" title="إضافة إلى السلة" onclick="event.stopPropagation(); addToCart('${safeName}', ${product.price}, '${rawImg}', 1)"><i class="fas fa-cart-plus"></i></button>
                            </div>` 
                         : `<button class="btn-order-outline" style="border-color:#555; color:#555; cursor:not-allowed;" disabled>نفذت الكمية</button>`}
                 </div>
@@ -863,7 +883,7 @@
             
             viewport.classList.remove('is-zoomed');
             toggleBtn.innerHTML = '<i class="fas fa-search-plus"></i> تكبير الصورة (2x)';
-            imgEl.src = img;
+            imgEl.src = getFastImageUrl(img, 1100);
             
             document.getElementById('detailName').innerText = name;
             
@@ -1113,7 +1133,7 @@
             container.innerHTML = activeCheckoutItems.map((item, idx) => `
                 <div class="order-item-line">
                     <div class="order-item-info">
-                        <img src="${item.img}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80x80/000/D4AF37?text=GC'">
+                        <img src="${getFastImageUrl(item.img, 100)}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80x80/000/D4AF37?text=GC'">
                         <div>
                             <div class="order-item-title">${item.name}</div>
                             <div class="order-item-sub">${item.price} د.ج × ${item.qty} = <b>${item.price * item.qty} د.ج</b></div>
