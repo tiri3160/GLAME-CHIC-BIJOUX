@@ -17,9 +17,10 @@
         }
     </script>
 
-    <!-- محرك الإحصائيات الفوري والسريع للرادار -->
+    <!-- محرك التتبع الذكي المتوافق مع Cloudflare Worker (بدون المساس بتصميم المتجر) -->
     <script>
-        const GLAME_BIN_ID = "66f427fce41b4d34e432a677";
+        // ضع هنا رابط Cloudflare Worker الخاص بك (استبدل الرابط أدناه برابطك الفعلي)
+        const CLOUDFLARE_WORKER_URL = "https://رابط_الـ_worker_الخاص_بك.workers.dev";
 
         function getVisitorSessionId() {
             let sid = sessionStorage.getItem('gc_sid');
@@ -36,14 +37,14 @@
             const ua = (navigator.userAgent || '').toLowerCase();
             const utm = (urlParams.get('utm_source') || urlParams.get('ref') || '').toLowerCase();
 
-            if (utm.includes('tiktok') || ref.includes('tiktok') || ua.includes('bytedance') || ua.includes('musical_ly') || urlParams.has('ttclid')) return 'TikTok 🎵';
+            if (utm.includes('tiktok') || ref.includes('tiktok') || ua.includes('bytedance') || urlParams.has('ttclid')) return 'TikTok 🎵';
             if (utm.includes('insta') || ref.includes('instagram') || ua.includes('instagram')) return 'Instagram 📸';
-            if (utm.includes('fb') || ref.includes('facebook') || ua.includes('fban') || ua.includes('fbav') || urlParams.has('fbclid')) return 'Facebook 📘';
+            if (utm.includes('fb') || ref.includes('facebook') || urlParams.has('fbclid')) return 'Facebook 📘';
             if (ref.includes('google')) return 'بحث Google 🌐';
             return 'دخول مباشر 🔍';
         }
 
-        async function recordGlameEvent(eventType, itemName = 'الرئيسية', price = 0, wilaya = '', extraData = null) {
+        function recordGlameEvent(eventType, itemName = 'الرئيسية', price = 0, wilaya = '', extraData = null) {
             const eventObj = {
                 id: Date.now() + '_' + Math.floor(Math.random() * 1000),
                 sid: getVisitorSessionId(),
@@ -57,38 +58,16 @@
                 extra: extraData
             };
 
-            try {
-                let localEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-                localEvents.push(eventObj);
-                if (localEvents.length > 300) localEvents = localEvents.slice(-300);
-                localStorage.setItem('glame_local_analytics', JSON.stringify(localEvents));
-            } catch(e) {}
-
-            setTimeout(async () => {
-                try {
-                    const res = await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}/latest`, {
-                        headers: { 'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe' }
-                    });
-                    let cloudData = [];
-                    if (res.ok) {
-                        const json = await res.json();
-                        cloudData = json.record || [];
-                        if (!Array.isArray(cloudData)) cloudData = [];
-                    }
-                    cloudData.push(eventObj);
-                    if (cloudData.length > 250) cloudData = cloudData.slice(-250);
-
-                    await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe'
-                        },
-                        body: JSON.stringify(cloudData),
-                        keepalive: true
-                    });
-                } catch(err) {}
-            }, 30);
+            // إرسال فوري وصامت لـ Cloudflare Worker دون تعطيل المتجر
+            if (CLOUDFLARE_WORKER_URL.startsWith('http')) {
+                fetch(CLOUDFLARE_WORKER_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(eventObj),
+                    keepalive: true
+                }).catch(err => {});
+            }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -97,11 +76,6 @@
                 recordGlameEvent('visit', 'الصفحة الرئيسية 🏠');
             }
         });
-
-        function trackAdPurchase(productName, value) {
-            if (typeof fbq === 'function') fbq('track', 'Purchase', { content_name: productName, value: value, currency: 'DZD' });
-            if (typeof ttq === 'object') ttq.track('CompletePayment', { content_name: productName, value: value, currency: 'DZD' });
-        }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -382,7 +356,6 @@
         </div>
     </nav>
 
-    <!-- 1. العرض الرئيسي للمتجر -->
     <div id="home-page-view">
         <header class="hero" id="home">
             <div class="hero-content">
@@ -444,7 +417,6 @@
         </div>
     </div>
 
-    <!-- 2. الصفحة المستقلة للمجموعة المختارة -->
     <div id="category-page-view">
         <div class="category-nav-bar">
             <button class="btn-back-home" onclick="goHome()">
@@ -480,7 +452,6 @@
         <div class="products-grid-static" id="category-products-grid"></div>
     </div>
 
-    <!-- 3. نافذة معاينة وتكبير المنتج + اختيار العدد -->
     <div id="productDetailModal" class="modal">
         <div class="modal-content" style="text-align:center; max-width: 490px; padding: 35px 18px 25px;">
             <button type="button" class="close-btn-prominent" onclick="closeDetailModal()" title="إغلاق">✕</button>
@@ -519,7 +490,6 @@
         </div>
     </div>
 
-    <!-- 4. نافذة استمارة الطلب وسلة المشتريات الموحدة -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <button type="button" class="close-btn-prominent" onclick="closeOrderModal()">✕</button>
@@ -584,7 +554,6 @@
         </div>
     </div>
 
-    <!-- رسالة النجاح -->
     <div id="successModal" class="modal">
         <div class="modal-content">
             <button type="button" class="close-btn-prominent" onclick="closeSuccessModal()">✕</button>
@@ -687,7 +656,7 @@
                 allProducts = await response.json();
                 displaySwiperProducts(allProducts);
             } catch (error) {
-                document.getElementById('dynamic-products').innerHTML = `<div style="width: 100%; text-align: center; color: red; padding: 50px;">تعذر تحميل المنتجات. تأكد من إضافة منتجات من لوحة التحكم.</div>`;
+                document.getElementById('dynamic-products').innerHTML = `<div style="width: 100%; text-align: center; color: red; padding: 50px;">تعذر تحميل المنتجات. تأكد من وجود ملف products.json</div>`;
             }
         }
 
@@ -1270,16 +1239,17 @@
                 المجموع_الإجمالي_النهائي: totalCostStr
             };
 
-            try {
-                let savedOrders = JSON.parse(localStorage.getItem('glame_orders_backup') || '[]');
-                savedOrders.push({ date: new Date().toISOString(), ...orderPayload });
-                if (savedOrders.length > 200) savedOrders = savedOrders.slice(-200);
-                localStorage.setItem('glame_orders_backup', JSON.stringify(savedOrders));
-            } catch(err) {}
+            // تسجيل عملية الشراء وإرسالها لـ Cloudflare Worker
+            recordGlameEvent('purchase', orderedProdSummary, productsSubtotal, wilayaVal, { 
+                name: nameVal, 
+                phone: phoneVal, 
+                commune: finalCommune, 
+                address: addressVal, 
+                delivery: deliveryMethodVal, 
+                total: totalCostStr 
+            });
 
-            recordGlameEvent('purchase', orderedProdSummary, productsSubtotal, wilayaVal, { name: nameVal, phone: phoneVal, commune: finalCommune, address: addressVal, delivery: deliveryMethodVal, total: totalCostStr });
-            trackAdPurchase(orderedProdSummary, productsSubtotal);
-
+            // إرسال الطلبية للبريد الإلكتروني عبر FormSubmit
             fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
                 method: "POST",
                 headers: { 
