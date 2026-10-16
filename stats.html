@@ -23,7 +23,6 @@
         .btn-danger { background: rgba(220,53,69,0.15); color: #ff6b6b; border-color: rgba(220,53,69,0.4); }
         .btn-danger:hover { background: #dc3545; color: #fff; }
 
-        /* شريط الفلاتر الزمنية */
         .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; background: var(--card); padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 22px; align-items: center; }
         .filter-label { color: #aaa; font-size: 0.9em; margin-left: 10px; }
         .filter-btn { background: #181818; color: #ccc; border: 1px solid #333; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Cairo'; font-size: 0.88em; transition: 0.2s; }
@@ -57,7 +56,7 @@
 <div class="container">
     <div class="header-bar">
         <div class="header-title">
-            <h1><span class="live-dot"></span> رادار الإحصائيات المتقدم</h1>
+            <h1><span class="live-dot"></span> رادار الإحصائيات المتقدم (GLAME CHIC)</h1>
         </div>
         <div class="btn-group">
             <button class="btn-action" onclick="fetchWorkerData()"><i class="fas fa-sync-alt"></i> تحديث</button>
@@ -66,7 +65,6 @@
         </div>
     </div>
 
-    <!-- شريط الفلاتر الزمنية الدقيقة -->
     <div class="filter-bar">
         <span class="filter-label"><i class="fas fa-filter"></i> عرض السجل حسب:</span>
         <button class="filter-btn active" data-range="all" onclick="setFilter('all', this)">الكل</button>
@@ -178,7 +176,7 @@
             } else if (currentFilterRange === 'year') {
                 return evDate.getFullYear() === now.getFullYear();
             }
-            return true; // 'all'
+            return true;
         });
         renderDashboard(filtered);
     }
