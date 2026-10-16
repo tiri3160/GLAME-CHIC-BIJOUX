@@ -74,9 +74,10 @@
             <div id="errorMessage"></div>
             
             <div class="form-grid">
-                <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج (مثال: طقم السهرة الملكي)">
+                <input type="text" id="prodName" class="input-field" placeholder="اسم المنتج (مثال: أقراط اللؤلؤ الملكية)">
                 <select id="prodCategory" class="input-field">
                     <option value="" disabled selected>-- اختر مجموعة المنتج --</option>
+                    <option value="أقراط">أقراط 💎</option>
                     <option value="خواتم">خواتم 💍</option>
                     <option value="أساور">أساور 📿</option>
                     <option value="قلادات">قلادات 💎</option>
@@ -161,7 +162,7 @@
             return; 
         }
 
-        const categoriesList = ["خواتم", "أساور", "قلادات", "أطقم", "ساعات", "أخرى"];
+        const categoriesList = ["أقراط", "خواتم", "أساور", "قلادات", "أطقم", "ساعات", "أخرى"];
         
         categoriesList.forEach(cat => {
             const catProducts = productsData.map((p, i) => ({...p, originalIndex: i}))
@@ -235,20 +236,17 @@
         await updateGitHubJson("حذف منتج");
     }
 
-    // معالج الصور الذكي فائق الوضوح (HD 1600px وبجودة 95% مع الحفاظ على شفافية PNG)
     function processHighResImage(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = event => {
-                // إذا كانت الصورة أصلاً أقل من 1.2 ميغابايت، نرفعها بجودتها الأصلية 100% دون أي لمس!
                 if (file.size <= 1200 * 1024) {
                     const ext = file.name.split('.').pop().toLowerCase() || 'jpg';
                     resolve({ base64: event.target.result.split(',')[1], ext: ext });
                     return;
                 }
 
-                // إذا كانت الصورة ضخمة جداً (مثلاً 5 ميغابايت من الكاميرا)، نصغر أبعادها إلى 1600px HD مع جودة 95%
                 const img = new Image();
                 img.src = event.target.result;
                 img.onload = () => {
