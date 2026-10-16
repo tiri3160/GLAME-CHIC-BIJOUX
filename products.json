@@ -188,5 +188,14 @@
     "oldPrice": 0,
     "quantity": 10,
     "image": "prod_1792185460748.jpg"
+  },
+  {
+    "id": 1792185560051,
+    "name": "ساعة تيفاني",
+    "category": "ساعات",
+    "price": 1000,
+    "oldPrice": 1500,
+    "quantity": 10,
+    "image": "prod_1792185557347.jpg"
   }
 ]
