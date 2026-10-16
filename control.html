@@ -26,7 +26,8 @@
         .btn-gold:hover { opacity: 0.9; transform: scale(1.02); }
         .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 8px; font-size: 0.95em; transition: 0.2s; }
         .btn-outline:hover { background: var(--gold); color: #000; }
-        .btn-danger-all { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid #e63946; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; }
+        .btn-danger-all { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid #e63946; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 6px; }
+        .btn-danger-all:hover { background: #e63946; color: #fff; }
 
         .tabs-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; border-bottom: 1px solid #222; padding-bottom: 15px; }
         .tab-btn { background: #1a1a1a; color: #aaa; border: 1px solid #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.2s; }
@@ -42,13 +43,13 @@
         .kpi-val { font-size: 1.8em; font-weight: bold; color: #fff; }
 
         .form-card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
-        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 15px; }
         .input-group label { display: block; color: #ccc; font-size: 0.9em; margin-bottom: 6px; }
         .input-group input, .input-group select { width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 11px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.95em; }
         .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--gold); }
 
-        .table-wrapper { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+        .table-wrapper { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.95em; }
         th { background: #1a1a1a; color: var(--gold); padding: 12px; border-bottom: 1px solid #333; white-space: nowrap; }
         td { padding: 12px; border-bottom: 1px solid #1a1a1a; color: #ddd; }
@@ -84,17 +85,17 @@
         <div class="top-header">
             <div class="logo-area">
                 <h1>💎 GLAME CHIC COMMAND CENTER</h1>
-                <p>إدارة المخزون، الحملات مع التوقيت والأيام، الروتور، والأرباح بحرية تامة</p>
+                <p>إدارة المخزون، الحملات مع التوقيت، الروتور، والأرباح بحرية تامة</p>
             </div>
             <div class="nav-actions">
                 <a href="index.html" class="btn-outline"><i class="fas fa-store"></i> متجري</a>
-                <button class="btn-gold" onclick="exportAllData()"><i class="fas fa-file-export"></i> تصدير نسخة احتياطية</button>
-                <button class="btn-outline" onclick="triggerImport()"><i class="fas fa-file-import"></i> استيراد بيانات</button>
+                <button class="btn-gold" onclick="exportAllData()"><i class="fas fa-file-export"></i> تصدير نسخة</button>
+                <button class="btn-outline" onclick="triggerImport()"><i class="fas fa-file-import"></i> استيراد</button>
                 <input type="file" id="importFile" style="display:none;" onchange="importAllData(event)">
             </div>
         </div>
 
-        <!-- الأزرار والتبويبات -->
+        <!-- التبويبات -->
         <div class="tabs-nav">
             <button class="tab-btn active" onclick="switchTab('tabProducts')">💎 إدارة المخزون والمنتجات</button>
             <button class="tab-btn" onclick="switchTab('tabAds')">📢 الحملات الإعلانية والتوقيت</button>
@@ -102,10 +103,13 @@
             <button class="tab-btn" onclick="switchTab('tabFinance')">💰 الحسابات والأرباح الصافية</button>
         </div>
 
-        <!-- 1. تبويب إدارة المنتجات والمخزون -->
+        <!-- 1. تبويب المنتجات -->
         <div id="tabProducts" class="tab-content active">
             <div class="form-card">
-                <h3 id="prodFormTitle">إضافة أو تعديل منتج (حر وبدون قيود)</h3>
+                <h3 id="prodFormTitle">
+                    <span>إضافة أو تعديل منتج</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllProducts()"><i class="fas fa-trash-alt"></i> تصفير جميع المنتجات</button>
+                </h3>
                 <form id="productForm" onsubmit="saveProduct(event)">
                     <input type="hidden" id="prodEditIndex" value="-1">
                     <div class="form-grid">
@@ -136,13 +140,13 @@
                             <input type="number" id="pQty" value="10">
                         </div>
                         <div class="input-group">
-                            <label>تكلفة الشراء الأصلية للقطعة (د.ج):</label>
+                            <label>تكلفة الشراء (د.ج):</label>
                             <input type="number" id="pCost" placeholder="800">
                         </div>
                     </div>
                     <div class="input-group" style="margin-bottom:15px;">
-                        <label>رابط الصورة (URL أو اسم الملف):</label>
-                        <input type="text" id="pImg" required placeholder="product1.jpg أو رابط مباشر">
+                        <label>رابط الصورة:</label>
+                        <input type="text" id="pImg" required placeholder="product1.jpg">
                     </div>
                     <div style="display:flex; gap:10px;">
                         <button type="submit" class="btn-gold" id="prodSubmitBtn">حفظ المنتج في النظام 💾</button>
@@ -169,22 +173,22 @@
             </div>
         </div>
 
-        <!-- 2. تبويب الحملات الإعلانية والتوقيت وعدد الأيام -->
+        <!-- 2. تبويب الحملات -->
         <div id="tabAds" class="tab-content">
             <div class="form-card">
                 <h3 id="adFormTitle">
-                    <span>تسجيل أو تعديل حملة إعلانية (حسب اليوم، الشهر، والسنة)</span>
-                    <button type="button" class="btn-danger-all" onclick="resetAdForm()" style="font-size:0.8em; padding:4px 10px;">تصفير النموذج</button>
+                    <span>تسجيل أو تعديل حملة إعلانية</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllAds()"><i class="fas fa-trash-alt"></i> تصفير سجل الحملات</button>
                 </h3>
                 <form id="adForm" onsubmit="saveAd(event)">
                     <input type="hidden" id="adEditIndex" value="-1">
                     <div class="form-grid">
                         <div class="input-group">
-                            <label>اسم الحملة / المنصة:</label>
-                            <input type="text" id="adName" required placeholder="مثال: حملة تيك توك - طقم العقدة">
+                            <label>اسم الحملة:</label>
+                            <input type="text" id="adName" required placeholder="حملة تيك توك">
                         </div>
                         <div class="input-group">
-                            <label>تاريخ البداية (اليوم / الشهر / السنة):</label>
+                            <label>تاريخ البداية:</label>
                             <input type="date" id="adStartDate" required>
                         </div>
                         <div class="input-group">
@@ -192,16 +196,16 @@
                             <input type="date" id="adEndDate" required>
                         </div>
                         <div class="input-group">
-                            <label>الميزانية الإجمالية للحملة (د.ج):</label>
+                            <label>الميزانية الإجمالية (د.ج):</label>
                             <input type="number" id="adBudget" required placeholder="5000">
                         </div>
                         <div class="input-group">
-                            <label>عدد الطلبات المحققة منها:</label>
+                            <label>عدد الطلبات:</label>
                             <input type="number" id="adOrders" value="0" placeholder="12">
                         </div>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <button type="submit" class="btn-gold" id="adSubmitBtn">حفظ الحملة في السجل 📊</button>
+                        <button type="submit" class="btn-gold" id="adSubmitBtn">حفظ الحملة 📊</button>
                         <button type="button" class="btn-danger-all" id="adCancelBtn" style="display:none;" onclick="cancelAdEdit()">إلغاء التعديل</button>
                     </div>
                 </form>
@@ -211,10 +215,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>الفترة الزمنية (من - إلى)</th>
+                            <th>الفترة</th>
                             <th>اسم الحملة</th>
                             <th>عدد الأيام</th>
-                            <th>الميزانية الإجمالية</th>
+                            <th>الميزانية</th>
                             <th>الميزانية اليومية</th>
                             <th>الطلبات</th>
                             <th>تكلفة الطلب (CPA)</th>
@@ -226,10 +230,13 @@
             </div>
         </div>
 
-        <!-- 3. تبويب الروتور والمرتجعات -->
+        <!-- 3. تبويب الروتور -->
         <div id="tabReturns" class="tab-content">
             <div class="form-card">
-                <h3>تسجيل طلبية مرجعة (روتور / لم يستلمها الزبون)</h3>
+                <h3>
+                    <span>تسجيل طلبية مرجعة (روتور)</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllReturns()"><i class="fas fa-trash-alt"></i> تصفير سجل الروتور</button>
+                </h3>
                 <form id="returnForm" onsubmit="saveReturn(event)">
                     <div class="form-grid">
                         <div class="input-group">
@@ -245,11 +252,11 @@
                             <input type="text" id="rWilaya" required placeholder="وهران">
                         </div>
                         <div class="input-group">
-                            <label>خسارة مصاريف التوصيل الضائعة (د.ج):</label>
+                            <label>خسارة التوصيل (د.ج):</label>
                             <input type="number" id="rLoss" required placeholder="600">
                         </div>
                     </div>
-                    <button type="submit" class="btn-gold">تسجيل الروتور لحسابه في الخسائر ⚠️</button>
+                    <button type="submit" class="btn-gold">تسجيل الروتور ⚠️</button>
                 </form>
             </div>
 
@@ -270,7 +277,7 @@
             </div>
         </div>
 
-        <!-- 4. تبويب الحسابات والأرباح الصافية -->
+        <!-- 4. تبويب الحسابات والأرباح -->
         <div id="tabFinance" class="tab-content">
             <div class="kpi-grid">
                 <div class="kpi-card">
@@ -292,8 +299,9 @@
             </div>
             
             <div class="form-card" style="text-align:center; padding:30px;">
-                <h3 style="border:none; margin-bottom:10px;">تقرير الأداء المالي المؤسسي</h3>
-                <p style="color:#aaa; font-size:1em;">يتم حساب الصافي تلقائياً بناءً على إجمالي مبيعات المتجر مطروحاً منها مصاريف الحملات الإعلانية وخسائر الروتور بدقة تامة.</p>
+                <h3 style="border:none; margin-bottom:10px;">إدارة الذاكرة المالية وسجل الأرباح</h3>
+                <p style="color:#aaa; font-size:0.95em; margin-bottom:20px;">يمكنك تصفير سجل المبيعات المؤكدة (الآتي من رادار المتجر) لتتمكن من بدء حساب دورة أرباح جديدة نظيفة:</p>
+                <button type="button" class="btn-danger-all" onclick="clearStoreAnalytics()"><i class="fas fa-trash-alt"></i> تصفير سجل المبيعات والتحليلات بالكامل</button>
             </div>
         </div>
     </div>
@@ -335,7 +343,7 @@
             renderReturns();
         }
 
-        // --- 1. المنتجات والمخزون ---
+        // --- 1. المنتجات ---
         function saveProduct(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('prodEditIndex').value);
@@ -394,7 +402,7 @@
             document.getElementById('pQty').value = p.quantity;
             document.getElementById('pCost').value = p.cost || '';
             document.getElementById('pImg').value = p.image;
-            document.getElementById('prodFormTitle').innerText = "تعديل بيانات المنتج:";
+            document.getElementById('prodFormTitle').querySelector('span').innerText = "تعديل بيانات المنتج:";
             document.getElementById('prodSubmitBtn').innerText = "تحديث المنتج ✏️";
             document.getElementById('prodCancelBtn').style.display = 'inline-block';
             window.scrollTo({top:0, behavior:'smooth'});
@@ -403,7 +411,7 @@
         function cancelProdEdit() {
             document.getElementById('prodEditIndex').value = -1;
             document.getElementById('productForm').reset();
-            document.getElementById('prodFormTitle').innerText = "إضافة أو تعديل منتج (حر وبدون قيود)";
+            document.getElementById('prodFormTitle').querySelector('span').innerText = "إضافة أو تعديل منتج";
             document.getElementById('prodSubmitBtn').innerText = "حفظ المنتج في النظام 💾";
             document.getElementById('prodCancelBtn').style.display = 'none';
         }
@@ -415,14 +423,20 @@
             renderProducts();
         }
 
-        // --- 2. الحملات الإعلانية والتوقيت وعدد الأيام ---
+        function clearAllProducts() {
+            if(!confirm("تحذير: هل تريد حقاً حذف جميع المنتجات بالكامل؟")) return;
+            productsDB = [];
+            localStorage.removeItem('glame_admin_products');
+            renderProducts();
+        }
+
+        // --- 2. الحملات الإعلانية والتوقيت ---
         function saveAd(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('adEditIndex').value);
             const startDate = document.getElementById('adStartDate').value;
             const endDate = document.getElementById('adEndDate').value;
 
-            // حساب عدد الأيام بدقة
             const startMs = new Date(startDate).getTime();
             const endMs = new Date(endDate).getTime();
             let diffDays = Math.round((endMs - startMs) / (1000 * 60 * 60 * 24)) + 1;
@@ -494,8 +508,8 @@
         function resetAdForm() {
             document.getElementById('adEditIndex').value = -1;
             document.getElementById('adForm').reset();
-            document.getElementById('adFormTitle').querySelector('span').innerText = "تسجيل أو تعديل حملة إعلانية (حسب اليوم، الشهر، والسنة)";
-            document.getElementById('adSubmitBtn').innerText = "حفظ الحملة في السجل 📊";
+            document.getElementById('adFormTitle').querySelector('span').innerText = "تسجيل أو تعديل حملة إعلانية";
+            document.getElementById('adSubmitBtn').innerText = "حفظ الحملة 📊";
             document.getElementById('adCancelBtn').style.display = 'none';
         }
 
@@ -509,7 +523,14 @@
             renderAds();
         }
 
-        // --- 3. الروتور والمرتجعات ---
+        function clearAllAds() {
+            if(!confirm("تحذير: هل تريد حقاً تصفير وحذف جميع سجلات الحملات؟")) return;
+            adsDB = [];
+            localStorage.removeItem('glame_admin_ads');
+            renderAds();
+        }
+
+        // --- 3. الروتور ---
         function saveReturn(e) {
             e.preventDefault();
             const r = {
@@ -549,7 +570,14 @@
             renderReturns();
         }
 
-        // --- 4. الحسابات المالية ---
+        function clearAllReturns() {
+            if(!confirm("تحذير: هل تريد تصفير سجل الروتور بالكامل؟")) return;
+            returnsDB = [];
+            localStorage.removeItem('glame_admin_returns');
+            renderReturns();
+        }
+
+        // --- 4. الحسابات والأرباح ---
         function calculateFinance() {
             let totalAds = adsDB.reduce((sum, a) => sum + a.budget, 0);
             let totalLoss = returnsDB.reduce((sum, r) => sum + r.loss, 0);
@@ -569,7 +597,14 @@
             document.getElementById('finNet').innerText = `${netProfit.toLocaleString()} د.ج`;
         }
 
-        // --- التصدير والاستيراد الشامل ---
+        function clearStoreAnalytics() {
+            if(!confirm("تحذير تدميري: هل تريد حقاً تصفير سجل المبيعات والتحليلات لتبدأ من جديد؟")) return;
+            localStorage.removeItem('glame_local_analytics');
+            calculateFinance();
+            alert("تم تصفير سجل المبيعات والتحليلات بنجاح! 🔄");
+        }
+
+        // --- التصدير والاستيراد ---
         function exportAllData() {
             const backupObj = {
                 products: productsDB,
