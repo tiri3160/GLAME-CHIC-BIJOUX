@@ -26,7 +26,7 @@
         }
         .login-card h2 { margin-bottom: 10px; color: var(--primary-color); }
         .login-card p { margin-bottom: 20px; font-size: 13px; color: #666; }
-        .login-card input, .login-card textarea {
+        .login-card input {
             width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
         }
         .login-card button {
@@ -96,7 +96,7 @@
             <h2>Glam Chic Enterprise</h2>
             <p>منطقة إدارية آمنة ومحمية</p>
             <div id="error-alert" class="error-msg">كلمة المرور غير صحيحة!</div>
-            <input type="password" id="master-password" placeholder="أدخل كلمة مرور المخزون (glame2026)">
+            <input type="password" id="master-password" placeholder="أدخل كلمة مرور المخزون (glame2026)" onkeydown="if(event.key === 'Enter') handleLogin()">
             <button onclick="handleLogin()">دخول آمن 🚀</button>
         </div>
     </div>
@@ -144,6 +144,7 @@
     </div>
 
     <script>
+        // التحقق الفوري بمجرد تحميل الصفحة من الحفظ المحلي
         window.addEventListener('DOMContentLoaded', () => {
             const savedSession = localStorage.getItem('glame_enterprise_auth');
             const savedToken = localStorage.getItem('glame_vault_token');
