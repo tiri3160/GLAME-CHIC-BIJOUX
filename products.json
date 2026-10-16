@@ -125,5 +125,14 @@
     "oldPrice": 0,
     "quantity": 10,
     "image": "prod_1792184737489.jpg"
+  },
+  {
+    "id": 1792184863989,
+    "name": "L’alliance",
+    "category": "خواتم",
+    "price": 650,
+    "oldPrice": 1000,
+    "quantity": 10,
+    "image": "prod_1792184861135.jpg"
   }
 ]
