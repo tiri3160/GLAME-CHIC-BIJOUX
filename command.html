@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLAME CHIC | Commandes & Orders</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root { --gold: #D4AF37; --gold-light: #FBF5B7; --bg: #070707; --card: #121212; --border: rgba(212,175,55,0.3); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+        body { background: var(--bg); color: #fff; padding: 20px 15px 80px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .auth-box { background: var(--card); border: 2px solid var(--gold); padding: 40px 30px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 0 30px rgba(212,175,55,0.2); }
+        .auth-box h2 { color: var(--gold); font-family: 'Amiri', serif; margin-bottom: 20px; font-size: 1.9em; }
+        .auth-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 14px; border-radius: 8px; font-size: 1.1em; text-align: center; margin-bottom: 15px; }
+        .auth-input:focus { outline: none; border-color: var(--gold); }
+
+        .top-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--card); padding: 20px 25px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .logo-area h1 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.6em; }
+        .logo-area p { color: #888; font-size: 0.85em; }
+        .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        
+        .btn-gold { background: linear-gradient(90deg, #997A15, var(--gold)); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 8px; font-size: 0.95em; text-decoration: none; transition: 0.2s; }
+        .btn-gold:hover { transform: scale(1.02); opacity: 0.95; }
+        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 8px; font-size: 0.95em; transition: 0.2s; text-decoration: none; }
+        .btn-outline:hover { background: var(--gold); color: #000; }
+        .btn-danger { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid rgba(230,57,70,0.4); padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: flex; align-items: center; gap: 6px; }
+        .btn-danger:hover { background: #e63946; color: #fff; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .kpi-card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 10px; position: relative; overflow: hidden; }
+        .kpi-card::after { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--gold); }
+        .kpi-card h4 { color: #aaa; font-size: 0.9em; margin-bottom: 8px; }
+        .kpi-val { font-size: 1.8em; font-weight: bold; color: #fff; }
+
+        .form-card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
+        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .input-group label { display: block; color: #ccc; font-size: 0.9em; margin-bottom: 6px; }
+        .input-group input, .input-group select { width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 12px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.95em; }
+        .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--gold); }
+
+        .search-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; background: var(--card); padding: 15px; border-radius: 10px; border: 1px solid var(--border); }
+        .search-bar input { flex-grow: 1; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 10px 15px; border-radius: 8px; font-family: 'Cairo'; font-size: 1em; }
+        .search-bar input:focus { outline: none; border-color: var(--gold); }
+
+        .table-wrapper { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.92em; }
+        th { background: #1a1a1a; color: var(--gold); padding: 14px 12px; border-bottom: 1px solid #333; white-space: nowrap; }
+        td { padding: 14px 12px; border-bottom: 1px solid #1a1a1a; color: #ddd; vertical-align: middle; }
+        tr:hover td { background: rgba(212,175,55,0.03); }
+
+        .btn-action-sm { padding: 6px 10px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: 'Cairo'; font-size: 0.85em; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; margin: 2px; }
+        .btn-call { background: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+        .btn-call:hover { background: #2ecc71; color: #fff; }
+        .btn-wa { background: rgba(37,211,102,0.15); color: #25d366; border: 1px solid rgba(37,211,102,0.3); }
+        .btn-wa:hover { background: #25d366; color: #fff; }
+        .btn-edit { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.3); }
+        .btn-edit:hover { background: #3498db; color: #fff; }
+        .btn-del { background: rgba(230,57,70,0.15); color: #ff6b6b; border: 1px solid rgba(230,57,70,0.3); }
+        .btn-del:hover { background: #dc3545; color: #fff; }
+
+        .status-select { background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 6px 10px; border-radius: 6px; font-family: 'Cairo'; font-size: 0.85em; cursor: pointer; }
+        .status-select:focus { outline: none; border-color: var(--gold); }
+
+        @media(max-width: 768px) {
+            .top-header { flex-direction: column; align-items: stretch; text-align: center; }
+            .nav-actions { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loginScreen">
+        <div class="auth-box">
+            <h2>👑 GLAME CHIC COMMANDES</h2>
+            <p style="color:#888; font-size:0.85em; margin-bottom:20px;">أدخل كلمة المرور للوصول إلى لوحة الطلبيات الآمنة:</p>
+            <input type="password" id="authPass" class="auth-input" placeholder="كلمة المرور...">
+            <button class="btn-gold" style="width:100%; justify-content:center;" onclick="verifyLogin()">دخول آمن 🔓</button>
+        </div>
+    </div>
+
+    <div class="container" id="mainDashboard" style="display:none;">
+        <div class="top-header">
+            <div class="logo-area">
+                <h1>📦 GLAME CHIC | Commandes Center</h1>
+                <p>إدارة وأرشيف الطلبيات الآمن، متابعة الزبائن، والرزنامة الدقيقة</p>
+            </div>
+            <div class="nav-actions">
+                <a href="index.html" class="btn-outline"><i class="fas fa-store"></i> المتجر</a>
+                <a href="admin.html" class="btn-outline"><i class="fas fa-edit"></i> إدارة المنتجات</a>
+                <button class="btn-gold" onclick="exportOrdersBackup()"><i class="fas fa-file-export"></i> تصدير الطلبيات 💾</button>
+                <button class="btn-outline" onclick="triggerImport()"><i class="fas fa-file-import"></i> استيراد</button>
+                <input type="file" id="importFile" style="display:none;" onchange="importOrdersBackup(event)">
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <h4>إجمالي الطلبيات المسجلة</h4>
+                <div class="kpi-val" id="kpiTotalOrders">0</div>
+            </div>
+            <div class="kpi-card">
+                <h4>إجمالي قيمة المبيعات المؤكدة</h4>
+                <div class="kpi-val" id="kpiTotalRev" style="color:#2ecc71;">0 د.ج</div>
+            </div>
+        </div>
+
+        <!-- قسم إضافة طلبية يدوياً -->
+        <div class="form-card">
+            <h3 id="orderFormTitle">
+                <span>➕ تسجيل أو تعديل طلبية يدوياً (حماية تامة من الضياع)</span>
+                <button type="button" class="btn-danger" onclick="clearAllOrders()"><i class="fas fa-trash-alt"></i> تصفير جميع الطلبيات</button>
+            </h3>
+            <form id="orderManualForm" onsubmit="saveManualOrder(event)">
+                <input type="hidden" id="orderEditIdx" value="-1">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label>تاريخ ووقت الطلبية:</label>
+                        <input type="datetime-local" id="mDate" required>
+                    </div>
+                    <div class="input-group">
+                        <label>اسم الزبون:</label>
+                        <input type="text" id="mClient" required placeholder="الاسم واللقب">
+                    </div>
+                    <div class="input-group">
+                        <label>رقم الهاتف:</label>
+                        <input type="text" id="mPhone" required placeholder="05xxxxxxxx">
+                    </div>
+                    <div class="input-group">
+                        <label>المنتجات والكمية:</label>
+                        <input type="text" id="mItems" required placeholder="أقراط اللؤلؤ (العدد: 1)">
+                    </div>
+                    <div class="input-group">
+                        <label>الولاية:</label>
+                        <input type="text" id="mWilaya" required placeholder="وهران">
+                    </div>
+                    <div class="input-group">
+                        <label>المبلغ الإجمالي (د.ج):</label>
+                        <input type="number" id="mPrice" required placeholder="2500">
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="btn-gold" id="orderSubmitBtn">حفظ الطلبية في الأرشيف الآمن 💾</button>
+                    <button type="button" class="btn-danger" id="orderCancelBtn" style="display:none;" onclick="cancelOrderEdit()">إلغاء التعديل</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- شريط البحث السريع والفلترة -->
+        <div class="search-bar">
+            <i class="fas fa-search" style="color:var(--gold); font-size:1.2em;"></i>
+            <input type="text" id="searchInput" placeholder="بحث سريع عن زبون (بالاسم، رقم الهاتف، أو الولاية)..." oninput="renderOrders()">
+            <div style="color:#aaa; font-size:0.9em;" id="searchCount">عرض الكل</div>
+        </div>
+
+        <!-- جدول الأرشيف -->
+        <div class="table-wrapper">
+            <h3 style="padding:15px; color:var(--gold); border-bottom:1px solid #222; font-family:'Amiri',serif;">📋 أرشيف الطلبيات والزبائن:</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>التاريخ والوقت</th>
+                        <th>الزبون والهاتف</th>
+                        <th>المنتجات المطلوبة</th>
+                        <th>الولاية</th>
+                        <th>المبلغ</th>
+                        <th>حالة الطلبية</th>
+                        <th>إجراءات سريعة وتحكم</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASS = "glame2026";
+
+        function verifyLogin() {
+            if(document.getElementById('authPass').value.trim() === ADMIN_PASS) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('mainDashboard').style.display = 'block';
+                loadOrdersData();
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
+
+        let ordersDB = [];
+
+        function loadOrdersData() {
+            try {
+                ordersDB = JSON.parse(localStorage.getItem('glame_royal_orders') || '[]');
+            } catch(e) {}
+            
+            // مزامنة تلقائية مع مبيعات المتجر إن وجدت
+            syncStoreAnalytics();
+            renderOrders();
+        }
+
+        function syncStoreAnalytics() {
+            try {
+                let analytics = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+                let purchases = analytics.filter(e => e.type === 'purchase');
+                purchases.forEach(p => {
+                    let ex = p.extra || {};
+                    let exists = ordersDB.some(o => String(o.id) === String(p.id));
+                    if(!exists) {
+                        ordersDB.unshift({
+                            id: p.id || ('ord_' + Date.now()),
+                            date: p.ts || new Date().toISOString(),
+                            client: ex.name || 'زبون المتجر',
+                            phone: ex.phone || '-',
+                            items: p.item || 'منتج',
+                            wilaya: p.wilaya || 'غير محددة',
+                            price: Number(p.price) || 0,
+                            status: 'مؤكدة'
+                        });
+                    }
+                });
+                localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
+            } catch(e) {}
+        }
+
+        function saveManualOrder(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('orderEditIdx').value);
+            const ord = {
+                id: idx > -1 ? ordersDB[idx].id : ('ord_' + Date.now()),
+                date: document.getElementById('mDate').value,
+                client: document.getElementById('mClient').value.trim(),
+                phone: document.getElementById('mPhone').value.trim(),
+                items: document.getElementById('mItems').value.trim(),
+                wilaya: document.getElementById('mWilaya').value.trim(),
+                price: Number(document.getElementById('mPrice').value) || 0,
+                status: idx > -1 ? ordersDB[idx].status : 'مؤكدة'
+            };
+
+            if(idx === -1) ordersDB.unshift(ord);
+            else ordersDB[idx] = ord;
+
+            localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
+            document.getElementById('orderManualForm').reset();
+            cancelOrderEdit();
+            renderOrders();
+            alert("تم حفظ الطلبية في الأرشيف الآمن بنجاح 💎");
+        }
+
+        function renderOrders() {
+            const query = (document.getElementById('searchInput').value || '').toLowerCase();
+            const filtered = ordersDB.filter(o => 
+                (o.client || '').toLowerCase().includes(query) ||
+                (o.phone || '').toLowerCase().includes(query) ||
+                (o.wilaya || '').toLowerCase().includes(query) ||
+                (o.items || '').toLowerCase().includes(query)
+            );
+
+            document.getElementById('kpiTotalOrders').innerText = ordersDB.length;
+            const totalRev = ordersDB.reduce((s, o) => s + (o.status !== 'مرتجع' ? o.price : 0), 0);
+            document.getElementById('kpiTotalRev').innerText = `${totalRev.toLocaleString()} د.ج`;
+            document.getElementById('searchCount').innerText = `عرض ${filtered.length} من ${ordersDB.length} طلبية`;
+
+            const tbody = document.getElementById('ordersTableBody');
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#777; padding:25px;">لا توجد طلبيات تطابق بحثك. الأرشيف نظيف وآمن.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map((o) => {
+                const realIndex = ordersDB.findIndex(item => item.id === o.id);
+                const timeStr = new Date(o.date).toLocaleString('ar-DZ', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+                const cleanPhone = (o.phone || '').replace(/\s+/g, '');
+                const waText = encodeURIComponent(`مرحباً أستاذ(ة) ${o.client}، معك فريق متجر GLAME CHIC بخصوص طلبيتك (${o.items}) نحو ولاية ${o.wilaya}.`);
+
+                return `
+                    <tr>
+                        <td style="white-space:nowrap; font-size:0.88em; color:#aaa;">${timeStr}</td>
+                        <td style="font-weight:bold;">
+                            ${o.client}<br>
+                            <span style="font-size:0.9em; color:var(--gold);">📞 ${o.phone}</span>
+                        </td>
+                        <td style="color:var(--gold-light); font-weight:bold;">${o.items}</td>
+                        <td>${o.wilaya}</td>
+                        <td style="color:#2ecc71; font-weight:bold;">${o.price.toLocaleString()} د.ج</td>
+                        <td>
+                            <select class="status-select" onchange="updateOrderStatus(${realIndex}, this.value)">
+                                <option value="مؤكدة" ${o.status === 'مؤكدة' ? 'selected' : ''}>مؤكدة ✅</option>
+                                <option value="قيد الشحن" ${o.status === 'قيد الشحن' ? 'selected' : ''}>قيد الشحن 🚚</option>
+                                <option value="تم التوصيل" ${o.status === 'تم التوصيل' ? 'selected' : ''}>تم التوصيل 🎉</option>
+                                <option value="مرتجع" ${o.status === 'مرتجع' ? 'selected' : ''}>مرتجع ⚠️</option>
+                            </select>
+                        </td>
+                        <td>
+                            <a href="tel:${cleanPhone}" class="btn-action-sm btn-call" title="اتصال هاتفي"><i class="fas fa-phone"></i></a>
+                            <a href="https://wa.me/213${cleanPhone.startsWith('0') ? cleanPhone.slice(1) : cleanPhone}?text=${waText}" target="_blank" class="btn-action-sm btn-wa" title="مراسلة واتساب"><i class="fab fa-whatsapp"></i></a>
+                            <button class="btn-action-sm btn-edit" onclick="editOrder(${realIndex})" title="تعديل"><i class="fas fa-edit"></i></button>
+                            <button class="btn-action-sm btn-del" onclick="deleteOrder(${realIndex})" title="حذف"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateOrderStatus(i, statusVal) {
+            ordersDB[i].status = statusVal;
+            localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
+            renderOrders();
+        }
+
+        function editOrder(i) {
+            const o = ordersDB[i];
+            document.getElementById('orderEditIdx').value = i;
+            document.getElementById('mDate').value = o.date ? o.date.substring(0,16) : '';
+            document.getElementById('mClient').value = o.client;
+            document.getElementById('mPhone').value = o.phone;
+            document.getElementById('mItems').value = o.items;
+            document.getElementById('mWilaya').value = o.wilaya;
+            document.getElementById('mPrice').value = o.price;
+            document.getElementById('orderSubmitBtn').innerText = "تحديث الطلبية 🔄";
+            document.getElementById('orderCancelBtn').style.display = 'inline-block';
+            window.scrollTo({top:0, behavior:'smooth'});
+        }
+
+        function cancelOrderEdit() {
+            document.getElementById('orderEditIdx').value = -1;
+            document.getElementById('orderManualForm').reset();
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('mDate').value = now.toISOString().slice(0,16);
+            document.getElementById('orderSubmitBtn').innerText = "حفظ الطلبية في الأرشيف الآمن 💾";
+            document.getElementById('orderCancelBtn').style.display = 'none';
+        }
+
+        function deleteOrder(i) {
+            if(!confirm("هل أنت متأكد من حذف هذه الطلبية من الأرشيف؟")) return;
+            ordersDB.splice(i, 1);
+            localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
+            renderOrders();
+        }
+
+        function clearAllOrders() {
+            if(!confirm("تحذير خطير: هل تريد حقاً حذف وتصفير جميع الطلبيات؟")) return;
+            ordersDB = [];
+            localStorage.removeItem('glame_royal_orders');
+            renderOrders();
+        }
+
+        function exportOrdersBackup() {
+            const backup = {
+                orders: ordersDB,
+                date: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(backup, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `glame_orders_backup_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+
+        function triggerImport() { document.getElementById('importFile').click(); }
+        function importOrdersBackup(e) {
+            const reader = new FileReader();
+            if(e.target.files[0]) {
+                reader.readAsText(e.target.files[0], "UTF-8");
+                reader.onload = function(evt) {
+                    try {
+                        const data = JSON.parse(evt.target.result);
+                        if(data.orders) {
+                            ordersDB = data.orders;
+                            localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
+                            loadOrdersData();
+                            alert("تم استيراد كافة الطلبيات بنجاح تام! 📦✅");
+                        }
+                    } catch(err) {
+                        alert("ملف النسخة الاحتياطية غير صالح!");
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('mDate').value = now.toISOString().slice(0,16);
+        });
+    </script>
+</body>
+</html>
