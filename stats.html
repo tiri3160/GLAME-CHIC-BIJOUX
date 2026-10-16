@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رادار الإحصائيات (Cloudflare Worker) | GLAME CHIC</title>
+    <title>رادار الإحصائيات المتقدم | GLAME CHIC</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
@@ -17,9 +17,18 @@
         .live-dot { width: 11px; height: 11px; background: #2ecc71; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #2ecc71; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         .btn-action { background: #1e1e1e; color: var(--gold); border: 1px solid var(--gold); padding: 8px 16px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; font-size: 0.9em; display: flex; align-items: center; gap: 6px; transition: 0.2s; text-decoration: none; }
         .btn-action:hover { background: var(--gold); color: #000; }
+        .btn-danger { background: rgba(220,53,69,0.15); color: #ff6b6b; border-color: rgba(220,53,69,0.4); }
+        .btn-danger:hover { background: #dc3545; color: #fff; }
+
+        /* شريط الفلاتر الزمنية */
+        .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; background: var(--card); padding: 12px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); margin-bottom: 22px; align-items: center; }
+        .filter-label { color: #aaa; font-size: 0.9em; margin-left: 10px; }
+        .filter-btn { background: #181818; color: #ccc; border: 1px solid #333; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-family: 'Cairo'; font-size: 0.88em; transition: 0.2s; }
+        .filter-btn:hover { border-color: var(--gold); color: #fff; }
+        .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: bold; }
 
         .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .kpi-card { background: var(--card); border: 1px solid rgba(255,255,255,0.07); padding: 18px; border-radius: 10px; position: relative; overflow: hidden; }
@@ -48,12 +57,22 @@
 <div class="container">
     <div class="header-bar">
         <div class="header-title">
-            <h1><span class="live-dot"></span> رادار الإحصائيات (Cloudflare Worker)</h1>
+            <h1><span class="live-dot"></span> رادار الإحصائيات المتقدم</h1>
         </div>
         <div class="btn-group">
-            <button class="btn-action" onclick="fetchWorkerData()"><i class="fas fa-sync-alt"></i> تحديث مباشر</button>
-            <a href="index.html" class="btn-action"><i class="fas fa-store"></i> عرض المتجر</a>
+            <button class="btn-action" onclick="fetchWorkerData()"><i class="fas fa-sync-alt"></i> تحديث</button>
+            <button class="btn-action btn-danger" onclick="resetWorkerData()"><i class="fas fa-trash-alt"></i> تصفير السجل</button>
+            <a href="index.html" class="btn-action"><i class="fas fa-store"></i> المتجر</a>
         </div>
+    </div>
+
+    <!-- شريط الفلاتر الزمنية الدقيقة -->
+    <div class="filter-bar">
+        <span class="filter-label"><i class="fas fa-filter"></i> عرض السجل حسب:</span>
+        <button class="filter-btn active" data-range="all" onclick="setFilter('all', this)">الكل</button>
+        <button class="filter-btn" data-range="today" onclick="setFilter('today', this)">اليوم 📅</button>
+        <button class="filter-btn" data-range="month" onclick="setFilter('month', this)">هذا الشهر 🗓️</button>
+        <button class="filter-btn" data-range="year" onclick="setFilter('year', this)">هذه السنة 📊</button>
     </div>
 
     <div class="kpi-grid">
@@ -72,7 +91,7 @@
         <div class="kpi-card">
             <div class="kpi-title">الطلبيات المؤكدة 💎</div>
             <div class="kpi-value" id="kpiPurchases" style="color:#2ecc71;">0</div>
-            <div class="kpi-sub" id="kpiRevenue">0 د.ج إجمالي المبيعات</div>
+            <div class="kpi-sub" id="kpiRevenue">0 د.ج المبيعات</div>
         </div>
     </div>
 
@@ -90,7 +109,7 @@
                     </tr>
                 </thead>
                 <tbody id="ordersTableBody">
-                    <tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">جاري جلب الطلبيات...</td></tr>
+                    <tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">جاري تحميل الطلبيات...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -109,18 +128,59 @@
 </div>
 
 <script>
-    const CLOUDFLARE_WORKER_FETCH_URL = "https://glame-tracker.warriorlegend3160.workers.dev/";
+    const WORKER_URL = "https://glame-tracker.warriorlegend3160.workers.dev/";
+    let allGlobalEvents = [];
+    let currentFilterRange = 'all';
 
     async function fetchWorkerData() {
         try {
-            const res = await fetch(CLOUDFLARE_WORKER_FETCH_URL);
+            const res = await fetch(WORKER_URL);
             if (res.ok) {
                 const events = await res.json();
                 if (Array.isArray(events)) {
-                    renderDashboard(events);
+                    allGlobalEvents = events;
+                    filterAndRender();
                 }
             }
         } catch(e) {}
+    }
+
+    async function resetWorkerData() {
+        if (!confirm("هل أنت متأكد من رغبتك في تصفير وحذف كافة سجلات الزوار والطلبيات نهائياً؟")) return;
+        try {
+            const res = await fetch(WORKER_URL + "reset", { method: 'POST' });
+            if (res.ok) {
+                allGlobalEvents = [];
+                filterAndRender();
+                alert("تم تصفير السجل بنجاح!");
+            }
+        } catch(e) {
+            alert("حدث خطأ أثناء محاولة التصفير.");
+        }
+    }
+
+    function setFilter(range, btn) {
+        currentFilterRange = range;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterAndRender();
+    }
+
+    function filterAndRender() {
+        const now = new Date();
+        const filtered = allGlobalEvents.filter(e => {
+            if (!e.ts) return true;
+            const evDate = new Date(e.ts);
+            if (currentFilterRange === 'today') {
+                return evDate.toDateString() === now.toDateString();
+            } else if (currentFilterRange === 'month') {
+                return evDate.getMonth() === now.getMonth() && evDate.getFullYear() === now.getFullYear();
+            } else if (currentFilterRange === 'year') {
+                return evDate.getFullYear() === now.getFullYear();
+            }
+            return true; // 'all'
+        });
+        renderDashboard(filtered);
     }
 
     function renderDashboard(events) {
@@ -139,7 +199,7 @@
 
         const ordersBody = document.getElementById('ordersTableBody');
         if (purchases.length === 0) {
-            ordersBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">لا توجد طلبيات مسجلة حتى الآن.</td></tr>`;
+            ordersBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#777; padding:20px;">لا توجد طلبيات مسجلة في هذه الفترة.</td></tr>`;
         } else {
             ordersBody.innerHTML = purchases.map(p => {
                 const timeStr = new Date(p.ts).toLocaleString('ar-DZ', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -168,7 +228,7 @@
                 <span>💎 ${name}</span>
                 <span class="badge-count">${count} معاينة</span>
             </div>
-        `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد معاينات بعد</p>';
+        `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد معاينات في هذه الفترة</p>';
 
         const srcCounts = {};
         events.forEach(e => {
@@ -181,12 +241,12 @@
                 <span>${src}</span>
                 <span class="badge-count">${count} حركة</span>
             </div>
-        `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد بيانات بعد</p>';
+        `).join('') : '<p style="color:#666; text-align:center; padding:15px;">لا توجد بيانات في هذه الفترة</p>';
     }
 
     window.addEventListener('DOMContentLoaded', () => {
         fetchWorkerData();
-        setInterval(fetchWorkerData, 6000);
+        setInterval(fetchWorkerData, 7000);
     });
 </script>
 </body>
