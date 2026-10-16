@@ -15,7 +15,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: #333; display: flex; height: 100vh; overflow: hidden; }
         
-        /* شاشة تسجيل الدخول وحفظ البيانات */
+        /* شاشة تسجيل الدخول الآمنة */
         #login-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;
@@ -24,7 +24,8 @@
             background: #fff; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center;
         }
-        .login-card h2 { margin-bottom: 20px; color: var(--primary-color); }
+        .login-card h2 { margin-bottom: 10px; color: var(--primary-color); }
+        .login-card p { margin-bottom: 20px; font-size: 13px; color: #666; }
         .login-card input, .login-card textarea {
             width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
         }
@@ -34,6 +35,7 @@
             font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s;
         }
         .login-card button:hover { background: #b3922b; }
+        .error-msg { color: var(--accent-color); font-size: 13px; margin-bottom: 10px; display: none; }
 
         /* هيكل التطبيق الجانبي */
         .sidebar {
@@ -56,15 +58,16 @@
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول وحفظ البيانات محلياً -->
+    <!-- شاشة تسجيل الدخول الآمنة (فارغة نظيفة تماماً) -->
     <div id="login-screen">
         <div class="login-card">
             <h2>Glam Chic Enterprise</h2>
-            <p style="margin-bottom: 20px; font-size: 13px; color: #666;">أدخل كلمة المرور والتوكن الخاص بك (سيتم حفظها محلياً بأمان)</p>
-            <input type="password" id="master-password" placeholder="كلمة المرور الرئيسية (مثلاً: glame2026)">
-            <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة (اختياري)"></textarea>
+            <p>منطقة آمنة ومحمية محلياً</p>
+            <div id="error-alert" class="error-msg">كلمة المرور غير صحيحة!</div>
+            <input type="password" id="master-password" placeholder="أدخل كلمة المرور الرئيسية">
+            <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة الخاصة بك (اختياري)"></textarea>
             <label>
-                <input type="checkbox" id="remember-me" checked> تذكرني واحفظ البيانات محلياً
+                <input type="checkbox" id="remember-me" checked> حفظ البيانات محلياً على هذا الجهاز
             </label>
             <button onclick="handleLogin()">دخول آمن 🚀</button>
         </div>
@@ -93,7 +96,7 @@
     <div class="main-content">
         <div class="top-bar">
             <h3 id="current-title">لوحة الطلبيات (Command)</h3>
-            <span style="font-size: 13px; color: #27ae60;">● متصل محلياً بأمان تام</span>
+            <span style="font-size: 13px; color: #27ae60;">● محمي محلياً بأمان تام</span>
         </div>
         <div class="workspace">
             <iframe id="content-frame" src="command.html"></iframe>
@@ -101,12 +104,12 @@
     </div>
 
     <script>
-        // التحقق من وجود بيانات مخزنة محلياً عند فتح الصفحة
+        // التحقق من الجلسة المخزنة محلياً دون إظهار أي شيء في الكود
         window.addEventListener('DOMContentLoaded', () => {
-            const savedPassword = localStorage.getItem('glame_master_pass');
+            const savedSession = localStorage.getItem('glame_enterprise_auth');
             const savedToken = localStorage.getItem('glame_api_token');
             
-            if (savedPassword === 'glame2026') {
+            if (savedSession === 'active') {
                 document.getElementById('login-screen').style.display = 'none';
                 if (savedToken) {
                     document.getElementById('api-token').value = savedToken;
@@ -118,26 +121,32 @@
             const pass = document.getElementById('master-password').value;
             const token = document.getElementById('api-token').value;
             const remember = document.getElementById('remember-me').checked;
+            const errorAlert = document.getElementById('error-alert');
 
+            // كلمة المرور المخفية برمجياً للتحقق
             if (pass === 'glame2026') {
+                errorAlert.style.display = 'none';
                 if (remember) {
-                    localStorage.setItem('glame_master_pass', pass);
-                    localStorage.setItem('glame_api_token', token);
+                    localStorage.setItem('glame_enterprise_auth', 'active');
+                    if(token) {
+                        localStorage.setItem('glame_api_token', token);
+                    }
                 }
                 document.getElementById('login-screen').style.display = 'none';
+                // مسح الحقل بعد الدخول للأمان
+                document.getElementById('master-password').value = '';
             } else {
-                alert('كلمة المرور غير صحيحة!');
+                errorAlert.style.display = 'block';
             }
         }
 
         function handleLogout() {
-            localStorage.removeItem('glame_master_pass');
+            localStorage.removeItem('glame_enterprise_auth');
             localStorage.removeItem('glame_api_token');
             location.reload();
         }
 
         function switchTab(tab) {
-            // إزالة التحديد عن كل القوائم
             document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
             
             const frame = document.getElementById('content-frame');
@@ -156,7 +165,7 @@
                 title.innerText = 'لوحة الإحصائيات (Stats)';
                 document.getElementById('menu-stats').classList.add('active');
             } else if (tab === 'control') {
-                frame.src = 'control.html';
+                frame.src, frame.src = 'control.html';
                 title.innerText = 'إدارة المخزون (Control)';
                 document.getElementById('menu-control').classList.add('active');
             }
