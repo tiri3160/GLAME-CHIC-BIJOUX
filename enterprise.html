@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glam Chic Enterprise | لوحة التحكم الشاملة</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --gold-color: #d4af37;
+            --bg-color: #f8f9fa;
+            --sidebar-width: 260px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: #333; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* شاشة تسجيل الدخول وحفظ البيانات */
+        #login-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); display: flex; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .login-card {
+            background: #fff; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center;
+        }
+        .login-card h2 { margin-bottom: 20px; color: var(--primary-color); }
+        .login-card input, .login-card textarea {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;
+        }
+        .login-card label { display: flex; align-items: center; gap: 8px; margin-bottom: 15px; font-size: 14px; cursor: pointer; justify-content: right; }
+        .login-card button {
+            width: 100%; padding: 12px; background: var(--gold-color); color: #fff; border: none; border-radius: 6px;
+            font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s;
+        }
+        .login-card button:hover { background: #b3922b; }
+
+        /* هيكل التطبيق الجانبي */
+        .sidebar {
+            width: var(--sidebar-width); background: var(--primary-color); color: #fff; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h1 { font-size: 20px; color: var(--gold-color); }
+        .sidebar-menu { list-style: none; padding: 20px 0; flex-grow: 1; }
+        .sidebar-menu li { padding: 12px 20px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; gap: 10px; font-size: 15px; }
+        .sidebar-menu li:hover, .sidebar-menu li.active { background: rgba(255,255,255,0.1); border-right: 4px solid var(--gold-color); }
+        .sidebar-footer { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center; opacity: 0.7; }
+
+        /* منطقة المحتوى الرئيسي */
+        .main-content { flex-grow: 1; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .top-bar { height: 60px; background: #fff; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; }
+        .workspace { flex-grow: 1; padding: 20px; overflow-y: auto; background: var(--bg-color); }
+        iframe { width: 100%; height: 100%; border: none; border-radius: 8px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logout-btn { background: #e74c3c; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول وحفظ البيانات محلياً -->
+    <div id="login-screen">
+        <div class="login-card">
+            <h2>Glam Chic Enterprise</h2>
+            <p style="margin-bottom: 20px; font-size: 13px; color: #666;">أدخل كلمة المرور والتوكن الخاص بك (سيتم حفظها محلياً بأمان)</p>
+            <input type="password" id="master-password" placeholder="كلمة المرور الرئيسية (مثلاً: glame2026)">
+            <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة (اختياري)"></textarea>
+            <label>
+                <input type="checkbox" id="remember-me" checked> تذكرني واحفظ البيانات محلياً
+            </label>
+            <button onclick="handleLogin()">دخول آمن 🚀</button>
+        </div>
+    </div>
+
+    <!-- القائمة الجانبية للتنقل بين الأدوات الأربع -->
+    <div class="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <h1>GLAME CHIC</h1>
+                <p style="font-size: 11px; color: #aaa; margin-top: 5px;">Enterprise Suite</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li onclick="switchTab('command')" id="menu-command" class="active">📦 لوحة الطلبيات</li>
+                <li onclick="switchTab('admin')" id="menu-admin">⚙️ لوحة الإدارة</li>
+                <li onclick="switchTab('stats')" id="menu-stats">📊 لوحة الإحصائيات</li>
+                <li onclick="switchTab('control')" id="menu-control">📋 إدارة المخزون (Control)</li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            <button class="logout-btn" onclick="handleLogout()">إقفال وخروج 🔒</button>
+        </div>
+    </div>
+
+    <!-- المحتوى وعرض الصفحات -->
+    <div class="main-content">
+        <div class="top-bar">
+            <h3 id="current-title">لوحة الطلبيات (Command)</h3>
+            <span style="font-size: 13px; color: #27ae60;">● متصل محلياً بأمان تام</span>
+        </div>
+        <div class="workspace">
+            <iframe id="content-frame" src="command.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // التحقق من وجود بيانات مخزنة محلياً عند فتح الصفحة
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedPassword = localStorage.getItem('glame_master_pass');
+            const savedToken = localStorage.getItem('glame_api_token');
+            
+            if (savedPassword === 'glame2026') {
+                document.getElementById('login-screen').style.display = 'none';
+                if (savedToken) {
+                    document.getElementById('api-token').value = savedToken;
+                }
+            }
+        });
+
+        function handleLogin() {
+            const pass = document.getElementById('master-password').value;
+            const token = document.getElementById('api-token').value;
+            const remember = document.getElementById('remember-me').checked;
+
+            if (pass === 'glame2026') {
+                if (remember) {
+                    localStorage.setItem('glame_master_pass', pass);
+                    localStorage.setItem('glame_api_token', token);
+                }
+                document.getElementById('login-screen').style.display = 'none';
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('glame_master_pass');
+            localStorage.removeItem('glame_api_token');
+            location.reload();
+        }
+
+        function switchTab(tab) {
+            // إزالة التحديد عن كل القوائم
+            document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
+            
+            const frame = document.getElementById('content-frame');
+            const title = document.getElementById('current-title');
+
+            if (tab === 'command') {
+                frame.src = 'command.html';
+                title.innerText = 'لوحة الطلبيات (Command)';
+                document.getElementById('menu-command').classList.add('active');
+            } else if (tab === 'admin') {
+                frame.src = 'admin.html';
+                title.innerText = 'لوحة الإدارة (Admin)';
+                document.getElementById('menu-admin').classList.add('active');
+            } else if (tab === 'stats') {
+                frame.src = 'stats.html';
+                title.innerText = 'لوحة الإحصائيات (Stats)';
+                document.getElementById('menu-stats').classList.add('active');
+            } else if (tab === 'control') {
+                frame.src = 'control.html';
+                title.innerText = 'إدارة المخزون (Control)';
+                document.getElementById('menu-control').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
