@@ -179,5 +179,14 @@
     "oldPrice": 4500,
     "quantity": 10,
     "image": "prod_1792185335660.jpg"
+  },
+  {
+    "id": 1792185463178,
+    "name": "Parure Dior 2",
+    "category": "أطقم",
+    "price": 1700,
+    "oldPrice": 0,
+    "quantity": 10,
+    "image": "prod_1792185460748.jpg"
   }
 ]
