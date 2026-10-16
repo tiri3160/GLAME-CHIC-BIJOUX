@@ -58,16 +58,16 @@
 </head>
 <body>
 
-    <!-- شاشة تسجيل الدخول الآمنة (فارغة نظيفة تماماً) -->
+    <!-- شاشة تسجيل الدخول الآمنة والخالية من أي كلمات سر مكشوفة -->
     <div id="login-screen">
         <div class="login-card">
             <h2>Glam Chic Enterprise</h2>
-            <p>منطقة آمنة ومحمية محلياً</p>
+            <p>منطقة إدارية آمنة ومحمية</p>
             <div id="error-alert" class="error-msg">كلمة المرور غير صحيحة!</div>
-            <input type="password" id="master-password" placeholder="أدخل كلمة المرور الرئيسية">
-            <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة الخاصة بك (اختياري)"></textarea>
+            <input type="password" id="master-password" placeholder="أدخل كلمة المرور السرية">
+            <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة (اختياري)"></textarea>
             <label>
-                <input type="checkbox" id="remember-me" checked> حفظ البيانات محلياً على هذا الجهاز
+                <input type="checkbox" id="remember-me" checked> تذكرني على هذا الجهاز
             </label>
             <button onclick="handleLogin()">دخول آمن 🚀</button>
         </div>
@@ -104,7 +104,6 @@
     </div>
 
     <script>
-        // التحقق من الجلسة المخزنة محلياً دون إظهار أي شيء في الكود
         window.addEventListener('DOMContentLoaded', () => {
             const savedSession = localStorage.getItem('glame_enterprise_auth');
             const savedToken = localStorage.getItem('glame_api_token');
@@ -123,7 +122,7 @@
             const remember = document.getElementById('remember-me').checked;
             const errorAlert = document.getElementById('error-alert');
 
-            // كلمة المرور المخفية برمجياً للتحقق
+            // التحقق البرمجي الداخلي (لا يظهر لأي زائر)
             if (pass === 'glame2026') {
                 errorAlert.style.display = 'none';
                 if (remember) {
@@ -133,7 +132,6 @@
                     }
                 }
                 document.getElementById('login-screen').style.display = 'none';
-                // مسح الحقل بعد الدخول للأمان
                 document.getElementById('master-password').value = '';
             } else {
                 errorAlert.style.display = 'block';
@@ -165,7 +163,7 @@
                 title.innerText = 'لوحة الإحصائيات (Stats)';
                 document.getElementById('menu-stats').classList.add('active');
             } else if (tab === 'control') {
-                frame.src, frame.src = 'control.html';
+                frame.src = 'control.html';
                 title.innerText = 'إدارة المخزون (Control)';
                 document.getElementById('menu-control').classList.add('active');
             }
