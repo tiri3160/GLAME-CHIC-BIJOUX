@@ -383,10 +383,6 @@
 
         <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
         <div class="categories-grid">
-            <div class="category-card" onclick="openCategoryPage('أقراط')">
-                <img src="earrings-icon-transparent.png" alt="أقراط" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/963/963116.png'">
-                <div class="category-title">أقراط</div>
-            </div>
             <div class="category-card" onclick="openCategoryPage('خواتم')">
                 <img src="ring-icon-transparent.png" alt="خواتم" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/83/83546.png'">
                 <div class="category-title">خواتم</div>
@@ -398,6 +394,10 @@
             <div class="category-card" onclick="openCategoryPage('قلادات')">
                 <img src="necklace-icon-transparent.png" alt="قلادات" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3062/3062770.png'">
                 <div class="category-title">قلادات</div>
+            </div>
+            <div class="category-card" onclick="openCategoryPage('أقراط')">
+                <img src="earring-icon-transparent.png" alt="أقراط" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3062/3062770.png'">
+                <div class="category-title">أقراط</div>
             </div>
             <div class="category-card" onclick="openCategoryPage('أطقم')">
                 <img src="set-icon-transparent.png" alt="أطقم كاملة" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3592/3592888.png'">
@@ -427,12 +427,12 @@
             
             <div class="quick-cats-list">
                 <span style="color:var(--text-muted); font-size:0.85em; margin-left:5px;">انتقال سريع:</span>
-                <button class="quick-cat-btn" data-cat="أقراط" onclick="openCategoryPage('أقراط')">أقراط 💎</button>
-                <button class="quick-cat-btn" data-cat="خواتم" onclick="openCategoryPage('خواتم')">خواتم 💍</button>
-                <button class="quick-cat-btn" data-cat="أساور" onclick="openCategoryPage('أساور')">أساور 📿</button>
-                <button class="quick-cat-btn" data-cat="قلادات" onclick="openCategoryPage('قلادات')">قلادات 💎</button>
-                <button class="quick-cat-btn" data-cat="أطقم" onclick="openCategoryPage('أطقم')">أطقم ✨</button>
-                <button class="quick-cat-btn" data-cat="ساعات" onclick="openCategoryPage('ساعات')">ساعات ⌚</button>
+                <button class="quick-cat-btn" data-cat="أقراط" onclick="openCategoryPage('أقراط')">🪞 أقراط</button>
+                <button class="quick-cat-btn" data-cat="خواتم" onclick="openCategoryPage('خواتم')">💍 خواتم</button>
+                <button class="quick-cat-btn" data-cat="أساور" onclick="openCategoryPage('أساور')">📿 أساور</button>
+                <button class="quick-cat-btn" data-cat="قلادات" onclick="openCategoryPage('قلادات')">💎 قلادات</button>
+                <button class="quick-cat-btn" data-cat="أطقم" onclick="openCategoryPage('أطقم')">👑 أطقم</button>
+                <button class="quick-cat-btn" data-cat="ساعات" onclick="openCategoryPage('ساعات')">⌚ ساعات</button>
             </div>
         </div>
 
@@ -1216,7 +1216,7 @@
             if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
             const finalCommune = deliveryMethodVal.includes("مكتب") 
-                ? "استلام من مكتب التوصيل (Stop Desk)" 
+                ? "الاستلام من مكتب التوصيل (Stop Desk)" 
                 : (communeSelVal === "أخرى" ? customCommuneVal : communeSelVal);
 
             const orderedProdSummary = document.getElementById("productInput").value;
