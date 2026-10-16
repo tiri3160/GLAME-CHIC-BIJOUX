@@ -197,5 +197,14 @@
     "oldPrice": 1500,
     "quantity": 10,
     "image": "prod_1792185557347.jpg"
+  },
+  {
+    "id": 1792185601829,
+    "name": "ساعة تيفاني فضية",
+    "category": "ساعات",
+    "price": 1000,
+    "oldPrice": 0,
+    "quantity": 10,
+    "image": "prod_1792185599959.jpg"
   }
 ]
