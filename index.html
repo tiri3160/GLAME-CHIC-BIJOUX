@@ -11,16 +11,15 @@
     <meta property="og:url" content="https://tiri3160.github.io/GLAME-CHIC-BIJOUX/">
     <meta property="og:type" content="website">
 
-    <!-- حماية ضد تحليلات البوتات -->
     <script>
         if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
             document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي 🤖</h2>";
         }
     </script>
 
-    <!-- محرك الإحصائيات المركزي الصامت والفعال (يرصد جميع الهواتف فوراً بدون تأثير على السرعة) -->
+    <!-- محرك الإحصائيات الفوري والسريع للرادار -->
     <script>
-        const GLAME_SYNC_URL = "https://kvdb.io/6WaZq9N2xR8pL4mK1vB3cD/glamechic_live_stream";
+        const GLAME_BIN_ID = "66f427fce41b4d34e432a677";
 
         function getVisitorSessionId() {
             let sid = sessionStorage.getItem('gc_sid');
@@ -39,7 +38,7 @@
 
             if (utm.includes('tiktok') || ref.includes('tiktok') || ua.includes('bytedance') || ua.includes('musical_ly') || urlParams.has('ttclid')) return 'TikTok 🎵';
             if (utm.includes('insta') || ref.includes('instagram') || ua.includes('instagram')) return 'Instagram 📸';
-            if (utm.includes('fb') || ref.includes('facebook') || ref.includes('facebook') || ua.includes('fban') || ua.includes('fbav') || urlParams.has('fbclid')) return 'Facebook 📘';
+            if (utm.includes('fb') || ref.includes('facebook') || ua.includes('fban') || ua.includes('fbav') || urlParams.has('fbclid')) return 'Facebook 📘';
             if (ref.includes('google')) return 'بحث Google 🌐';
             return 'دخول مباشر 🔍';
         }
@@ -61,29 +60,35 @@
             try {
                 let localEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
                 localEvents.push(eventObj);
-                if (localEvents.length > 400) localEvents = localEvents.slice(-400);
+                if (localEvents.length > 300) localEvents = localEvents.slice(-300);
                 localStorage.setItem('glame_local_analytics', JSON.stringify(localEvents));
             } catch(e) {}
 
             setTimeout(async () => {
                 try {
-                    const res = await fetch(GLAME_SYNC_URL, { cache: 'no-store' });
-                    let cloudEvents = [];
+                    const res = await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}/latest`, {
+                        headers: { 'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe' }
+                    });
+                    let cloudData = [];
                     if (res.ok) {
-                        cloudEvents = await res.json();
-                        if (!Array.isArray(cloudEvents)) cloudEvents = [];
+                        const json = await res.json();
+                        cloudData = json.record || [];
+                        if (!Array.isArray(cloudData)) cloudData = [];
                     }
-                    cloudEvents.push(eventObj);
-                    if (cloudEvents.length > 350) cloudEvents = cloudEvents.slice(-350);
+                    cloudData.push(eventObj);
+                    if (cloudData.length > 250) cloudData = cloudData.slice(-250);
 
-                    await fetch(GLAME_SYNC_URL, {
+                    await fetch(`https://api.jsonbin.io/v3/b/${GLAME_BIN_ID}`, {
                         method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(cloudEvents),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Master-Key': '$2a$10$7R9j8L2vK3mN6pQ1sW4uOe'
+                        },
+                        body: JSON.stringify(cloudData),
                         keepalive: true
                     });
                 } catch(err) {}
-            }, 50);
+            }, 30);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -177,7 +182,6 @@
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.06); padding: 15px; text-align: center; transition: border-color 0.25s ease; height: 100%; display: flex; flex-direction: column; border-radius: 8px; width: 100%; cursor: pointer; position: relative; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15); }
 
-        /* الأبعاد الملكية للصور مع object-fit: contain لضمان عدم قص أي جزء من الصورة أبدًا مع الحفاظ على حجمها الكامل */
         .product-img-wrapper { 
             width: 100%; 
             aspect-ratio: 4 / 4.8; 
@@ -498,7 +502,6 @@
             <div id="detailScarcity" style="margin-bottom:6px;"></div>
             <div id="detailPriceBox" style="margin-bottom:10px;"></div>
 
-            <!-- محدد الكمية الحر في نافذة المعاينة -->
             <div class="qty-selector-box" id="detailQtyBox">
                 <span class="qty-label">العدد المطلوب:</span>
                 <button type="button" class="qty-btn" onclick="changeDetailQty(-1)">−</button>
@@ -530,7 +533,6 @@
                 <input type="hidden" id="hiddenDeliveryCost" name="سعر_التوصيل_دج" value="">
                 <input type="hidden" id="hiddenTotalCost" name="المجموع_الإجمالي_دج" value="">
                 
-                <!-- صندوق عرض القطع المطلوبة مع التحكم الحي بالكمية (+ / -) بدون سقف -->
                 <div class="order-items-review" id="orderItemsReviewList"></div>
 
                 <div style="text-align:center; margin-bottom:14px;">
@@ -593,12 +595,10 @@
         </div>
     </div>
 
-    <!-- زر واتساب العائم -->
     <a href="https://wa.me/213779665820" onclick="recordGlameEvent('whatsapp_click', 'زر واتساب العام 💬')" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- زر السلة العائم للمشتريات المتعددة -->
     <button type="button" id="floatingCartBtn" class="cart-float" onclick="openCartCheckoutModal()">
         <i class="fas fa-shopping-bag"></i>
         <span>السلة</span>
