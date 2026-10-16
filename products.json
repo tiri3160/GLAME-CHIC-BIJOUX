@@ -71,5 +71,14 @@
     "oldPrice": 0,
     "quantity": 8,
     "image": "prod_1792083447407.jpg"
+  },
+  {
+    "id": 1792184506288,
+    "name": "Boucle carré",
+    "category": "أقراط",
+    "price": 500,
+    "oldPrice": 0,
+    "quantity": 9,
+    "image": "prod_1792184503668.jpg"
   }
 ]
