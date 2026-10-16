@@ -49,6 +49,12 @@
         .sidebar-menu li:hover, .sidebar-menu li.active { background: rgba(255,255,255,0.1); border-right: 4px solid var(--gold-color); }
         .sidebar-footer { padding: 12px 15px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; text-align: center; }
 
+        /* طبقة عتمة الخلفية لإغلاق القائمة عند النقر خارجها */
+        #sidebar-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 999;
+        }
+        #sidebar-overlay.active { display: block; }
+
         /* زر إظهار/إخفاء القائمة في الموبايل */
         .menu-toggle {
             display: none; background: var(--primary-color); color: #fff; border: none; padding: 8px 12px; font-size: 18px; cursor: pointer; border-radius: 4px;
@@ -76,13 +82,16 @@
 </head>
 <body>
 
+    <!-- طبقة لإغلاق القائمة عند النقر خارجها في الجوال -->
+    <div id="sidebar-overlay" onclick="toggleMobileMenu()"></div>
+
     <!-- شاشة تسجيل الدخول الآمنة -->
     <div id="login-screen">
         <div class="login-card">
             <h2>Glam Chic Enterprise</h2>
             <p>منطقة إدارية آمنة ومحمية</p>
             <div id="error-alert" class="error-msg">كلمة المرور غير صحيحة!</div>
-            <input type="password" id="master-password" placeholder="أدخل كلمة المرور السرية">
+            <input type="password" id="master-password" placeholder="أدخل كلمة مرور المخزون (glame2026)">
             <textarea id="api-token" rows="3" placeholder="مفتاح الـ Token أو بيانات المصادقة (اختياري)"></textarea>
             <label>
                 <input type="checkbox" id="remember-me" checked> تذكرني على هذا الجهاز
@@ -146,6 +155,7 @@
             const remember = document.getElementById('remember-me').checked;
             const errorAlert = document.getElementById('error-alert');
 
+            // التحقق من كلمة المرور الخاصة بالمخزون
             if (pass === 'glame2026') {
                 errorAlert.style.display = 'none';
                 currentStoredToken = token;
@@ -157,7 +167,6 @@
                 }
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('master-password').value = '';
-                injectTokenToFrame();
             } else {
                 errorAlert.style.display = 'block';
             }
@@ -170,7 +179,10 @@
         }
 
         function toggleMobileMenu() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
         }
 
         function switchTab(tab) {
@@ -197,32 +209,9 @@
                 document.getElementById('menu-control').classList.add('active');
             }
 
-            // إغلاق القائمة في الجوال عند اختيار قسم
+            // إغلاق القائمة في الجوال تلقائياً عند اختيار أي قسم
             if(window.innerWidth <= 768) {
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
-
-            // حقن التوكن تلقائياً بعد تحميل الصفحة الداخلية
-            frame.onload = function() {
-                injectTokenToFrame();
-            };
-        }
-
-        // دالة لحقن التوكن تلقائياً داخل الصفحات الفرعية لمنع إعادته يدويًا
-        function injectTokenToFrame() {
-            try {
-                const frame = document.getElementById('content-frame');
-                if (frame && frame.contentWindow && currentStoredToken) {
-                    // محاولة تعبئة حقل التوكن أو إرساله للـ iframe إن وجد حقل مشابه
-                    const innerDoc = frame.contentDocument || frame.contentWindow.document;
-                    const tokenInput = innerDoc.querySelector('input[type="password"], input[type="text"], textarea');
-                    if (tokenInput && !tokenInput.value) {
-                        tokenInput.value = currentStoredToken;
-                        tokenInput.dispatchEvent(new Event('input'));
-                    }
-                }
-            } catch(e) {
-                // تجاوز قيود الأمان إن وجدت بين النطاقات الفرعية
+                toggleMobileMenu();
             }
         }
     </script>
