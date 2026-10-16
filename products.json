@@ -161,5 +161,14 @@
     "oldPrice": 3000,
     "quantity": 10,
     "image": "prod_1792185226615.jpg"
+  },
+  {
+    "id": 1792185278955,
+    "name": "Parure maskiya",
+    "category": "أطقم",
+    "price": 4500,
+    "oldPrice": 2900,
+    "quantity": 10,
+    "image": "prod_1792185276581.jpg"
   }
 ]
