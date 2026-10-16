@@ -115,11 +115,12 @@
                     <div class="form-grid">
                         <div class="input-group">
                             <label>اسم القطعة / المنتج:</label>
-                            <input type="text" id="pName" required placeholder="مثال: طقم العقدة الملكي">
+                            <input type="text" id="pName" required placeholder="مثال: أقراط اللؤلؤ الملكية">
                         </div>
                         <div class="input-group">
                             <label>القسم:</label>
                             <select id="pCat">
+                                <option value="أقراط">أقراط</option>
                                 <option value="أطقم">أطقم</option>
                                 <option value="أساور">أساور</option>
                                 <option value="خواتم">خواتم</option>
@@ -146,7 +147,7 @@
                     </div>
                     <div class="input-group" style="margin-bottom:15px;">
                         <label>رابط الصورة:</label>
-                        <input type="text" id="pImg" required placeholder="product1.jpg">
+                        <input type="text" id="pImg" required placeholder="earring1.jpg">
                     </div>
                     <div style="display:flex; gap:10px;">
                         <button type="submit" class="btn-gold" id="prodSubmitBtn">حفظ المنتج في النظام 💾</button>
@@ -589,7 +590,7 @@
             renderAds();
         }
 
-        // --- 3. الروتور والمرتجعات (مع خيار التعديل والحذف) ---
+        // --- 3. الروتور والمرتجعات ---
         function saveReturn(e) {
             e.preventDefault();
             const idx = parseInt(document.getElementById('returnEditIndex').value);
