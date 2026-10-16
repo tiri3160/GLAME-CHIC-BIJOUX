@@ -120,11 +120,11 @@
         .section-title span { color: var(--gold); font-style: italic; }
 
         .categories-grid { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px; padding: 20px; margin-bottom: 30px; width: 100%; }
-        .category-card { position: relative; width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%); border: 2px solid rgba(212,175,55,0.15); cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.8); }
-        .category-card img { width: 65%; height: auto; transition: transform 0.3s ease; z-index: 2; }
+        .category-card { position: relative; width: 170px; height: 170px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #050505 80%); border: 2px solid rgba(212,175,55,0.15); cursor: pointer; transition: transform 0.3s ease, border-color 0.3s ease; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.8); overflow: hidden; }
+        .category-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; z-index: 2; border-radius: 50%; }
         .category-card:hover { transform: translateY(-8px); border-color: var(--gold); }
         .category-card:hover img { transform: scale(1.12); }
-        .category-title { position: absolute; bottom: -38px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.4em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.3s; }
+        .category-title { position: absolute; bottom: -38px; width: 100%; text-align: center; color: var(--gold-light); font-size: 1.4em; font-family: 'Amiri', serif; font-weight: bold; transition: 0.3s; z-index: 3; }
         .category-card:hover .category-title { color: var(--gold); }
 
         #category-page-view { display: none; min-height: 80vh; padding: 30px 20px 80px; max-width: 1200px; margin: 0 auto; }
@@ -382,7 +382,7 @@
         </div>
 
         <h2 class="section-title" id="categories">تسوقي حسب <span>المجموعة</span></h2>
-        <div class="categories-grid">
+        <div class="categories-grid" id="homeCategoriesGrid">
             <div class="category-card" onclick="openCategoryPage('خواتم')">
                 <img src="ring-icon-transparent.png" alt="خواتم" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/83/83546.png'">
                 <div class="category-title">خواتم</div>
@@ -396,7 +396,7 @@
                 <div class="category-title">قلادات</div>
             </div>
             <div class="category-card" onclick="openCategoryPage('أقراط')">
-                <img src="earring-icon-transparent.png" alt="أقراط" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3062/3062770.png'">
+                <img src="earrings-icon-transparent.png" alt="أقراط" loading="lazy" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3062/3062770.png'">
                 <div class="category-title">أقراط</div>
             </div>
             <div class="category-card" onclick="openCategoryPage('أطقم')">
