@@ -18,58 +18,84 @@
         }
     </script>
 
-    <!-- محرك الإحصائيات المحلي السريع والمضمون -->
+    <!-- محرك الإحصائيات المركزي الصامت والفعال (يرصد جميع الهواتف فوراً بدون تأثير على السرعة) -->
     <script>
+        const GLAME_SYNC_URL = "https://kvdb.io/6WaZq9N2xR8pL4mK1vB3cD/glamechic_live_stream";
+
+        function getVisitorSessionId() {
+            let sid = sessionStorage.getItem('gc_sid');
+            if (!sid) {
+                sid = 'v_' + Math.random().toString(36).substring(2, 9);
+                sessionStorage.setItem('gc_sid', sid);
+            }
+            return sid;
+        }
+
         function detectTrafficSource() {
             const urlParams = new URLSearchParams(window.location.search);
             const ref = (document.referrer || '').toLowerCase();
             const ua = (navigator.userAgent || '').toLowerCase();
             const utm = (urlParams.get('utm_source') || urlParams.get('ref') || '').toLowerCase();
 
-            let src = 'دخول مباشر 🔍';
-            if (utm.includes('tiktok') || ref.includes('tiktok') || ua.includes('bytedance') || urlParams.has('ttclid')) {
-                src = 'TikTok 🎵';
-            } else if (utm.includes('insta') || ref.includes('instagram') || ua.includes('instagram')) {
-                src = 'Instagram 📸';
-            } else if (utm.includes('fb') || utm.includes('facebook') || ref.includes('facebook') || urlParams.has('fbclid')) {
-                src = 'Facebook 📘';
-            } else if (ref.includes('google')) {
-                src = 'بحث Google 🌐';
-            }
-            return src;
+            if (utm.includes('tiktok') || ref.includes('tiktok') || ua.includes('bytedance') || ua.includes('musical_ly') || urlParams.has('ttclid')) return 'TikTok 🎵';
+            if (utm.includes('insta') || ref.includes('instagram') || ua.includes('instagram')) return 'Instagram 📸';
+            if (utm.includes('fb') || ref.includes('facebook') || ref.includes('facebook') || ua.includes('fban') || ua.includes('fbav') || urlParams.has('fbclid')) return 'Facebook 📘';
+            if (ref.includes('google')) return 'بحث Google 🌐';
+            return 'دخول مباشر 🔍';
         }
 
-        function recordGlameEvent(eventType, itemName = 'الرئيسية', price = 0, wilaya = '') {
-            try {
-                const eventObj = {
-                    id: Date.now() + Math.random(),
-                    ts: new Date().toISOString(),
-                    type: eventType, 
-                    item: itemName,
-                    price: Number(price) || 0,
-                    wilaya: wilaya || '',
-                    source: detectTrafficSource(),
-                    device: window.innerWidth <= 768 ? 'Mobile 📱' : 'Desktop 💻'
-                };
+        async function recordGlameEvent(eventType, itemName = 'الرئيسية', price = 0, wilaya = '', extraData = null) {
+            const eventObj = {
+                id: Date.now() + '_' + Math.floor(Math.random() * 1000),
+                sid: getVisitorSessionId(),
+                ts: new Date().toISOString(),
+                type: eventType, 
+                item: itemName,
+                price: Number(price) || 0,
+                wilaya: wilaya || '',
+                source: detectTrafficSource(),
+                device: window.innerWidth <= 768 ? 'هاتف 📱' : 'كمبيوتر 💻',
+                extra: extraData
+            };
 
-                let events = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-                events.push(eventObj);
-                if (events.length > 500) events = events.slice(-500);
-                localStorage.setItem('glame_local_analytics', JSON.stringify(events));
+            try {
+                let localEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+                localEvents.push(eventObj);
+                if (localEvents.length > 400) localEvents = localEvents.slice(-400);
+                localStorage.setItem('glame_local_analytics', JSON.stringify(localEvents));
             } catch(e) {}
+
+            setTimeout(async () => {
+                try {
+                    const res = await fetch(GLAME_SYNC_URL, { cache: 'no-store' });
+                    let cloudEvents = [];
+                    if (res.ok) {
+                        cloudEvents = await res.json();
+                        if (!Array.isArray(cloudEvents)) cloudEvents = [];
+                    }
+                    cloudEvents.push(eventObj);
+                    if (cloudEvents.length > 350) cloudEvents = cloudEvents.slice(-350);
+
+                    await fetch(GLAME_SYNC_URL, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(cloudEvents),
+                        keepalive: true
+                    });
+                } catch(err) {}
+            }, 50);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            recordGlameEvent('visit', 'الصفحة الرئيسية 🏠');
+            if (!sessionStorage.getItem('gc_visited')) {
+                sessionStorage.setItem('gc_visited', '1');
+                recordGlameEvent('visit', 'الصفحة الرئيسية 🏠');
+            }
         });
 
         function trackAdPurchase(productName, value) {
-            if (typeof fbq === 'function') {
-                fbq('track', 'Purchase', { content_name: productName, value: value, currency: 'DZD' });
-            }
-            if (typeof ttq === 'object') {
-                ttq.track('CompletePayment', { content_name: productName, value: value, currency: 'DZD' });
-            }
+            if (typeof fbq === 'function') fbq('track', 'Purchase', { content_name: productName, value: value, currency: 'DZD' });
+            if (typeof ttq === 'object') ttq.track('CompletePayment', { content_name: productName, value: value, currency: 'DZD' });
         }
     </script>
 
@@ -151,6 +177,7 @@
         .product-card { background: var(--black-card); border: 1px solid rgba(255,255,255,0.06); padding: 15px; text-align: center; transition: border-color 0.25s ease; height: 100%; display: flex; flex-direction: column; border-radius: 8px; width: 100%; cursor: pointer; position: relative; }
         .product-card:hover { border-color: var(--gold); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15); }
 
+        /* الأبعاد الملكية للصور مع object-fit: contain لضمان عدم قص أي جزء من الصورة أبدًا مع الحفاظ على حجمها الكامل */
         .product-img-wrapper { 
             width: 100%; 
             aspect-ratio: 4 / 4.8; 
@@ -1216,7 +1243,6 @@
             }
             if (!addressVal) { alert("يرجى إدخال العنوان."); return; }
 
-            // 1. استخراج وتجميد كافة بيانات الطلب في كائن JSON نظيف قبل مسح أو إغلاق أي شيء
             const finalCommune = deliveryMethodVal.includes("مكتب") 
                 ? "استلام من مكتب التوصيل (Stop Desk)" 
                 : (communeSelVal === "أخرى" ? customCommuneVal : communeSelVal);
@@ -1244,7 +1270,6 @@
                 المجموع_الإجمالي_النهائي: totalCostStr
             };
 
-            // 2. حفظ نسخة احتياطية كاملة من الطلب محلياً وتسجيل الحدث
             try {
                 let savedOrders = JSON.parse(localStorage.getItem('glame_orders_backup') || '[]');
                 savedOrders.push({ date: new Date().toISOString(), ...orderPayload });
@@ -1252,10 +1277,9 @@
                 localStorage.setItem('glame_orders_backup', JSON.stringify(savedOrders));
             } catch(err) {}
 
-            recordGlameEvent('purchase', orderedProdSummary, productsSubtotal, wilayaVal);
+            recordGlameEvent('purchase', orderedProdSummary, productsSubtotal, wilayaVal, { name: nameVal, phone: phoneVal, commune: finalCommune, address: addressVal, delivery: deliveryMethodVal, total: totalCostStr });
             trackAdPurchase(orderedProdSummary, productsSubtotal);
 
-            // 3. إرسال الطلب فوراً عبر JSON + keepalive لضمان وصول الإيميل 100% حتى لو أُغلقت الصفحة
             fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
                 method: "POST",
                 headers: { 
@@ -1265,7 +1289,6 @@
                 body: JSON.stringify(orderPayload),
                 keepalive: true
             }).catch(error => {
-                // خطة بديلة تلقائية (Fallback FormData) في حال تعذر اتصال JSON
                 const fallbackData = new FormData();
                 Object.keys(orderPayload).forEach(k => fallbackData.append(k, orderPayload[k]));
                 fetch("https://formsubmit.co/ajax/glamechic31@gmail.com", {
@@ -1275,7 +1298,6 @@
                 }).catch(e => {});
             });
 
-            // 4. إظهار رسالة النجاح للزبونة فوراً وتفريغ الحقول بأمان بعد انطلاق الطلب
             if (isCheckoutFromCart) {
                 glameCart = [];
                 saveCart();
