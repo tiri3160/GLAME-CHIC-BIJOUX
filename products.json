@@ -206,5 +206,14 @@
     "oldPrice": 0,
     "quantity": 10,
     "image": "prod_1792185599959.jpg"
+  },
+  {
+    "id": 1792185663581,
+    "name": "ساعة و 2 قورمات هدية 🎁",
+    "category": "ساعات",
+    "price": 1000,
+    "oldPrice": 0,
+    "quantity": 10,
+    "image": "prod_1792185661520.jpg"
   }
 ]
