@@ -134,5 +134,14 @@
     "oldPrice": 1000,
     "quantity": 10,
     "image": "prod_1792184861135.jpg"
+  },
+  {
+    "id": 1792185056474,
+    "name": "Parue cartier love",
+    "category": "أطقم",
+    "price": 1200,
+    "oldPrice": 1500,
+    "quantity": 15,
+    "image": "prod_1792185054202.jpg"
   }
 ]
