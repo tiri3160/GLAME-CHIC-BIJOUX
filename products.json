@@ -71,14 +71,5 @@
     "oldPrice": 0,
     "quantity": 8,
     "image": "prod_1792083447407.jpg"
-  },
-  {
-    "id": 1792900000002,
-    "name": "أقراط الماس الناعمة",
-    "category": "أقراط",
-    "price": 1800,
-    "oldPrice": 2300,
-    "quantity": 4,
-    "image": "earring2.jpg"
   }
 ]
