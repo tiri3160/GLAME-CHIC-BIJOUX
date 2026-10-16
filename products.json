@@ -1,75 +1,74 @@
 [
   {
-    "id": 1791890922519,
-    "name": "طقم العقدة",
-    "category": "أطقم",
-    "price": 1900,
-    "quantity": 15,
-    "image": "prod_1791890919522.jpeg"
+    "id": 1,
+    "name": "أقراط اللؤلؤ الملكية",
+    "category": "أقراط",
+    "price": 2600,
+    "oldPrice": 3200,
+    "quantity": 4,
+    "image": "earring1.jpg"
   },
   {
-    "id": 1791894175222,
-    "name": "كارتي اسي ",
-    "category": "أطقم",
-    "price": 2000,
-    "quantity": 20,
-    "image": "prod_1791894171520.jpeg"
+    "id": 2,
+    "name": "أقراط الماس الناعمة",
+    "category": "أقراط",
+    "price": 2200,
+    "oldPrice": 2800,
+    "quantity": 3,
+    "image": "earring2.jpg"
   },
   {
-    "id": 1791894421199,
-    "name": "القطرة الذهبية Goutte d’or ",
-    "category": "أطقم",
-    "price": 1000,
-    "quantity": 20,
-    "image": "prod_1791894416977.jpeg"
+    "id": 3,
+    "name": "خاتم بريق الألماس الملكي",
+    "category": "خواتم",
+    "price": 2500,
+    "oldPrice": 3100,
+    "quantity": 3,
+    "image": "ring1.jpg"
   },
   {
-    "id": 1791894624363,
-    "name": "روبيرتو 2 بياس ",
-    "category": "أطقم",
-    "price": 1600,
-    "quantity": 10,
-    "image": "prod_1791894613840.jpeg"
-  },
-  {
-    "id": 1791895051482,
-    "name": "Bracelet 1",
-    "category": "أساور",
-    "price": 1500,
-    "quantity": 9,
-    "image": "prod_1791895048452.jpeg"
-  },
-  {
-    "id": 1791895254454,
-    "name": "Bracelet 2",
-    "category": "أساور",
-    "price": 1500,
-    "quantity": 6,
-    "image": "prod_1791895250406.jpeg"
-  },
-  {
-    "id": 1791895432132,
-    "name": "Bracelet messika ",
-    "category": "أساور",
-    "price": 1500,
-    "quantity": 9,
-    "image": "prod_1791895428569.jpeg"
-  },
-  {
-    "id": 1791895488659,
-    "name": "Bracelet 3",
-    "category": "أساور",
-    "price": 1500,
+    "id": 4,
+    "name": "خاتم سوليتير الكلاسيكي",
+    "category": "خواتم",
+    "price": 2100,
+    "oldPrice": 2700,
     "quantity": 5,
-    "image": "prod_1791895485533.jpeg"
+    "image": "ring2.jpg"
   },
   {
-    "id": 1792083450009,
-    "name": "Montre perler",
+    "id": 5,
+    "name": "أسوارة النجوم المطلية بالذهب",
+    "category": "أساور",
+    "price": 3200,
+    "oldPrice": 4000,
+    "quantity": 2,
+    "image": "bracelet1.jpg"
+  },
+  {
+    "id": 6,
+    "name": "قلادة الفراشة الكريستالية",
+    "category": "قلادات",
+    "price": 2900,
+    "oldPrice": 3600,
+    "quantity": 6,
+    "image": "necklace1.jpg"
+  },
+  {
+    "id": 7,
+    "name": "طقم الزفاف الفاخر المتكامل",
+    "category": "أطقم",
+    "price": 5500,
+    "oldPrice": 7000,
+    "quantity": 2,
+    "image": "set1.jpg"
+  },
+  {
+    "id": 8,
+    "name": "ساعة يد كلاسيكية مرصعة",
     "category": "ساعات",
-    "price": 950,
-    "oldPrice": 0,
-    "quantity": 8,
-    "image": "prod_1792083447407.jpg"
+    "price": 4800,
+    "oldPrice": 6000,
+    "quantity": 3,
+    "image": "watch1.jpg"
   }
 ]
