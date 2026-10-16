@@ -170,5 +170,14 @@
     "oldPrice": 2900,
     "quantity": 10,
     "image": "prod_1792185276581.jpg"
+  },
+  {
+    "id": 1792185338145,
+    "name": "Parure maskiya  charger",
+    "category": "أطقم",
+    "price": 2900,
+    "oldPrice": 4500,
+    "quantity": 10,
+    "image": "prod_1792185335660.jpg"
   }
 ]
