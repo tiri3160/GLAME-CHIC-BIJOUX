@@ -3,105 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLAME CHIC | لوحة القيادة وإدارة الأعمال والمخزون</title>
+    <title>GLAME CHIC | نظام إدارة المخزون والأرباح المتكامل</title>
     <meta name="robots" content="noindex, nofollow">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
         :root { 
             --gold: #D4AF37; 
             --gold-light: #FBF5B7; 
+            --gold-dark: #997A15;
             --bg: #050505; 
             --card: #111111; 
-            --border: rgba(212,175,55,0.25); 
+            --border: rgba(212,175,55,0.28); 
             --success: #2ecc71;
             --danger: #e63946;
+            --warning: #f39c12;
             --info: #3498db;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; padding: 20px 15px 80px; }
-        .container { max-width: 1250px; margin: 0 auto; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #fff; padding: 15px 12px 90px; }
+        .container { max-width: 1380px; margin: 0 auto; }
 
         /* شاشة الدخول الآمنة */
         #authScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .auth-box { background: var(--card); border: 2px solid var(--gold); padding: 40px 30px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(212,175,55,0.15); }
+        .auth-box { background: var(--card); border: 2px solid var(--gold); padding: 40px 30px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(212,175,55,0.18); }
         .auth-box h2 { color: var(--gold); font-family: 'Amiri', serif; margin-bottom: 15px; font-size: 1.8em; }
         .auth-input { width: 100%; background: #1a1a1a; border: 1px solid #444; color: #fff; padding: 12px; border-radius: 8px; font-size: 1.1em; text-align: center; margin-bottom: 15px; font-family: 'Cairo'; }
         .auth-input:focus { outline: none; border-color: var(--gold); }
 
         /* الرأس والأزرار العلوية */
-        .top-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .top-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--card); padding: 18px 22px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 18px; }
         .logo-area h1 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.6em; }
-        .logo-area p { color: #888; font-size: 0.85em; }
-        .nav-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .logo-area p { color: #999; font-size: 0.85em; }
+        .nav-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         
-        .btn-gold { background: linear-gradient(90deg, #997A15, var(--gold)); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92em; text-decoration: none; transition: 0.2s; }
-        .btn-gold:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(212,175,55,0.3); }
+        .btn-gold { background: linear-gradient(90deg, var(--gold-dark), var(--gold)); color: #000; border: none; padding: 9px 16px; border-radius: 8px; font-weight: 700; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 7px; font-size: 0.9em; text-decoration: none; transition: 0.2s; }
+        .btn-gold:hover { opacity: 0.95; transform: translateY(-1px); box-shadow: 0 4px 15px rgba(212,175,55,0.35); }
         
-        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92em; transition: 0.2s; text-decoration: none; }
+        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 9px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 7px; font-size: 0.9em; transition: 0.2s; text-decoration: none; }
         .btn-outline:hover { background: var(--gold); color: #000; }
         
-        .btn-sync { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid #3498db; padding: 10px 16px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 8px; font-size: 0.92em; transition: 0.2s; }
+        .btn-sync { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid #3498db; padding: 9px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 7px; font-size: 0.9em; transition: 0.2s; }
         .btn-sync:hover { background: #3498db; color: #fff; }
 
-        .btn-danger-all { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid #e63946; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 6px; font-size: 0.88em; transition: 0.2s; }
+        .btn-danger-all { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid #e63946; padding: 8px 14px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Cairo'; display: inline-flex; align-items: center; gap: 6px; font-size: 0.85em; transition: 0.2s; }
         .btn-danger-all:hover { background: #e63946; color: #fff; }
 
-        /* شريط التبويبات */
-        .tabs-nav { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; border-bottom: 1px solid #222; padding-bottom: 15px; }
-        .tab-btn { background: #1a1a1a; color: #aaa; border: 1px solid #333; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.2s; font-size: 0.95em; }
+        /* شريط المؤشر المالي الحي (رابح أو خاسر) */
+        .live-verdict-banner {
+            background: linear-gradient(135deg, #141414 0%, #0a0a0a 100%);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+        }
+        .verdict-status-box { display: flex; align-items: center; gap: 14px; }
+        .verdict-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.7em; font-weight: bold; }
+        .verdict-title { font-size: 1.25em; font-weight: 800; }
+        .verdict-sub { font-size: 0.85em; color: #aaa; margin-top: 2px; }
+        .verdict-equations { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; }
+        .eq-item { text-align: center; background: #181818; padding: 8px 14px; border-radius: 8px; border: 1px solid #282828; min-width: 125px; }
+        .eq-item span { display: block; font-size: 0.78em; color: #999; }
+        .eq-item b { font-size: 1.1em; }
+
+        /* التبويبات */
+        .tabs-nav { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; border-bottom: 1px solid #222; padding-bottom: 14px; }
+        .tab-btn { background: #161616; color: #aaa; border: 1px solid #333; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-family: 'Cairo'; font-weight: bold; transition: 0.2s; font-size: 0.92em; }
         .tab-btn:hover { border-color: var(--gold); color: #fff; }
         .tab-btn.active { background: var(--gold); color: #000; border-color: var(--gold); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
 
         .tab-content { display: none; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-content.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
         /* بطاقات الإحصائيات KPI */
-        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; margin-bottom: 25px; }
-        .kpi-card { background: var(--card); border: 1px solid var(--border); padding: 18px 20px; border-radius: 10px; position: relative; border-right: 4px solid var(--gold); }
-        .kpi-card h4 { color: #aaa; font-size: 0.88em; margin-bottom: 8px; }
-        .kpi-val { font-size: 1.65em; font-weight: bold; color: #fff; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 22px; }
+        .kpi-card { background: var(--card); border: 1px solid var(--border); padding: 16px 18px; border-radius: 10px; border-right: 4px solid var(--gold); }
+        .kpi-card h4 { color: #aaa; font-size: 0.85em; margin-bottom: 6px; }
+        .kpi-val { font-size: 1.55em; font-weight: 800; color: #fff; }
 
-        /* النماذج والبطاقات */
-        .form-card { background: var(--card); border: 1px solid var(--border); padding: 25px; border-radius: 12px; margin-bottom: 25px; }
-        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.4em; margin-bottom: 20px; border-bottom: 1px solid #222; padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .input-group label { display: block; color: #ccc; font-size: 0.88em; margin-bottom: 6px; font-weight: 600; }
-        .input-group input, .input-group select { width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 11px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.95em; }
+        /* النماذج */
+        .form-card { background: var(--card); border: 1px solid var(--border); padding: 22px; border-radius: 12px; margin-bottom: 22px; }
+        .form-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.35em; margin-bottom: 18px; border-bottom: 1px solid #222; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 14px; }
+        .input-group label { display: block; color: #ccc; font-size: 0.85em; margin-bottom: 5px; font-weight: 600; }
+        .input-group input, .input-group select { width: 100%; background: #161616; border: 1px solid #333; color: #fff; padding: 10px 12px; border-radius: 8px; font-family: 'Cairo'; font-size: 0.92em; }
         .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--gold); background: #1c1c1c; }
 
-        /* شريط البحث والفلترة بالتاريخ في الأسفل */
-        .filter-section { background: #0d0d0d; border: 1px solid var(--border); padding: 18px; border-radius: 12px; margin-bottom: 20px; }
-        .filter-section h4 { color: var(--gold-light); margin-bottom: 12px; font-size: 1em; display: flex; align-items: center; gap: 8px; }
-        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; align-items: end; }
+        /* شريط البحث والفلترة بالتاريخ */
+        .filter-section { background: #0d0d0d; border: 1px solid var(--border); padding: 16px; border-radius: 12px; margin-bottom: 18px; }
+        .filter-section h4 { color: var(--gold-light); margin-bottom: 12px; font-size: 0.95em; display: flex; align-items: center; gap: 8px; }
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 10px; align-items: end; }
 
-        /* الجداول */
+        /* الجداول الاحترافية */
         .table-wrapper { overflow-x: auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; text-align: right; font-size: 0.93em; min-width: 850px; }
-        th { background: #1a1a1a; color: var(--gold); padding: 13px 12px; border-bottom: 1px solid #333; white-space: nowrap; }
-        td { padding: 12px; border-bottom: 1px solid #1a1a1a; color: #ddd; vertical-align: middle; }
+        table { width: 100%; border-collapse: collapse; text-align: center; font-size: 0.9em; min-width: 1050px; }
+        th { background: #181818; color: var(--gold); padding: 12px 8px; border-bottom: 1px solid #333; white-space: nowrap; font-size: 0.92em; }
+        td { padding: 10px 8px; border-bottom: 1px solid #1a1a1a; color: #ddd; vertical-align: middle; }
         tr:hover td { background: rgba(212,175,55,0.04); }
 
-        .prod-thumb { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; border: 1px solid var(--gold); background: #050505; }
+        .prod-thumb { width: 48px; height: 48px; object-fit: contain; border-radius: 6px; border: 1px solid var(--gold); background: #050505; }
         
-        /* أزرار التحكم بالكمية السريعة داخل الجدول */
-        .qty-box-inline { display: inline-flex; align-items: center; gap: 6px; background: #1a1a1a; padding: 4px 8px; border-radius: 6px; border: 1px solid #333; }
-        .qty-btn-mini { background: #262626; color: var(--gold); border: 1px solid rgba(212,175,55,0.4); width: 25px; height: 25px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        /* خانات الإدخال المباشر داخل الجدول (سعر الشراء والبيع والكمية) */
+        .inline-input {
+            width: 82px; background: #181818; border: 1px solid rgba(212,175,55,0.45); color: #fff;
+            padding: 5px 6px; border-radius: 6px; text-align: center; font-family: 'Cairo'; font-weight: bold; font-size: 0.95em;
+        }
+        .inline-input:focus { outline: none; border-color: var(--gold); background: #222; box-shadow: 0 0 8px rgba(212,175,55,0.3); }
+
+        .qty-box-inline { display: inline-flex; align-items: center; gap: 5px; background: #181818; padding: 3px 6px; border-radius: 6px; border: 1px solid #333; }
+        .qty-btn-mini { background: #262626; color: var(--gold); border: 1px solid rgba(212,175,55,0.35); width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1; }
         .qty-btn-mini:hover { background: var(--gold); color: #000; }
 
-        .btn-del { background: rgba(230,57,70,0.15); color: #ff6b6b; border: 1px solid rgba(230,57,70,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.2s; }
+        /* زر "بيعت" الأخضر المباشر */
+        .btn-sold-action {
+            background: linear-gradient(135deg, #27ae60, #2ecc71); color: #000; border: none;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 800; font-family: 'Cairo';
+            font-size: 0.88em; display: inline-flex; align-items: center; gap: 5px; transition: 0.2s;
+            box-shadow: 0 3px 10px rgba(46,204,113,0.25);
+        }
+        .btn-sold-action:hover { transform: scale(1.05); background: #2ecc71; box-shadow: 0 4px 14px rgba(46,204,113,0.45); }
+
+        .btn-del { background: rgba(230,57,70,0.15); color: #ff6b6b; border: 1px solid rgba(230,57,70,0.4); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-family: 'Cairo'; transition: 0.2s; }
         .btn-del:hover { background: #dc3545; color: #fff; }
-        .btn-edit { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.4); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-left: 5px; font-family: 'Cairo'; transition: 0.2s; }
+        .btn-edit { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.4); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-left: 4px; font-family: 'Cairo'; transition: 0.2s; }
         .btn-edit:hover { background: #3498db; color: #fff; }
 
-        .badge-status { padding: 3px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold; display: inline-block; }
+        .badge-status { padding: 2px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold; display: inline-block; }
         .st-return { background: rgba(230,57,70,0.15); color: #e63946; border: 1px solid rgba(230,57,70,0.3); }
-        .st-admin { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.3); font-size: 0.75em; margin-top: 3px; }
-        .st-manual { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); font-size: 0.75em; margin-top: 3px; }
-        .date-badge { background: #1c1c1c; color: var(--gold-light); border: 1px solid #333; padding: 3px 8px; border-radius: 6px; font-size: 0.85em; direction: ltr; display: inline-block; }
+        .st-admin { background: rgba(52,152,219,0.15); color: #5dade2; border: 1px solid rgba(52,152,219,0.3); margin-top: 2px; }
+        .st-manual { background: rgba(212,175,55,0.15); color: var(--gold-light); border: 1px solid rgba(212,175,55,0.3); margin-top: 2px; }
+        .date-badge { background: #1a1a1a; color: var(--gold-light); border: 1px solid #333; padding: 2px 7px; border-radius: 6px; font-size: 0.82em; direction: ltr; display: inline-block; }
 
-        /* إشعار التوست السريع */
+        /* نافذة تأكيد البيع السريع (Modal) */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.85); z-index: 9500; justify-content: center; align-items: center; padding: 15px;
+        }
+        .modal-card {
+            background: var(--card); border: 2px solid var(--gold); border-radius: 12px;
+            padding: 25px; width: 100%; max-width: 420px; text-align: center; box-shadow: 0 10px 35px rgba(0,0,0,0.8);
+        }
+        .modal-card h3 { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.5em; margin-bottom: 10px; }
+
         #toastNotification {
             position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
             background: #111; color: var(--gold-light); border: 1px solid var(--gold);
@@ -110,9 +160,8 @@
         }
 
         @media(max-width: 768px) {
-            .top-header { flex-direction: column; align-items: stretch; text-align: center; }
-            .nav-actions { justify-content: center; }
-            .form-card h3 { flex-direction: column; align-items: stretch; text-align: center; }
+            .top-header, .live-verdict-banner { flex-direction: column; align-items: stretch; text-align: center; }
+            .nav-actions, .verdict-equations, .verdict-status-box { justify-content: center; }
         }
     </style>
 </head>
@@ -120,11 +169,49 @@
 
     <div id="toastNotification"></div>
 
-    <!-- شاشة القفل بكلمة سر محمية من الإكمال التلقائي -->
+    <!-- نافذة تسجيل البيع السريع (عند الضغط على زر "✅ بيعت") -->
+    <div id="sellModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3>✅ تأكيد بيع المنتج</h3>
+            <p id="sellModalProdName" style="color:#fff; font-weight:bold; margin-bottom:15px; font-size:1.05em;"></p>
+            <input type="hidden" id="sellModalIdx" value="-1">
+            
+            <div class="input-group" style="text-align:right; margin-bottom:12px;">
+                <label>🔢 عدد القطع المباعة في هذه العملية:</label>
+                <input type="number" id="sellModalQty" value="1" min="1" oninput="updateSellModalCalc()">
+            </div>
+            <div class="input-group" style="text-align:right; margin-bottom:12px;">
+                <label>💵 سعر بيع القطعة الواحدة (د.ج):</label>
+                <input type="number" id="sellModalPrice" oninput="updateSellModalCalc()">
+            </div>
+            <div class="input-group" style="text-align:right; margin-bottom:12px;">
+                <label>🏷️ سعر شراء/تكلفة القطعة الواحدة (د.ج):</label>
+                <input type="number" id="sellModalCost" oninput="updateSellModalCalc()">
+            </div>
+            <div class="input-group" style="text-align:right; margin-bottom:15px;">
+                <label>📅 تاريخ البيع:</label>
+                <input type="date" id="sellModalDate">
+            </div>
+
+            <div style="background:#181818; border:1px dashed var(--gold); padding:10px; border-radius:8px; margin-bottom:15px; font-size:0.92em;">
+                <div>إجمالي المبلغ المستلم: <b id="sellModalTotalRev" style="color:var(--gold-light);">0 د.ج</b></div>
+                <div>الفائدة الصافية من هذه البيعة: <b id="sellModalNetProfit" style="color:#2ecc71;">0 د.ج</b></div>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button type="button" class="btn-sold-action" style="flex:2; justify-content:center; padding:10px;" onclick="confirmQuickSale()">
+                    <i class="fas fa-check-circle"></i> تأكيد وخصم من المخزون
+                </button>
+                <button type="button" class="btn-danger-all" style="flex:1; justify-content:center;" onclick="closeSellModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة القفل -->
     <div id="authScreen">
         <div class="auth-box">
             <h2>🛡️ GLAME CHIC COMMAND</h2>
-            <p style="color:#888; font-size:0.85em; margin-bottom:20px;">أدخل كلمة المرور الخاصة للوصول للوحة التحكم والمخزون:</p>
+            <p style="color:#888; font-size:0.85em; margin-bottom:20px;">أدخل كلمة المرور الخاصة للوصول لإدارة المخزون والأرباح:</p>
             <input type="password" id="authPasswordInput" class="auth-input" placeholder="كلمة المرور السرية..." autocomplete="new-password" onkeydown="if(event.key==='Enter') verifyPassword()">
             <button class="btn-gold" style="width:100%; justify-content:center;" onclick="verifyPassword()">دخول آمن 🔓</button>
             <div id="authErrorMsg" style="color:#e63946; margin-top:12px; font-size:0.9em; font-weight:bold; display:none;">❌ كلمة المرور غير صحيحة!</div>
@@ -132,18 +219,18 @@
     </div>
 
     <div class="container" id="mainDashboard" style="display:none;">
-        <!-- الهيدر العلوي -->
+        <!-- الرأس والأزرار الاستراتيجية -->
         <div class="top-header">
             <div class="logo-area">
                 <h1>💎 GLAME CHIC COMMAND CENTER</h1>
-                <p>إدارة المخزون، الاستيراد الآلي من الأدمن، الحملات، السجل التاريخي، والأرباح الصافية</p>
+                <p>نظام إدارة المخزون، الاستيراد الآلي، تتبع المبيعات، الإعلانات، والربح الصافي اللحظي</p>
             </div>
             <div class="nav-actions">
-                <button class="btn-gold" onclick="importProductsFromAdmin()" id="btnImportAdmin" title="يجلب المنتجات المسجلة في قسم الأدمن آلياً">
+                <button class="btn-gold" onclick="importProductsFromAdmin()" id="btnImportAdmin" title="يجلب المنتجات وسعر البيع والكميات من الأدمن آلياً">
                     <i class="fas fa-cloud-download-alt"></i> استيراد المنتجات من الأدمن
                 </button>
-                <button class="btn-sync" onclick="syncInventoryToAdmin()" id="btnSyncAdmin" title="يرفع تحديثات الكميات والأسعار إلى المتجر المباشر">
-                    <i class="fas fa-sync-alt"></i> مزامنة مع المتجر
+                <button class="btn-sync" onclick="syncInventoryToAdmin()" id="btnSyncAdmin" title="يرفع الكميات المتبقية والأسعار إلى المتجر المباشر">
+                    <i class="fas fa-sync-alt"></i> مزامنة المخزون مع المتجر
                 </button>
                 <a href="index.html" class="btn-outline"><i class="fas fa-store"></i> متجري</a>
                 <button class="btn-outline" onclick="exportAllData()"><i class="fas fa-file-export"></i> تصدير نسخة</button>
@@ -152,45 +239,82 @@
             </div>
         </div>
 
-        <!-- التبويبات الـ 5 الكاملة -->
+        <!-- شريط النتيجة المالية اللحظية (رابح أو خاسر) يظهر دائماً في الأعلى -->
+        <div class="live-verdict-banner" id="liveVerdictBanner">
+            <div class="verdict-status-box">
+                <div class="verdict-icon" id="verdictIcon">⚖️</div>
+                <div style="text-align:right;">
+                    <div class="verdict-title" id="verdictTitle">جاري حساب النتيجة المالية...</div>
+                    <div class="verdict-sub" id="verdictSub">يتم التحديث تلقائياً مع كل قطعة مباعة أو إعلان أو روتور</div>
+                </div>
+            </div>
+            <div class="verdict-equations">
+                <div class="eq-item">
+                    <span>إجمالي القطع المباعة</span>
+                    <b id="topTotalSoldUnits" style="color:var(--gold-light);">0 قطعة</b>
+                </div>
+                <div class="eq-item">
+                    <span>فائدة المبيعات (قبل الإعلان)</span>
+                    <b id="topGrossProfit" style="color:#2ecc71;">0 د.ج</b>
+                </div>
+                <div class="eq-item">
+                    <span>مصاريف الإعلانات (-)</span>
+                    <b id="topAdsExpense" style="color:#e63946;">0 د.ج</b>
+                </div>
+                <div class="eq-item">
+                    <span>خسائر الروتور (-)</span>
+                    <b id="topReturnsLoss" style="color:#f39c12;">0 د.ج</b>
+                </div>
+                <div class="eq-item" style="border:1px solid var(--gold); background:#111;">
+                    <span>صافي الربح / الخسارة النهائي</span>
+                    <b id="topNetResult" style="font-size:1.25em;">0 د.ج</b>
+                </div>
+            </div>
+        </div>
+
+        <!-- التبويبات الـ 5 -->
         <div class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('tabProducts', this)">💎 إدارة المخزون والمنتجات</button>
+            <button class="tab-btn active" onclick="switchTab('tabProducts', this)">💎 إدارة المخزون والمبيعات المباشرة</button>
             <button class="tab-btn" onclick="switchTab('tabAds', this)">📢 الحملات الإعلانية والتوقيت</button>
             <button class="tab-btn" onclick="switchTab('tabReturns', this)">📦 الروتور والمرتجعات (Stop Desk)</button>
             <button class="tab-btn" onclick="switchTab('tabCalendar', this)">📅 الرزنامة والسجل التاريخي</button>
-            <button class="tab-btn" onclick="switchTab('tabFinance', this)">💰 الحسابات والأرباح الصافية</button>
+            <button class="tab-btn" onclick="switchTab('tabFinance', this)">💰 التقرير المالي التفصيلي (رابح/خاسر)</button>
         </div>
 
-        <!-- ==================== 1. تبويب إدارة المخزون والمنتجات ==================== -->
+        <!-- ==================== 1. تبويب المخزون والمبيعات المباشرة ==================== -->
         <div id="tabProducts" class="tab-content active">
             
-            <!-- ملخص سريع للمخزون -->
+            <!-- مؤشرات المخزون والقطع المباعة -->
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <h4>📦 إجمالي الأصناف بالمخزون</h4>
+                    <h4>📦 الأصناف المسجلة</h4>
                     <div class="kpi-val" id="invTotalItems">0 صنف</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>🔢 إجمالي القطع المتوفرة</h4>
+                    <h4>🔢 القطع المتبقية بالمخزون</h4>
                     <div class="kpi-val" id="invTotalUnits" style="color:var(--gold);">0 قطعة</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>💵 القيمة البيعية للمخزون</h4>
-                    <div class="kpi-val" id="invTotalSaleVal" style="color:#2ecc71;">0 د.ج</div>
+                    <h4>✅ إجمالي القطع المباعة</h4>
+                    <div class="kpi-val" id="invTotalSold" style="color:#2ecc71;">0 قطعة</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>📈 الربح الكامن في المخزون</h4>
+                    <h4>🏷️ رأس مال البضاعة المتبقية</h4>
+                    <div class="kpi-val" id="invRemainingCapital" style="color:#ccc;">0 د.ج</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>📈 الربح الكامن في المتبقي</h4>
                     <div class="kpi-val" id="invPotentialProfit" style="color:var(--gold-light);">0 د.ج</div>
                 </div>
             </div>
 
-            <!-- نموذج الإضافة والتعديل اليدوي مع تاريخ الإضافة -->
+            <!-- نموذج الإضافة أو التعديل اليدوي -->
             <div class="form-card">
                 <h3 id="prodFormTitle">
-                    <span>➕ إضافة أو تعديل منتج يدوياً (مع دعم الاستيراد الآلي)</span>
+                    <span>➕ إضافة أو تعديل منتج (أو اضغط "استيراد من الأدمن" لجلب أسعار البيع والمنتجات آلياً)</span>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
                         <button type="button" class="btn-gold" onclick="importProductsFromAdmin()"><i class="fas fa-bolt"></i> استيراد المنتجات من الأدمن الآن</button>
-                        <button type="button" class="btn-danger-all" onclick="clearAllProducts()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
+                        <button type="button" class="btn-danger-all" onclick="clearAllProducts()"><i class="fas fa-trash-alt"></i> تصفير المخزون</button>
                     </div>
                 </h3>
                 <form id="productForm" onsubmit="saveProduct(event)">
@@ -213,32 +337,32 @@
                             </select>
                         </div>
                         <div class="input-group">
-                            <label>سعر البيع (د.ج):</label>
-                            <input type="number" id="pPrice" required placeholder="2000">
+                            <label>🏷️ سعر الشراء / التكلفة للقطعة (د.ج):</label>
+                            <input type="number" id="pCost" required placeholder="مثال: 800" value="0">
                         </div>
                         <div class="input-group">
-                            <label>السعر القديم للتخفيض (اختياري):</label>
-                            <input type="number" id="pOldPrice" placeholder="2500">
+                            <label>💵 سعر البيع للزبون (د.ج):</label>
+                            <input type="number" id="pPrice" required placeholder="مثال: 2000">
                         </div>
                         <div class="input-group">
-                            <label>الكمية المتوفرة:</label>
+                            <label>🔢 الكمية المتبقية في المخزون:</label>
                             <input type="number" id="pQty" required value="10">
                         </div>
                         <div class="input-group">
-                            <label>تكلفة الشراء للقطعة (د.ج):</label>
-                            <input type="number" id="pCost" placeholder="800" value="0">
+                            <label>✅ عدد القطع المباعة مسبقاً:</label>
+                            <input type="number" id="pSoldQty" value="0">
                         </div>
                         <div class="input-group">
-                            <label>📅 تاريخ الإضافة / التسجيل:</label>
+                            <label>📅 تاريخ الإضافة:</label>
                             <input type="date" id="pDate" required>
                         </div>
                         <div class="input-group">
                             <label>رابط الصورة أو اسم الملف:</label>
-                            <input type="text" id="pImg" placeholder="prod_123.webp أو رابط مباشر">
+                            <input type="text" id="pImg" placeholder="prod_123.webp">
                         </div>
                     </div>
-                    <div style="display:flex; gap:10px; margin-top:10px;">
-                        <button type="submit" class="btn-gold" id="prodSubmitBtn">حفظ المنتج في المخزون 💾</button>
+                    <div style="display:flex; gap:10px; margin-top:8px;">
+                        <button type="submit" class="btn-gold" id="prodSubmitBtn">حفظ المنتج في النظام 💾</button>
                         <button type="button" class="btn-danger-all" id="prodCancelBtn" style="display:none;" onclick="cancelProdEdit()">إلغاء التعديل ✕</button>
                     </div>
                 </form>
@@ -246,11 +370,11 @@
 
             <!-- شريط البحث والفلترة بالتاريخ في الأسفل (فوق الجدول مباشرة) -->
             <div class="filter-section">
-                <h4><i class="fas fa-filter"></i> البحث المتقدم والفلترة حسب تاريخ الإضافة والقسم:</h4>
+                <h4><i class="fas fa-filter"></i> البحث المتقدم والفلترة حسب الاسم، القسم، وتاريخ الإضافة:</h4>
                 <div class="filter-grid">
                     <div class="input-group">
                         <label>بحث باسم المنتج:</label>
-                        <input type="text" id="filterProdSearch" placeholder="اكتب اسم المنتج..." oninput="renderProductsTable()">
+                        <input type="text" id="filterProdSearch" placeholder="اكتب اسم القطعة..." oninput="renderProductsTable()">
                     </div>
                     <div class="input-group">
                         <label>فلترة حسب القسم:</label>
@@ -266,7 +390,7 @@
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>📅 بحث بيوم إضافة محدد:</label>
+                        <label>📅 بحث بيوم محدد:</label>
                         <input type="date" id="filterExactDate" onchange="renderProductsTable()">
                     </div>
                     <div class="input-group">
@@ -278,27 +402,29 @@
                         <input type="date" id="filterDateTo" onchange="renderProductsTable()">
                     </div>
                     <div class="input-group">
-                        <button type="button" class="btn-outline" style="width:100%; justify-content:center; height:42px;" onclick="resetProductFilters()">
-                            <i class="fas fa-undo"></i> عرض الكل
+                        <button type="button" class="btn-outline" style="width:100%; justify-content:center; height:41px;" onclick="resetProductFilters()">
+                            <i class="fas fa-undo"></i> إظهار الكل
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- جدول عرض المخزون والمنتجات -->
+            <!-- جدول المخزون التفاعلي الشامل -->
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
                             <th>الصورة</th>
-                            <th>الاسم والمصدر</th>
-                            <th>القسم</th>
+                            <th style="text-align:right;">المنتج والقسم</th>
                             <th>تاريخ الإضافة 📅</th>
-                            <th>سعر البيع</th>
-                            <th>التكلفة</th>
-                            <th>الربح/قطعة</th>
-                            <th>الكمية (تحكم سريع)</th>
-                            <th>إجراءات (تعديل / حذف)</th>
+                            <th>🏷️ سعر الشراء (تعديل مباشر)</th>
+                            <th>💵 سعر البيع</th>
+                            <th>💎 فائدة القطعة</th>
+                            <th>📦 المتبقي بالمخزون</th>
+                            <th>✅ القطع المباعة</th>
+                            <th>💰 إجمالي فائدة المباع</th>
+                            <th>تسجيل بيع سريع</th>
+                            <th>إجراءات</th>
                         </tr>
                     </thead>
                     <tbody id="productsTableBody"></tbody>
@@ -310,15 +436,15 @@
         <div id="tabAds" class="tab-content">
             <div class="form-card">
                 <h3 id="adFormTitle">
-                    <span>📢 تسجيل أو تعديل حملة إعلانية</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllAds()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
+                    <span>📢 تسجيل أو تعديل حملة إعلانية (تُخصم تلقائياً من صافي الربح)</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllAds()"><i class="fas fa-trash-alt"></i> تصفير الإعلانات</button>
                 </h3>
                 <form id="adForm" onsubmit="saveAd(event)">
                     <input type="hidden" id="adEditIndex" value="-1">
                     <div class="form-grid">
                         <div class="input-group">
                             <label>اسم الحملة / المنصة:</label>
-                            <input type="text" id="adName" required placeholder="مثال: حملة إنستغرام - أطقم">
+                            <input type="text" id="adName" required placeholder="مثال: إعلان إنستغرام وتيك توك">
                         </div>
                         <div class="input-group">
                             <label>تاريخ البداية:</label>
@@ -329,16 +455,16 @@
                             <input type="date" id="adEndDate" required>
                         </div>
                         <div class="input-group">
-                            <label>الميزانية الإجمالية (د.ج):</label>
+                            <label>الميزانية المصروفة بالدينار (د.ج):</label>
                             <input type="number" id="adBudget" required placeholder="5000">
                         </div>
                         <div class="input-group">
-                            <label>عدد الطلبات المحققة:</label>
-                            <input type="number" id="adOrders" value="0" placeholder="12">
+                            <label>عدد الطلبات القادمة من الإعلان:</label>
+                            <input type="number" id="adOrders" value="0" placeholder="15">
                         </div>
                     </div>
                     <div style="display:flex; gap:10px;">
-                        <button type="submit" class="btn-gold" id="adSubmitBtn">حفظ الحملة 📊</button>
+                        <button type="submit" class="btn-gold" id="adSubmitBtn">حفظ الحملة الإعلانية 📊</button>
                         <button type="button" class="btn-danger-all" id="adCancelBtn" style="display:none;" onclick="cancelAdEdit()">إلغاء التعديل</button>
                     </div>
                 </form>
@@ -350,12 +476,12 @@
                         <tr>
                             <th>الفترة الزمنية</th>
                             <th>اسم الحملة</th>
-                            <th>عدد الأيام</th>
-                            <th>الميزانية الإجمالية</th>
+                            <th>الأيام</th>
+                            <th>الميزانية المصروفة</th>
                             <th>الصرف اليومي</th>
                             <th>الطلبات</th>
-                            <th>تكلفة الطلب (CPA)</th>
-                            <th>إجراءات (تعديل / حذف)</th>
+                            <th>تكلفة الطلبية الواحدة (CPA)</th>
+                            <th>إجراءات</th>
                         </tr>
                     </thead>
                     <tbody id="adsTableBody"></tbody>
@@ -367,8 +493,8 @@
         <div id="tabReturns" class="tab-content">
             <div class="form-card">
                 <h3 id="returnFormTitle">
-                    <span>📦 تسجيل أو تعديل طلبية مرجعة (روتور)</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllReturns()"><i class="fas fa-trash-alt"></i> تصفير الكل</button>
+                    <span>📦 تسجيل طلبية مرجعة (روتور - تُخصم خسارتها تلقائياً من الربح)</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllReturns()"><i class="fas fa-trash-alt"></i> تصفير الروتور</button>
                 </h3>
                 <form id="returnForm" onsubmit="saveReturn(event)">
                     <input type="hidden" id="returnEditIndex" value="-1">
@@ -386,11 +512,17 @@
                             <input type="text" id="rWilaya" required placeholder="وهران">
                         </div>
                         <div class="input-group">
-                            <label>خسارة التوصيل (د.ج):</label>
+                            <label>خسارة الشحن والتوصيل (د.ج):</label>
                             <input type="number" id="rLoss" required placeholder="600">
                         </div>
                         <div class="input-group">
-                            <label>📅 تاريخ تسجيل الروتور:</label>
+                            <label>المنتج المرتجع (اختياري لإعادته للمخزون):</label>
+                            <select id="rProductSelect">
+                                <option value="">-- بدون تعديل المخزون --</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>📅 تاريخ الروتور:</label>
                             <input type="date" id="rDate" required>
                         </div>
                     </div>
@@ -409,9 +541,9 @@
                             <th>الزبون</th>
                             <th>الهاتف</th>
                             <th>الولاية</th>
+                            <th>المنتج المرتجع</th>
                             <th>خسارة التوصيل</th>
-                            <th>الحالة</th>
-                            <th>إجراءات (تعديل / حذف)</th>
+                            <th>إجراءات</th>
                         </tr>
                     </thead>
                     <tbody id="returnsTableBody"></tbody>
@@ -422,91 +554,67 @@
         <!-- ==================== 4. تبويب الرزنامة والسجل التاريخي ==================== -->
         <div id="tabCalendar" class="tab-content">
             <div class="form-card">
-                <h3>📅 الرزنامة والسجل التاريخي للأعمال والمبيعات</h3>
+                <h3>📅 الرزنامة اليومية والتفقد التاريخي</h3>
                 <div class="form-grid" style="align-items: flex-end;">
                     <div class="input-group">
-                        <label>اختر اليوم المحدد للتفقد أو المراجعة:</label>
+                        <label>اختر التاريخ لعرض كل ما حدث فيه:</label>
                         <input type="date" id="calendarFilterDate" onchange="renderCalendarJournal()">
                     </div>
                     <div class="input-group">
-                        <button type="button" class="btn-outline" style="height:44px;" onclick="setTodayCalendar()">عرض اليوم الحالي 🌟</button>
+                        <button type="button" class="btn-outline" style="height:42px;" onclick="setTodayCalendar()">عرض اليوم الحالي 🌟</button>
                     </div>
                 </div>
-            </div>
-
-            <!-- إضافة مبيعة/حدث يومي سريع للرزنامة والحسابات -->
-            <div class="form-card">
-                <h3>➕ تسجيل مبيعة مؤكدة في السجل والرزنامة</h3>
-                <form onsubmit="saveSaleRecord(event)">
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <label>المنتج المباع / تفاصيل الطلبية:</label>
-                            <input type="text" id="sTitle" required placeholder="مثال: طقم ملكي + خاتم (زبونة وهران)">
-                        </div>
-                        <div class="input-group">
-                            <label>مبلغ البيع الصافي (د.ج):</label>
-                            <input type="number" id="sAmount" required placeholder="3500">
-                        </div>
-                        <div class="input-group">
-                            <label>تكلفة السلعة المباعة (د.ج):</label>
-                            <input type="number" id="sCost" placeholder="1200" value="0">
-                        </div>
-                        <div class="input-group">
-                            <label>📅 تاريخ البيع:</label>
-                            <input type="date" id="sDate" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-gold">إضافة المبيعة للسجل 💰</button>
-                </form>
             </div>
 
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <h4>منتجات أضيفت للمخزون في هذا اليوم</h4>
+                    <h4>منتجات أضيفت في هذا اليوم</h4>
                     <div class="kpi-val" id="calDayAddedProds" style="color:var(--gold);">0 منتج</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>مبيعات هذا اليوم</h4>
-                    <div class="kpi-val" id="calDayRev" style="color:#2ecc71;">0 د.ج</div>
+                    <h4>فائدة المبيعات في هذا اليوم</h4>
+                    <div class="kpi-val" id="calDayProfit" style="color:#2ecc71;">0 د.ج</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>مصاريف الحملات في هذا اليوم</h4>
+                    <h4>مصاريف إعلانات هذا اليوم</h4>
                     <div class="kpi-val" id="calDayAds" style="color:#e63946;">0 د.ج</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>خسائر الروتور في هذا اليوم</h4>
-                    <div class="kpi-val" id="calDayReturns" style="color:#f1c40f;">0 د.ج</div>
+                    <h4>خسائر روتور هذا اليوم</h4>
+                    <div class="kpi-val" id="calDayReturns" style="color:#f39c12;">0 د.ج</div>
                 </div>
             </div>
 
             <div class="table-wrapper">
-                <h3 style="padding:15px; color:var(--gold); border-bottom:1px solid #222; font-family:'Amiri',serif;">تفاصيل كافة الأحداث (المنتجات المضافة، المبيعات، الإعلانات، الروتور) في هذا التاريخ:</h3>
+                <h3 style="padding:15px; color:var(--gold); border-bottom:1px solid #222; font-family:'Amiri',serif; text-align:right;">سجل العمليات والأحداث المسجلة في هذا اليوم:</h3>
                 <table>
                     <thead>
                         <tr>
                             <th>نوع الحدث</th>
-                            <th>التفاصيل والبيان</th>
-                            <th>القيمة المالية / الكمية</th>
-                            <th>إجراءات التحكم</th>
+                            <th>التفاصيل والمنتج</th>
+                            <th>المبلغ / الفائدة</th>
+                            <th>إجراءات</th>
                         </tr>
                     </thead>
-                    <tbody id="calendarEventsBody">
-                        <tr><td colspan="4" style="text-align:center; color:#777; padding:20px;">اختر تاريخاً أعلاه لعرض السجل الرزنامي.</td></tr>
-                    </tbody>
+                    <tbody id="calendarEventsBody"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- ==================== 5. تبويب الحسابات والأرباح الصافية ==================== -->
+        <!-- ==================== 5. تبويب الحسابات والأرباح الصافية (التقرير الشامل) ==================== -->
         <div id="tabFinance" class="tab-content">
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <h4>💰 إجمالي المبيعات المؤكدة</h4>
-                    <div class="kpi-val" id="finTotalSales" style="color:#2ecc71;">0 د.ج</div>
+                    <h4>💵 إجمالي رقم الأعمال (المبيعات)</h4>
+                    <div class="kpi-val" id="finTotalRevenue" style="color:var(--gold-light);">0 د.ج</div>
                 </div>
                 <div class="kpi-card">
-                    <h4>🏷️ تكلفة السلع المباعة</h4>
-                    <div class="kpi-val" id="finTotalGoodsCost" style="color:#ccc;">0 د.ج</div>
+                    <h4>🏷️ إجمالي تكلفة شراء المباع</h4>
+                    <div class="kpi-val" id="finTotalCostOfSold" style="color:#ccc;">0 د.ج</div>
+                </div>
+                <div class="kpi-card">
+                    <h4>💎 إجمالي الفائدة (قبل المصاريف)</h4>
+                    <div class="kpi-val" id="finGrossProfit" style="color:#2ecc71;">0 د.ج</div>
                 </div>
                 <div class="kpi-card">
                     <h4>📢 إجمالي مصاريف الإعلانات</h4>
@@ -514,29 +622,30 @@
                 </div>
                 <div class="kpi-card">
                     <h4>📦 إجمالي خسائر الروتور</h4>
-                    <div class="kpi-val" id="finTotalReturns" style="color:#f1c40f;">0 د.ج</div>
+                    <div class="kpi-val" id="finTotalReturns" style="color:#f39c12;">0 د.ج</div>
                 </div>
-                <div class="kpi-card" style="border-color:#2ecc71; background:rgba(46,204,113,0.06);">
-                    <h4>💎 صافي الربح الحقيقي النهائي</h4>
-                    <div class="kpi-val" id="finNetProfit" style="color:#2ecc71;">0 د.ج</div>
+                <div class="kpi-card" id="finNetCard" style="border-width:2px;">
+                    <h4>🏆 الصافي النهائي (بعد كل المصاريف)</h4>
+                    <div class="kpi-val" id="finNetProfit">0 د.ج</div>
                 </div>
             </div>
 
             <div class="form-card">
                 <h3>
-                    <span>📋 سجل المبيعات المؤكدة الشامل</span>
-                    <button type="button" class="btn-danger-all" onclick="clearAllSales()"><i class="fas fa-trash-alt"></i> تصفير المبيعات</button>
+                    <span>📋 سجل عمليات البيع التفصيلي</span>
+                    <button type="button" class="btn-danger-all" onclick="clearAllSalesLog()"><i class="fas fa-trash-alt"></i> مسح سجل العمليات</button>
                 </h3>
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
                                 <th>التاريخ 📅</th>
-                                <th>البيان / الطلبية</th>
-                                <th>سعر البيع</th>
-                                <th>تكلفة السلعة</th>
-                                <th>الربح قبل الإعلان</th>
-                                <th>حذف</th>
+                                <th>اسم المنتج المباع</th>
+                                <th>العدد المباع</th>
+                                <th>سعر البيع الإجمالي</th>
+                                <th>تكلفة الشراء الإجمالية</th>
+                                <th>الفائدة الصافية للعملية</th>
+                                <th>حذف العملية</th>
                             </tr>
                         </thead>
                         <tbody id="salesTableBody"></tbody>
@@ -552,7 +661,6 @@
         const GITHUB_REPO = "GLAME-CHIC-BIJOUX";
         const STORAGE_KEY_MASTER = "glame_command_center_v2";
 
-        // هيكل البيانات الموحد
         let appData = {
             products: [],
             ads: [],
@@ -560,7 +668,6 @@
             sales: []
         };
 
-        // الحصول على تاريخ اليوم بصيغة YYYY-MM-DD
         function getTodayStr() {
             const d = new Date();
             const year = d.getFullYear();
@@ -576,7 +683,6 @@
             setTimeout(() => { t.style.display = 'none'; }, 3200);
         }
 
-        // تسريع الصور وعرضها من المستودع أو الرابط
         function getProductThumbUrl(imgPath) {
             if (!imgPath) return 'https://via.placeholder.com/80x80/000/D4AF37?text=GC';
             if (imgPath.startsWith('http') || imgPath.startsWith('data:')) {
@@ -586,18 +692,16 @@
             return `https://wsrv.nl/?url=${encodeURIComponent(rawUrl)}&w=100&output=webp&q=80`;
         }
 
-        // ==================== 1. نظام الحماية والدخول ====================
+        // ==================== 1. الحماية وتسجيل الدخول ====================
         window.addEventListener('DOMContentLoaded', () => {
-            // تعيين التواريخ الافتراضية لليوم الحالي
             const today = getTodayStr();
             document.getElementById('pDate').value = today;
             document.getElementById('adStartDate').value = today;
             document.getElementById('adEndDate').value = today;
             document.getElementById('rDate').value = today;
-            document.getElementById('sDate').value = today;
+            document.getElementById('sellModalDate').value = today;
             document.getElementById('calendarFilterDate').value = today;
 
-            // التحقق من الجلسة (إذا دخل من enterprise.html يفتح تلقائياً)
             const entAuth = localStorage.getItem('glame_enterprise_auth');
             const cmdAuth = sessionStorage.getItem('glame_cmd_auth');
 
@@ -624,7 +728,6 @@
             loadAllDataFromStorage();
         }
 
-        // التنقل بين التبويبات
         function switchTab(tabId, btnEl) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -633,16 +736,12 @@
             renderAllViews();
         }
 
-        // ==================== 2. إدارة التخزين المحلي واسترجاع البيانات السابقة ====================
+        // ==================== 2. التخزين المحلي والمحاسبة الشاملة ====================
         function loadAllDataFromStorage() {
             try {
                 const saved = localStorage.getItem(STORAGE_KEY_MASTER);
                 if (saved) {
                     appData = JSON.parse(saved);
-                } else {
-                    // محاولة قراءة أي بيانات قديمة إن وجدت
-                    const oldProds = localStorage.getItem('glame_cmd_products') || localStorage.getItem('glame_inventory_data_v1');
-                    if (oldProds) appData.products = JSON.parse(oldProds);
                 }
             } catch (e) {
                 console.error("Storage load error", e);
@@ -651,6 +750,14 @@
             if (!Array.isArray(appData.ads)) appData.ads = [];
             if (!Array.isArray(appData.returns)) appData.returns = [];
             if (!Array.isArray(appData.sales)) appData.sales = [];
+
+            // ضمان وجود خاصية soldQty و cost لكل منتج
+            appData.products.forEach(p => {
+                p.cost = Number(p.cost) || 0;
+                p.price = Number(p.price) || 0;
+                p.quantity = Number(p.quantity) || 0;
+                p.soldQty = Number(p.soldQty) || 0;
+            });
 
             renderAllViews();
         }
@@ -661,22 +768,107 @@
         }
 
         function renderAllViews() {
+            updateMasterFinancialBanner();
             renderProductsTable();
+            populateReturnProductsDropdown();
             renderAdsTable();
             renderReturnsTable();
             renderCalendarJournal();
             renderFinanceView();
         }
 
-        // ==================== 3. ميزة استيراد المنتجات من الأدمن آلياً + المزامنة ====================
+        // محرك الحساب المالي اللحظي (يحسب من القطع المباعة في جدول المنتجات + أي مبيعات إضافية - الإعلانات - الروتور)
+        function calculateGlobalFinancials() {
+            let totalSoldUnits = 0;
+            let totalRevenue = 0;
+            let totalCostOfSold = 0;
+
+            appData.products.forEach(p => {
+                const sold = Number(p.soldQty) || 0;
+                const price = Number(p.price) || 0;
+                const cost = Number(p.cost) || 0;
+                totalSoldUnits += sold;
+                totalRevenue += (sold * price);
+                totalCostOfSold += (sold * cost);
+            });
+
+            const grossProfit = totalRevenue - totalCostOfSold;
+            const totalAds = appData.ads.reduce((s, ad) => s + (Number(ad.budget) || 0), 0);
+            const totalReturns = appData.returns.reduce((s, r) => s + (Number(r.loss) || 0), 0);
+            const netProfit = grossProfit - totalAds - totalReturns;
+
+            return {
+                totalSoldUnits,
+                totalRevenue,
+                totalCostOfSold,
+                grossProfit,
+                totalAds,
+                totalReturns,
+                netProfit
+            };
+        }
+
+        function updateMasterFinancialBanner() {
+            const fin = calculateGlobalFinancials();
+            const banner = document.getElementById('liveVerdictBanner');
+            const icon = document.getElementById('verdictIcon');
+            const title = document.getElementById('verdictTitle');
+            const sub = document.getElementById('verdictSub');
+            const netEl = document.getElementById('topNetResult');
+
+            document.getElementById('topTotalSoldUnits').innerText = `${fin.totalSoldUnits} قطعة`;
+            document.getElementById('topGrossProfit').innerText = `${fin.grossProfit.toLocaleString()} د.ج`;
+            document.getElementById('topAdsExpense').innerText = `${fin.totalAds.toLocaleString()} د.ج`;
+            document.getElementById('topReturnsLoss').innerText = `${fin.totalReturns.toLocaleString()} د.ج`;
+            netEl.innerText = `${fin.netProfit >= 0 ? '+' : ''}${fin.netProfit.toLocaleString()} د.ج`;
+
+            if (fin.totalSoldUnits === 0 && fin.totalAds === 0 && fin.totalReturns === 0) {
+                banner.style.borderColor = 'rgba(212,175,55,0.3)';
+                icon.style.background = 'rgba(212,175,55,0.15)';
+                icon.style.color = '#D4AF37';
+                icon.innerText = '📊';
+                title.style.color = '#D4AF37';
+                title.innerText = 'النظام جاهز לחساب الأرباح الفورية';
+                sub.innerText = 'حدد سعر الشراء لكل منتج واضغط "✅ بيعت" لترى أرباحك الصافية لحظياً.';
+                netEl.style.color = '#fff';
+            } else if (fin.netProfit > 0) {
+                banner.style.borderColor = '#2ecc71';
+                icon.style.background = 'rgba(46,204,113,0.2)';
+                icon.style.color = '#2ecc71';
+                icon.innerText = '🟢';
+                title.style.color = '#2ecc71';
+                title.innerText = `أنت رابح حالياً بصافي: +${fin.netProfit.toLocaleString()} د.ج`;
+                sub.innerText = `فائدة مبيعاتك غطت تكلفة السلعة (${fin.totalCostOfSold.toLocaleString()}) والإعلانات (${fin.totalAds.toLocaleString()}) والروتور (${fin.totalReturns.toLocaleString()}) بنجاح!`;
+                netEl.style.color = '#2ecc71';
+            } else if (fin.netProfit < 0) {
+                banner.style.borderColor = '#e63946';
+                icon.style.background = 'rgba(230,57,70,0.2)';
+                icon.style.color = '#e63946';
+                icon.innerText = '🔴';
+                title.style.color = '#e63946';
+                title.innerText = `أنت في عجز/خسارة حالياً بـ: ${fin.netProfit.toLocaleString()} د.ج`;
+                sub.innerText = `تحتاج لبيع قطع إضافية لتغطية مصاريف الإعلانات والروتور المتبقية (${Math.abs(fin.netProfit).toLocaleString()} د.ج).`;
+                netEl.style.color = '#e63946';
+            } else {
+                banner.style.borderColor = '#f39c12';
+                icon.style.background = 'rgba(243,156,18,0.2)';
+                icon.style.color = '#f39c12';
+                icon.innerText = '⚖️';
+                title.style.color = '#f39c12';
+                title.innerText = 'نقطة التعادل (لا ربح ولا خسارة: 0 د.ج)';
+                sub.innerText = 'الأرباح الحالية مساوية تماماً للمصاريف.';
+                netEl.style.color = '#f39c12';
+            }
+        }
+
+        // ==================== 3. استيراد المنتجات من الأدمن آلياً (مع جلب سعر البيع أوتوماتيكياً) ====================
         async function importProductsFromAdmin() {
             const btn = document.getElementById('btnImportAdmin');
             const origHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الجلب من الأدمن...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الاستيراد من الأدمن...';
             btn.disabled = true;
 
             try {
-                // جلب ملف products.json مع كسر الكاش
                 let response = await fetch(`products.json?t=${Date.now()}`).catch(() => null);
                 if (!response || !response.ok) {
                     response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/products.json?t=${Date.now()}`);
@@ -693,25 +885,21 @@
                 let updatedCount = 0;
 
                 adminProds.forEach(ap => {
-                    // التحقق مما إذا كان المنتج مسجلاً مسبقاً بالمعرف أو الاسم
                     const existingIdx = appData.products.findIndex(
                         p => (p.id && ap.id && String(p.id) === String(ap.id)) || p.name.trim() === ap.name.trim()
                     );
 
-                    // استخراج تاريخ الإضافة من الـ ID إن كان Timestamp أو استخدام اليوم
                     let inferredDate = today;
                     if (ap.id && Number(ap.id) > 1600000000000 && Number(ap.id) < 2100000000000) {
-                        const d = new Date(Number(ap.id));
-                        inferredDate = d.toISOString().split('T')[0];
+                        inferredDate = new Date(Number(ap.id)).toISOString().split('T')[0];
                     }
 
                     if (existingIdx > -1) {
-                        // تحديث السعر والكمية والصورة مع الحفاظ التام على (تكلفة الشراء) و(تاريخ الإضافة) المسجلين لديك
+                        // تحديث سعر البيع أوتوماتيكياً من الأدمن مع الحفاظ التام على سعر الشراء والقطع المباعة المحفوظة
                         appData.products[existingIdx].name = ap.name;
                         appData.products[existingIdx].category = ap.category || "أخرى";
                         appData.products[existingIdx].price = Number(ap.price) || 0;
                         appData.products[existingIdx].oldPrice = Number(ap.oldPrice) || 0;
-                        appData.products[existingIdx].quantity = Number(ap.quantity) ?? appData.products[existingIdx].quantity;
                         appData.products[existingIdx].image = ap.image || appData.products[existingIdx].image;
                         if (!appData.products[existingIdx].addedDate) {
                             appData.products[existingIdx].addedDate = inferredDate;
@@ -719,15 +907,15 @@
                         appData.products[existingIdx].source = "admin";
                         updatedCount++;
                     } else {
-                        // إضافة كمنتج جديد
                         appData.products.push({
                             id: ap.id || Date.now() + Math.floor(Math.random() * 1000),
                             name: ap.name,
                             category: ap.category || "أخرى",
-                            price: Number(ap.price) || 0,
+                            price: Number(ap.price) || 0, // سعر البيع أوتوماتيكي من الأدمن
                             oldPrice: Number(ap.oldPrice) || 0,
                             quantity: Number(ap.quantity) || 0,
-                            cost: 0,
+                            soldQty: 0, // عدد القطع المباعة يبدأ من 0
+                            cost: 0, // يدخله التاجر مباشرة في الجدول لحساب الفائدة
                             image: ap.image || "",
                             addedDate: inferredDate,
                             source: "admin"
@@ -737,7 +925,7 @@
                 });
 
                 saveAllDataToStorage();
-                showToast(`✅ تم استيراد منتجات الأدمن! (جديد: ${newCount} | محدّث: ${updatedCount})`);
+                showToast(`✅ تم الاستيراد بنجاح! (جديد: ${newCount} | محدّث سعره: ${updatedCount})`);
             } catch (err) {
                 alert("❌ خطأ أثناء الاستيراد: " + err.message);
             } finally {
@@ -746,14 +934,14 @@
             }
         }
 
-        // مزامنة الكميات والأسعار مع المتجر المباشر (products.json على GitHub)
+        // مزامنة الكميات المتبقية مع المتجر المباشر
         async function syncInventoryToAdmin() {
             const token = localStorage.getItem('glame_internal_token') || localStorage.getItem('glame_vault_token');
             if (!token) {
-                alert("🔑 يرجى إدخال وحفظ التوكن في (خزينة السر) أو في قسم الأدمن أولاً لتتمكن من رفع التعديلات للمتجر.");
+                alert("🔑 يرجى حفظ التوكن في (خزينة السر) أو تسجيل الدخول في قسم الأدمن أولاً.");
                 return;
             }
-            if (!confirm("هل تريد تحديث الكميات والأسعار الحالية مباشرة في المتجر (products.json)؟")) return;
+            if (!confirm("هل تريد تحديث الكميات المتبقية وأسعار البيع في المتجر المباشر (products.json)؟")) return;
 
             const btn = document.getElementById('btnSyncAdmin');
             const origHTML = btn.innerHTML;
@@ -769,14 +957,12 @@
                 const sha = fileData.sha;
                 let remoteProducts = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
 
-                // تحديث المنتجات الموجودة في المتجر
                 remoteProducts = remoteProducts.map(rem => {
                     const localMatch = appData.products.find(
                         lp => (lp.id && rem.id && String(lp.id) === String(rem.id)) || lp.name.trim() === rem.name.trim()
                     );
                     if (localMatch) {
                         rem.price = Number(localMatch.price) || rem.price;
-                        rem.oldPrice = Number(localMatch.oldPrice) || 0;
                         rem.quantity = Number(localMatch.quantity) || 0;
                         rem.category = localMatch.category || rem.category;
                     }
@@ -788,14 +974,14 @@
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        message: "مزامنة المخزون من لوحة القيادة",
+                        message: "تحديث المخزون بعد المبيعات",
                         content: encoded,
                         sha: sha
                     })
                 });
 
                 if (!putRes.ok) throw new Error("فشل حفظ التعديلات على GitHub.");
-                showToast("🚀 تمت مزامنة الكميات والأسعار مع المتجر بنجاح!");
+                showToast("🚀 تمت مزامنة الكميات المتبقية مع المتجر بنجاح!");
             } catch (err) {
                 alert("❌ خطأ في المزامنة: " + err.message);
             } finally {
@@ -804,32 +990,142 @@
             }
         }
 
-        // ==================== 4. إدارة المنتجات اليدوية والبحث بالتاريخ ====================
+        // ==================== 4. خيار "✅ بيعت" وحساب الفائدة المباشر في جدول المخزون ====================
+        function openQuickSellModal(index) {
+            const p = appData.products[index];
+            if (!p) return;
+            document.getElementById('sellModalIdx').value = index;
+            document.getElementById('sellModalProdName').innerText = `💎 ${p.name} (المتبقي بالمخزون: ${p.quantity})`;
+            document.getElementById('sellModalQty').value = 1;
+            document.getElementById('sellModalPrice').value = Number(p.price) || 0;
+            document.getElementById('sellModalCost').value = Number(p.cost) || 0;
+            document.getElementById('sellModalDate').value = getTodayStr();
+            updateSellModalCalc();
+            document.getElementById('sellModal').style.display = 'flex';
+        }
+
+        function updateSellModalCalc() {
+            const qty = Math.max(1, Number(document.getElementById('sellModalQty').value) || 1);
+            const price = Number(document.getElementById('sellModalPrice').value) || 0;
+            const cost = Number(document.getElementById('sellModalCost').value) || 0;
+            const totalRev = qty * price;
+            const netProfit = (price - cost) * qty;
+
+            document.getElementById('sellModalTotalRev').innerText = `${totalRev.toLocaleString()} د.ج`;
+            const netEl = document.getElementById('sellModalNetProfit');
+            netEl.innerText = `${netProfit >= 0 ? '+' : ''}${netProfit.toLocaleString()} د.ج`;
+            netEl.style.color = netProfit >= 0 ? '#2ecc71' : '#e63946';
+        }
+
+        function closeSellModal() {
+            document.getElementById('sellModal').style.display = 'none';
+        }
+
+        function confirmQuickSale() {
+            const idx = parseInt(document.getElementById('sellModalIdx').value);
+            const p = appData.products[idx];
+            if (!p) return;
+
+            const qtyToSell = Math.max(1, parseInt(document.getElementById('sellModalQty').value) || 1);
+            const salePrice = Number(document.getElementById('sellModalPrice').value) || 0;
+            const unitCost = Number(document.getElementById('sellModalCost').value) || 0;
+            const saleDate = document.getElementById('sellModalDate').value || getTodayStr();
+
+            // تحديث سعر الشراء والبيع للمنتج إذا عدلهما المستخدم في النافذة
+            p.price = salePrice;
+            p.cost = unitCost;
+
+            // خصم من المخزون المتبقي وإضافة لعداد القطع المباعة
+            p.quantity = Math.max(0, (Number(p.quantity) || 0) - qtyToSell);
+            p.soldQty = (Number(p.soldQty) || 0) + qtyToSell;
+
+            // تسجيل العملية في سجل المبيعات والرزنامة التاريخية
+            appData.sales.unshift({
+                id: Date.now(),
+                prodId: p.id,
+                title: p.name,
+                qty: qtyToSell,
+                amount: salePrice * qtyToSell,
+                cost: unitCost * qtyToSell,
+                date: saleDate
+            });
+
+            closeSellModal();
+            saveAllDataToStorage();
+            showToast(`✅ تم تسجيل بيع (${qtyToSell}) من "${p.name}" وحساب الفائدة فوراً!`);
+        }
+
+        // التعديل المباشر لسعر الشراء وسعر البيع والكميات من الجدول مباشرة
+        function updateInlineCost(index, newCostVal) {
+            if (!appData.products[index]) return;
+            appData.products[index].cost = Math.max(0, Number(newCostVal) || 0);
+            saveAllDataToStorage();
+            showToast("🏷️ تم تحديث سعر الشراء وحساب الفائدة تلقائياً!");
+        }
+
+        function updateInlinePrice(index, newPriceVal) {
+            if (!appData.products[index]) return;
+            appData.products[index].price = Math.max(0, Number(newPriceVal) || 0);
+            saveAllDataToStorage();
+            showToast("💵 تم تحديث سعر البيع وحساب الفائدة!");
+        }
+
+        function quickChangeProdQty(index, delta) {
+            if (!appData.products[index]) return;
+            appData.products[index].quantity = Math.max(0, (Number(appData.products[index].quantity) || 0) + delta);
+            saveAllDataToStorage();
+        }
+
+        // التعديل السريع لعداد القطع المباعة (+ يزيد المباع وينقص المخزون، - ينقص المباع ويعيده للمخزون)
+        function quickAdjustSoldQty(index, delta) {
+            const p = appData.products[index];
+            if (!p) return;
+            const currentSold = Number(p.soldQty) || 0;
+            if (delta < 0 && currentSold <= 0) return;
+
+            p.soldQty = Math.max(0, currentSold + delta);
+            p.quantity = Math.max(0, (Number(p.quantity) || 0) - delta);
+
+            if (delta > 0) {
+                appData.sales.unshift({
+                    id: Date.now(),
+                    prodId: p.id,
+                    title: p.name,
+                    qty: delta,
+                    amount: (Number(p.price) || 0) * delta,
+                    cost: (Number(p.cost) || 0) * delta,
+                    date: getTodayStr()
+                });
+            }
+            saveAllDataToStorage();
+        }
+
+        // ==================== 5. الإضافة والتعديل اليدوي للمنتجات ====================
         function saveProduct(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('prodEditIndex').value);
             const name = document.getElementById('pName').value.trim();
             const category = document.getElementById('pCat').value;
-            const price = Number(document.getElementById('pPrice').value) || 0;
-            const oldPrice = Number(document.getElementById('pOldPrice').value) || 0;
-            const quantity = Number(document.getElementById('pQty').value) || 0;
             const cost = Number(document.getElementById('pCost').value) || 0;
+            const price = Number(document.getElementById('pPrice').value) || 0;
+            const quantity = Number(document.getElementById('pQty').value) || 0;
+            const soldQty = Number(document.getElementById('pSoldQty').value) || 0;
             const addedDate = document.getElementById('pDate').value || getTodayStr();
             const image = document.getElementById('pImg').value.trim();
 
             if (editIdx > -1 && appData.products[editIdx]) {
                 appData.products[editIdx] = {
                     ...appData.products[editIdx],
-                    name, category, price, oldPrice, quantity, cost, addedDate, image
+                    name, category, cost, price, quantity, soldQty, addedDate, image
                 };
                 showToast("✅ تم حفظ تعديلات المنتج بنجاح!");
             } else {
                 appData.products.unshift({
                     id: Date.now(),
-                    name, category, price, oldPrice, quantity, cost, addedDate, image,
+                    name, category, cost, price, oldPrice: 0, quantity, soldQty, addedDate, image,
                     source: "manual"
                 });
-                showToast("✅ تمت إضافة المنتج للمخزون بنجاح!");
+                showToast("✅ تمت إضافة المنتج للمخزون!");
             }
 
             cancelProdEdit();
@@ -842,10 +1138,10 @@
             document.getElementById('prodEditIndex').value = index;
             document.getElementById('pName').value = p.name;
             document.getElementById('pCat').value = p.category || "أقراط";
-            document.getElementById('pPrice').value = p.price;
-            document.getElementById('pOldPrice').value = p.oldPrice || "";
-            document.getElementById('pQty').value = p.quantity;
             document.getElementById('pCost').value = p.cost || 0;
+            document.getElementById('pPrice').value = p.price || 0;
+            document.getElementById('pQty').value = p.quantity || 0;
+            document.getElementById('pSoldQty').value = p.soldQty || 0;
             document.getElementById('pDate').value = p.addedDate || getTodayStr();
             document.getElementById('pImg').value = p.image || "";
 
@@ -859,15 +1155,10 @@
             document.getElementById('productForm').reset();
             document.getElementById('pDate').value = getTodayStr();
             document.getElementById('pQty').value = 10;
+            document.getElementById('pSoldQty').value = 0;
             document.getElementById('pCost').value = 0;
-            document.getElementById('prodSubmitBtn').innerText = "حفظ المنتج في المخزون 💾";
+            document.getElementById('prodSubmitBtn').innerText = "حفظ المنتج في النظام 💾";
             document.getElementById('prodCancelBtn').style.display = "none";
-        }
-
-        function quickChangeProdQty(index, delta) {
-            if (!appData.products[index]) return;
-            appData.products[index].quantity = Math.max(0, (Number(appData.products[index].quantity) || 0) + delta);
-            saveAllDataToStorage();
         }
 
         function deleteProduct(index) {
@@ -876,14 +1167,13 @@
             if (!confirm(`هل أنت متأكد من حذف "${p.name}" من المخزون؟`)) return;
             appData.products.splice(index, 1);
             saveAllDataToStorage();
-            showToast("🗑️ تم حذف المنتج من المخزون.");
+            showToast("🗑️ تم حذف المنتج.");
         }
 
         function clearAllProducts() {
-            if (!confirm("⚠️ تحذير: هل أنت متأكد من مسح وتصفير جميع المنتجات في المخزون المحلي؟")) return;
+            if (!confirm("⚠️ تحذير: هل أنت متأكد من تصفير جميع المنتجات في المخزون المحلي؟")) return;
             appData.products = [];
             saveAllDataToStorage();
-            showToast("تم تصفير قائمة المنتجات.");
         }
 
         function resetProductFilters() {
@@ -896,21 +1186,21 @@
         }
 
         function renderProductsTable() {
-            // تحديث إحصائيات المخزون العلوية
             const totalItems = appData.products.length;
             const totalUnits = appData.products.reduce((s, p) => s + (Number(p.quantity) || 0), 0);
-            const totalSaleVal = appData.products.reduce((s, p) => s + ((Number(p.price) || 0) * (Number(p.quantity) || 0)), 0);
-            const totalPotentialProfit = appData.products.reduce((s, p) => {
-                const unitProfit = (Number(p.price) || 0) - (Number(p.cost) || 0);
-                return s + (unitProfit * (Number(p.quantity) || 0));
+            const totalSold = appData.products.reduce((s, p) => s + (Number(p.soldQty) || 0), 0);
+            const remainingCapital = appData.products.reduce((s, p) => s + ((Number(p.cost) || 0) * (Number(p.quantity) || 0)), 0);
+            const potentialProfit = appData.products.reduce((s, p) => {
+                const uProf = (Number(p.price) || 0) - (Number(p.cost) || 0);
+                return s + (uProf * (Number(p.quantity) || 0));
             }, 0);
 
             document.getElementById('invTotalItems').innerText = `${totalItems} صنف`;
             document.getElementById('invTotalUnits').innerText = `${totalUnits} قطعة`;
-            document.getElementById('invTotalSaleVal').innerText = `${totalSaleVal.toLocaleString()} د.ج`;
-            document.getElementById('invPotentialProfit').innerText = `${totalPotentialProfit.toLocaleString()} د.ج`;
+            document.getElementById('invTotalSold').innerText = `${totalSold} قطعة`;
+            document.getElementById('invRemainingCapital').innerText = `${remainingCapital.toLocaleString()} د.ج`;
+            document.getElementById('invPotentialProfit').innerText = `${potentialProfit.toLocaleString()} د.ج`;
 
-            // قراءة الفلاتر والبحث بالتاريخ
             const searchQ = document.getElementById('filterProdSearch').value.trim().toLowerCase();
             const catQ = document.getElementById('filterProdCat').value;
             const exactDate = document.getElementById('filterExactDate').value;
@@ -931,45 +1221,73 @@
 
             const tbody = document.getElementById('productsTableBody');
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:35px; color:#888;">لا توجد منتجات مطابقة أو المخزون فارغ. اضغط على <b>"استيراد المنتجات من الأدمن"</b> بالأعلى أو أضف منتجاً يدوياً.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="11" style="text-align:center; padding:35px; color:#888;">لا توجد منتجات مطابقة. اضغط على <b>"استيراد المنتجات من الأدمن"</b> بالأعلى لجلب كافة منتجاتك وسعر بيعها آلياً.</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = filtered.map(p => {
-                const unitProfit = (Number(p.price) || 0) - (Number(p.cost) || 0);
+                const price = Number(p.price) || 0;
+                const cost = Number(p.cost) || 0;
+                const qty = Number(p.quantity) || 0;
+                const sold = Number(p.soldQty) || 0;
+                const unitProfit = price - cost;
+                const totalSoldProfit = unitProfit * sold;
+
                 const srcBadge = p.source === 'admin'
-                    ? `<div class="badge-status st-admin">مستورد من الأدمن ☁️</div>`
-                    : `<div class="badge-status st-manual">إضافة يدوية ✍️</div>`;
+                    ? `<span class="badge-status st-admin">مستورد من الأدمن ☁️</span>`
+                    : `<span class="badge-status st-manual">إضافة يدوية ✍️</span>`;
 
                 return `
                     <tr>
                         <td><img src="${getProductThumbUrl(p.image)}" class="prod-thumb" alt="${p.name}" loading="lazy"></td>
-                        <td>
-                            <div style="font-weight:bold; color:#fff;">${p.name}</div>
-                            ${srcBadge}
+                        <td style="text-align:right;">
+                            <div style="font-weight:bold; color:#fff; font-size:0.98em;">${p.name}</div>
+                            <span style="color:var(--gold); font-size:0.82em; font-weight:bold;">${p.category || 'أخرى'}</span> | ${srcBadge}
                         </td>
-                        <td><span style="color:var(--gold); font-weight:bold;">${p.category || 'أخرى'}</span></td>
-                        <td><span class="date-badge">📅 ${p.addedDate || 'غير محدد'}</span></td>
-                        <td style="font-weight:bold; color:var(--gold-light);">${Number(p.price).toLocaleString()} د.ج</td>
-                        <td style="color:#aaa;">${Number(p.cost || 0).toLocaleString()} د.ج</td>
-                        <td style="font-weight:bold; color:${unitProfit >= 0 ? '#2ecc71' : '#e63946'};">${unitProfit.toLocaleString()} د.ج</td>
+                        <td><span class="date-badge">${p.addedDate || '—'}</span></td>
+                        <td>
+                            <input type="number" class="inline-input" value="${cost}" 
+                                   onchange="updateInlineCost(${p.origIndex}, this.value)" title="اكتب سعر الشراء ليحسب الفائدة فوراً">
+                        </td>
+                        <td>
+                            <input type="number" class="inline-input" style="border-color:#444; color:var(--gold-light);" value="${price}" 
+                                   onchange="updateInlinePrice(${p.origIndex}, this.value)" title="سعر البيع (يُجلب آلياً من الأدمن ويمكنك تعديله)">
+                        </td>
+                        <td style="font-weight:800; color:${unitProfit >= 0 ? '#2ecc71' : '#e63946'};">
+                            ${unitProfit.toLocaleString()} د.ج
+                        </td>
                         <td>
                             <div class="qty-box-inline">
                                 <button type="button" class="qty-btn-mini" onclick="quickChangeProdQty(${p.origIndex}, -1)">−</button>
-                                <span style="min-width:28px; text-align:center; font-weight:bold; color:${p.quantity > 0 ? '#fff' : '#e63946'};">${p.quantity}</span>
+                                <span style="min-width:26px; font-weight:bold; color:${qty > 0 ? '#fff' : '#e63946'};">${qty}</span>
                                 <button type="button" class="qty-btn-mini" onclick="quickChangeProdQty(${p.origIndex}, 1)">+</button>
                             </div>
                         </td>
                         <td>
-                            <button type="button" class="btn-edit" onclick="editProduct(${p.origIndex})"><i class="fas fa-edit"></i> تعديل</button>
-                            <button type="button" class="btn-del" onclick="deleteProduct(${p.origIndex})"><i class="fas fa-trash"></i> حذف</button>
+                            <div class="qty-box-inline" style="border-color:rgba(46,204,113,0.4);">
+                                <button type="button" class="qty-btn-mini" onclick="quickAdjustSoldQty(${p.origIndex}, -1)" title="إنقاص المباع وإعادته للمخزون">−</button>
+                                <span style="min-width:26px; font-weight:800; color:#2ecc71;">${sold}</span>
+                                <button type="button" class="qty-btn-mini" onclick="quickAdjustSoldQty(${p.origIndex}, 1)" title="زيادة المباع وخصمه من المخزون">+</button>
+                            </div>
+                        </td>
+                        <td style="font-weight:800; color:${totalSoldProfit > 0 ? '#2ecc71' : '#aaa'}; font-size:1.02em;">
+                            ${totalSoldProfit.toLocaleString()} د.ج
+                        </td>
+                        <td>
+                            <button type="button" class="btn-sold-action" onclick="openQuickSellModal(${p.origIndex})">
+                                <i class="fas fa-check"></i> بيعت
+                            </button>
+                        </td>
+                        <td style="white-space:nowrap;">
+                            <button type="button" class="btn-edit" onclick="editProduct(${p.origIndex})" title="تعديل كامل"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn-del" onclick="deleteProduct(${p.origIndex})" title="حذف"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // ==================== 5. إدارة الحملات الإعلانية ====================
+        // ==================== 6. إدارة الحملات الإعلانية ====================
         function saveAd(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('adEditIndex').value);
@@ -984,7 +1302,7 @@
                 showToast("✅ تم تعديل الحملة الإعلانية!");
             } else {
                 appData.ads.unshift({ id: Date.now(), name, startDate, endDate, budget, orders });
-                showToast("✅ تم تسجيل الحملة الإعلانية!");
+                showToast("✅ تم تسجيل الحملة وخصمها من صافي الربح!");
             }
             cancelAdEdit();
             saveAllDataToStorage();
@@ -1010,7 +1328,7 @@
             const today = getTodayStr();
             document.getElementById('adStartDate').value = today;
             document.getElementById('adEndDate').value = today;
-            document.getElementById('adSubmitBtn').innerText = "حفظ الحملة 📊";
+            document.getElementById('adSubmitBtn').innerText = "حفظ الحملة الإعلانية 📊";
             document.getElementById('adCancelBtn').style.display = "none";
         }
 
@@ -1036,7 +1354,7 @@
         function renderAdsTable() {
             const tbody = document.getElementById('adsTableBody');
             if (appData.ads.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:25px; color:#777;">لا توجد حملات مسجلة حالياً.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:25px; color:#777;">لا توجد حملات إعلانية مسجلة.</td></tr>`;
                 return;
             }
             tbody.innerHTML = appData.ads.map((ad, idx) => {
@@ -1048,7 +1366,7 @@
                         <td><span class="date-badge">${ad.startDate} ⬅ ${ad.endDate}</span></td>
                         <td style="font-weight:bold; color:#fff;">${ad.name}</td>
                         <td>${days} يوم</td>
-                        <td style="color:var(--gold); font-weight:bold;">${Number(ad.budget).toLocaleString()} د.ج</td>
+                        <td style="color:#e63946; font-weight:bold;">-${Number(ad.budget).toLocaleString()} د.ج</td>
                         <td>${daily.toLocaleString()} د.ج/يوم</td>
                         <td style="font-weight:bold; color:#2ecc71;">${ad.orders} طلب</td>
                         <td>${cpa}</td>
@@ -1061,7 +1379,16 @@
             }).join('');
         }
 
-        // ==================== 6. إدارة الروتور والمرتجعات ====================
+        // ==================== 7. إدارة الروتور والمرتجعات ====================
+        function populateReturnProductsDropdown() {
+            const sel = document.getElementById('rProductSelect');
+            if (!sel) return;
+            const currentVal = sel.value;
+            sel.innerHTML = `<option value="">-- بدون تعديل المخزون --</option>` +
+                appData.products.map((p, i) => `<option value="${i}">${p.name} (إرجاع قطعة للمخزون)</option>`).join('');
+            sel.value = currentVal;
+        }
+
         function saveReturn(e) {
             e.preventDefault();
             const editIdx = parseInt(document.getElementById('returnEditIndex').value);
@@ -1069,14 +1396,26 @@
             const phone = document.getElementById('rPhone').value.trim();
             const wilaya = document.getElementById('rWilaya').value.trim();
             const loss = Number(document.getElementById('rLoss').value) || 0;
+            const prodIdx = document.getElementById('rProductSelect').value;
             const date = document.getElementById('rDate').value || getTodayStr();
 
+            let prodName = "—";
+            if (prodIdx !== "" && appData.products[prodIdx]) {
+                const p = appData.products[prodIdx];
+                prodName = p.name;
+                if (editIdx === -1) {
+                    // إرجاع القطعة للمخزون وإنقاصها من المباع إن وجدت
+                    p.quantity = (Number(p.quantity) || 0) + 1;
+                    if (p.soldQty > 0) p.soldQty -= 1;
+                }
+            }
+
             if (editIdx > -1 && appData.returns[editIdx]) {
-                appData.returns[editIdx] = { client, phone, wilaya, loss, date };
-                showToast("✅ تم تعديل بيان الروتور!");
+                appData.returns[editIdx] = { client, phone, wilaya, loss, prodName, date };
+                showToast("✅ تم تعديل الروتور!");
             } else {
-                appData.returns.unshift({ id: Date.now(), client, phone, wilaya, loss, date });
-                showToast("⚠️ تم تسجيل الروتور!");
+                appData.returns.unshift({ id: Date.now(), client, phone, wilaya, loss, prodName, date });
+                showToast("⚠️ تم تسجيل الروتور وخصم خسارة الشحن من الأرباح!");
             }
             cancelReturnEdit();
             saveAllDataToStorage();
@@ -1128,8 +1467,8 @@
                     <td style="font-weight:bold; color:#fff;">${r.client}</td>
                     <td dir="ltr">${r.phone}</td>
                     <td>${r.wilaya}</td>
+                    <td style="color:var(--gold-light);">${r.prodName || '—'}</td>
                     <td style="color:#e63946; font-weight:bold;">-${Number(r.loss).toLocaleString()} د.ج</td>
-                    <td><span class="badge-status st-return">مرتجع (Stop Desk)</span></td>
                     <td>
                         <button class="btn-edit" onclick="editReturn(${idx})">تعديل</button>
                         <button class="btn-del" onclick="deleteReturn(${idx})">حذف</button>
@@ -1138,35 +1477,22 @@
             `).join('');
         }
 
-        // ==================== 7. الرزنامة والسجل التاريخي والمبيعات ====================
+        // ==================== 8. الرزنامة والتقرير المالي ====================
         function setTodayCalendar() {
             document.getElementById('calendarFilterDate').value = getTodayStr();
             renderCalendarJournal();
         }
 
-        function saveSaleRecord(e) {
-            e.preventDefault();
-            const title = document.getElementById('sTitle').value.trim();
-            const amount = Number(document.getElementById('sAmount').value) || 0;
-            const cost = Number(document.getElementById('sCost').value) || 0;
-            const date = document.getElementById('sDate').value || getTodayStr();
-
-            appData.sales.unshift({ id: Date.now(), title, amount, cost, date });
-            e.target.reset();
-            document.getElementById('sDate').value = date;
-            document.getElementById('calendarFilterDate').value = date;
-            saveAllDataToStorage();
-            showToast("💰 تم تسجيل المبيعة في السجل والرزنامة!");
-        }
-
-        function deleteSaleRecord(index) {
-            if (!confirm("حذف هذه المبيعة من السجل؟")) return;
+        function deleteSaleLogItem(index) {
+            const s = appData.sales[index];
+            if (!s) return;
+            if (!confirm("حذف هذه العملية من السجل؟ (لن يؤثر على عداد الجدول الرئيسي إلا إذا عدلته يدوياً)")) return;
             appData.sales.splice(index, 1);
             saveAllDataToStorage();
         }
 
-        function clearAllSales() {
-            if (!confirm("تصفير جميع المبيعات المسجلة؟")) return;
+        function clearAllSalesLog() {
+            if (!confirm("مسح سجل العمليات التاريخي؟")) return;
             appData.sales = [];
             saveAllDataToStorage();
         }
@@ -1175,34 +1501,32 @@
             const selectedDate = document.getElementById('calendarFilterDate').value || getTodayStr();
             const events = [];
 
-            // 1. المنتجات المضافة في هذا اليوم
             const dayProds = appData.products.filter(p => p.addedDate === selectedDate);
             dayProds.forEach(p => {
                 events.push({
                     type: '💎 إضافة منتج للمخزون',
                     color: '#D4AF37',
-                    detail: `${p.name} (قسم: ${p.category})`,
-                    amountText: `الكمية: ${p.quantity} | السعر: ${p.price} د.ج`,
-                    actionHTML: `<span style="color:#888; font-size:0.85em;">مسجل بالمخزون</span>`
+                    detail: `${p.name} (${p.category})`,
+                    amountText: `المتبقي: ${p.quantity} | سعر البيع: ${p.price} د.ج`,
+                    actionHTML: `<span style="color:#888; font-size:0.85em;">بالمخزون</span>`
                 });
             });
 
-            // 2. المبيعات في هذا اليوم
-            let daySalesSum = 0;
+            let dayNetSaleProfit = 0;
             appData.sales.forEach((s, idx) => {
                 if (s.date === selectedDate) {
-                    daySalesSum += Number(s.amount) || 0;
+                    const prof = (Number(s.amount) || 0) - (Number(s.cost) || 0);
+                    dayNetSaleProfit += prof;
                     events.push({
-                        type: '💰 مبيعة مؤكدة',
+                        type: '✅ عملية بيع',
                         color: '#2ecc71',
-                        detail: s.title,
-                        amountText: `+${Number(s.amount).toLocaleString()} د.ج`,
-                        actionHTML: `<button class="btn-del" onclick="deleteSaleRecord(${idx})">حذف</button>`
+                        detail: `${s.title} (العدد: ${s.qty || 1})`,
+                        amountText: `الفائدة الصافية: +${prof.toLocaleString()} د.ج`,
+                        actionHTML: `<button class="btn-del" onclick="deleteSaleLogItem(${idx})">حذف</button>`
                     });
                 }
             });
 
-            // 3. الحملات النشطة في هذا اليوم
             let dayAdsCost = 0;
             appData.ads.forEach(ad => {
                 if (selectedDate >= ad.startDate && selectedDate <= ad.endDate) {
@@ -1212,14 +1536,13 @@
                     events.push({
                         type: '📢 حملة إعلانية نشطة',
                         color: '#3498db',
-                        detail: `${ad.name} (${ad.startDate} إلى ${ad.endDate})`,
+                        detail: `${ad.name}`,
                         amountText: `-${dailyShare.toLocaleString()} د.ج (حصة اليوم)`,
-                        actionHTML: `<span style="color:#888; font-size:0.85em;">من تبويب الحملات</span>`
+                        actionHTML: `<span style="color:#888; font-size:0.85em;">إعلانات</span>`
                     });
                 }
             });
 
-            // 4. الروتور في هذا اليوم
             let dayReturnsLoss = 0;
             appData.returns.forEach(r => {
                 if (r.date === selectedDate) {
@@ -1227,21 +1550,21 @@
                     events.push({
                         type: '📦 روتور / مرتجع',
                         color: '#e63946',
-                        detail: `الزبون: ${r.client} (${r.wilaya})`,
+                        detail: `${r.client} (${r.wilaya}) - ${r.prodName || ''}`,
                         amountText: `-${Number(r.loss).toLocaleString()} د.ج`,
-                        actionHTML: `<span style="color:#888; font-size:0.85em;">من تبويب الروتور</span>`
+                        actionHTML: `<span style="color:#888; font-size:0.85em;">روتور</span>`
                     });
                 }
             });
 
             document.getElementById('calDayAddedProds').innerText = `${dayProds.length} منتج`;
-            document.getElementById('calDayRev').innerText = `${daySalesSum.toLocaleString()} د.ج`;
+            document.getElementById('calDayProfit').innerText = `${dayNetSaleProfit.toLocaleString()} د.ج`;
             document.getElementById('calDayAds').innerText = `${dayAdsCost.toLocaleString()} د.ج`;
             document.getElementById('calDayReturns').innerText = `${dayReturnsLoss.toLocaleString()} د.ج`;
 
             const tbody = document.getElementById('calendarEventsBody');
             if (events.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:#777;">لا توجد أحداث أو منتجات مضافة في تاريخ <b>${selectedDate}</b>.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:30px; color:#777;">لا توجد أحداث مسجلة في تاريخ <b>${selectedDate}</b>.</td></tr>`;
                 return;
             }
 
@@ -1255,56 +1578,54 @@
             `).join('');
         }
 
-        // ==================== 8. الحسابات والأرباح الصافية ====================
         function renderFinanceView() {
-            const totalSales = appData.sales.reduce((s, item) => s + (Number(item.amount) || 0), 0);
-            const totalGoodsCost = appData.sales.reduce((s, item) => s + (Number(item.cost) || 0), 0);
-            const totalAds = appData.ads.reduce((s, ad) => s + (Number(ad.budget) || 0), 0);
-            const totalReturns = appData.returns.reduce((s, r) => s + (Number(r.loss) || 0), 0);
+            const fin = calculateGlobalFinancials();
 
-            const netProfit = totalSales - totalGoodsCost - totalAds - totalReturns;
-
-            document.getElementById('finTotalSales').innerText = `${totalSales.toLocaleString()} د.ج`;
-            document.getElementById('finTotalGoodsCost').innerText = `${totalGoodsCost.toLocaleString()} د.ج`;
-            document.getElementById('finTotalAds').innerText = `${totalAds.toLocaleString()} د.ج`;
-            document.getElementById('finTotalReturns').innerText = `${totalReturns.toLocaleString()} د.ج`;
+            document.getElementById('finTotalRevenue').innerText = `${fin.totalRevenue.toLocaleString()} د.ج`;
+            document.getElementById('finTotalCostOfSold').innerText = `${fin.totalCostOfSold.toLocaleString()} د.ج`;
+            document.getElementById('finGrossProfit').innerText = `${fin.grossProfit.toLocaleString()} د.ج`;
+            document.getElementById('finTotalAds').innerText = `${fin.totalAds.toLocaleString()} د.ج`;
+            document.getElementById('finTotalReturns').innerText = `${fin.totalReturns.toLocaleString()} د.ج`;
 
             const netEl = document.getElementById('finNetProfit');
-            netEl.innerText = `${netProfit.toLocaleString()} د.ج`;
-            netEl.style.color = netProfit >= 0 ? '#2ecc71' : '#e63946';
+            const netCard = document.getElementById('finNetCard');
+            netEl.innerText = `${fin.netProfit >= 0 ? '+' : ''}${fin.netProfit.toLocaleString()} د.ج`;
+            netEl.style.color = fin.netProfit >= 0 ? '#2ecc71' : '#e63946';
+            netCard.style.borderColor = fin.netProfit >= 0 ? '#2ecc71' : '#e63946';
 
             const salesTbody = document.getElementById('salesTableBody');
             if (appData.sales.length === 0) {
-                salesTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:25px; color:#777;">لا توجد مبيعات مسجلة بعد. يمكنك إضافتها من تبويب الرزنامة.</td></tr>`;
+                salesTbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:25px; color:#777;">اضغط على زر "✅ بيعت" أمام أي منتج في تبويب المخزون لتسجيل العمليات هنا.</td></tr>`;
                 return;
             }
 
             salesTbody.innerHTML = appData.sales.map((s, idx) => {
-                const gross = (Number(s.amount) || 0) - (Number(s.cost) || 0);
+                const net = (Number(s.amount) || 0) - (Number(s.cost) || 0);
                 return `
                     <tr>
                         <td><span class="date-badge">${s.date}</span></td>
                         <td style="font-weight:bold; color:#fff;">${s.title}</td>
-                        <td style="color:#2ecc71; font-weight:bold;">${Number(s.amount).toLocaleString()} د.ج</td>
+                        <td style="font-weight:bold; color:var(--gold);">${s.qty || 1}</td>
+                        <td>${Number(s.amount).toLocaleString()} د.ج</td>
                         <td style="color:#aaa;">${Number(s.cost || 0).toLocaleString()} د.ج</td>
-                        <td style="color:var(--gold); font-weight:bold;">${gross.toLocaleString()} د.ج</td>
-                        <td><button class="btn-del" onclick="deleteSaleRecord(${idx})">حذف</button></td>
+                        <td style="color:${net >= 0 ? '#2ecc71' : '#e63946'}; font-weight:800;">+${net.toLocaleString()} د.ج</td>
+                        <td><button class="btn-del" onclick="deleteSaleLogItem(${idx})">حذف</button></td>
                     </tr>
                 `;
             }).join('');
         }
 
-        // ==================== 9. تصدير واستيراد نسخة احتياطية كاملة (JSON) ====================
+        // ==================== 9. تصدير واستيراد النسخة الاحتياطية ====================
         function exportAllData() {
             const dataStr = JSON.stringify(appData, null, 2);
             const blob = new Blob([dataStr], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `glame_chic_backup_${getTodayStr()}.json`;
+            a.download = `glame_chic_erp_${getTodayStr()}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast("📦 تم تحميل نسخة احتياطية كاملة لبياناتك!");
+            showToast("📦 تم تصدير نسخة احتياطية كاملة!");
         }
 
         function triggerImport() {
@@ -1319,10 +1640,10 @@
                 try {
                     const imported = JSON.parse(e.target.result);
                     if (Array.isArray(imported)) {
-                        // إذا قام المستخدم باستيراد ملف products.json مباشرة عبر زر الملف
                         appData.products = imported.map(p => ({
                             ...p,
-                            cost: p.cost || 0,
+                            cost: Number(p.cost) || 0,
+                            soldQty: Number(p.soldQty) || 0,
                             addedDate: p.addedDate || getTodayStr(),
                             source: "admin"
                         }));
@@ -1335,7 +1656,7 @@
                         };
                     }
                     saveAllDataToStorage();
-                    showToast("✅ تم استيراد الملف وتحديث البيانات بنجاح!");
+                    showToast("✅ تم استيراد البيانات وتحديث الحسابات بنجاح!");
                 } catch (err) {
                     alert("❌ الملف المختار غير صالح!");
                 }
