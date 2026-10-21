@@ -15,7 +15,6 @@
         if (navigator.webdriver || window.document.documentElement.getAttribute("webdriver")) {
             document.documentElement.innerHTML = "<h2 style='text-align:center; padding:50px; color:#D4AF37; background:#000; font-family:sans-serif;'>تم حظر الوصول: رصد نشاط آلي 🤖</h2>";
         }
-        // حماية متقدمة ضد النقر بالزر الأيمن واختصارات فحص الكود
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('keydown', function(event) {
             if (event.key === 'F12' || 
@@ -26,7 +25,7 @@
         });
     </script>
 
-    <!-- محرك التتبع الذكي ومتتبع Cloudflare -->
+    <!-- محرك التتبع الذكي المتصل برابط Cloudflare Worker بدون تعارض CORS -->
     <script>
         const CLOUDFLARE_WORKER_URL = "https://glame-tracker.warriorlegend3160.workers.dev";
 
@@ -66,12 +65,27 @@
                 extra: extraData
             };
 
+            // حفظ فوري في الذاكرة المحلية كنسخة احتياطية
+            try {
+                const localArr = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+                localArr.unshift(eventObj);
+                localStorage.setItem('glame_local_analytics', JSON.stringify(localArr.slice(0, 500)));
+            } catch(e) {}
+
+            // إرسال للسحابة بصيغة text/plain لتفادي حظر المتصفحات والـ CORS Preflight
             if (CLOUDFLARE_WORKER_URL.startsWith('http')) {
+                const payload = JSON.stringify(eventObj);
+                if (navigator.sendBeacon && eventType === 'purchase') {
+                    try {
+                        const blob = new Blob([payload], { type: 'text/plain;charset=UTF-8' });
+                        navigator.sendBeacon(CLOUDFLARE_WORKER_URL, blob);
+                    } catch (e) {}
+                }
                 fetch(CLOUDFLARE_WORKER_URL, {
                     method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(eventObj),
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+                    body: payload,
                     keepalive: true
                 }).catch(err => {});
             }
@@ -598,7 +612,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        // محرك تسريع وتحويل الصور الفوري عبر وكيل سحابي مجاني لضمان سرعة فائقة
         function getFastImageUrl(url, width = 450) {
             if (!url) return 'https://via.placeholder.com/400x400/000/D4AF37?text=GLAME+CHIC';
             if (url.startsWith('data:') || url.startsWith('http')) {
@@ -703,17 +716,14 @@
                 : `<div class="price-container"><span class="product-price">${product.price} د.ج</span></div>`;
 
             return `
-                <div class="product-card" onclick="showProductDetail('${safeName}', '${rawImg}', ${product.price}, ${oldPrice}, ${product.quantity})">
+                <div class="product-card" onclick="showProductDetail('${safeName}', '${rawImg}',${product.price}, ${oldPrice},${product.quantity})">
                     <div class="product-img-wrapper">
-                        ${stockBadge}
-                        ${saleBadge}
+                        ${stockBadge}${saleBadge}
                         <span class="zoom-hint-badge"><i class="fas fa-search-plus"></i> فحص وتكبير</span>
                         <img src="${fastImg}" alt="${product.name}" loading="lazy" decoding="async" onerror="this.src='${rawImg}'">
                     </div>
-                    <h3 class="product-title">${product.name}</h3>
-                    ${priceHTML}
-                    ${scarcityHTML}
-                    ${product.quantity > 0 
+                    <h3 class="product-title">${product.name}</h3>${priceHTML}
+                    ${scarcityHTML}${product.quantity > 0 
                         ? `<div class="card-actions-row">
                              <button type="button" class="btn-order-outline" onclick="event.stopPropagation(); openDirectOrderModal('${safeName}', ${product.price}, '${rawImg}', 1)">أطلبي الآن</button>
                              <button type="button" class="btn-add-cart-icon" title="إضافة إلى السلة" onclick="event.stopPropagation(); addToCart('${safeName}', ${product.price}, '${rawImg}', 1)"><i class="fas fa-cart-plus"></i></button>
@@ -1196,7 +1206,7 @@
             const totalItemsCount = activeCheckoutItems.reduce((sum, item) => sum + item.qty, 0);
             const totalCost = productsSubtotal + deliveryCost;
 
-            const formattedOrderSummary = activeCheckoutItems.map(item => `${item.name} (العدد: ${item.qty} | ${item.price * item.qty} د.ج)`).join(' + ');
+            const formattedOrderSummary = activeCheckoutItems.map(item => `${item.name} (العدد: ${item.qty} \vert{}${item.price * item.qty} د.ج)`).join(' + ');
 
             document.getElementById("productInput").value = formattedOrderSummary;
             document.getElementById("hiddenTotalItemsCount").value = totalItemsCount + " قطعة";
