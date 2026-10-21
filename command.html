@@ -249,6 +249,14 @@
             try { return JSON.parse(extraField); } catch(e) { return {}; }
         }
 
+        // استخراج الرقم الصحيح بأمان بدون أخطاء الفاصلة العشرية
+        function parsePriceSafe(val, fallbackVal = 0) {
+            if (typeof val === 'number' && !isNaN(val)) return val;
+            if (!val) return Number(fallbackVal) || 0;
+            const cleaned = String(val).split('.')[0].replace(/[^0-9]/g, '');
+            return parseInt(cleaned, 10) || Number(fallbackVal) || 0;
+        }
+
         async function fetchCloudOrders(showAlert = false) {
             const statusEl = document.getElementById('syncStatusText');
             const dot = document.getElementById('cloudLiveDot');
@@ -277,8 +285,7 @@
                                 ex.address || ''
                             ].filter(Boolean).join(' - ');
 
-                            const rawTotal = ex.total ? String(ex.total).replace(/[^\d]/g, '') : '';
-                            const finalPrice = Number(rawTotal) || Number(ev.price) || 0;
+                            const finalPrice = parsePriceSafe(ex.total, ev.price);
 
                             ordersDB.push({
                                 id: uniqueKey,
@@ -320,8 +327,7 @@
                     if(deletedIds.includes(uniqueKey)) return;
 
                     if(!ordersDB.some(o => String(o.id) === uniqueKey)) {
-                        const rawTotal = ex.total ? String(ex.total).replace(/[^\d]/g, '') : '';
-                        const finalPrice = Number(rawTotal) || Number(p.price) || 0;
+                        const finalPrice = parsePriceSafe(ex.total, p.price);
 
                         ordersDB.unshift({
                             id: uniqueKey,
