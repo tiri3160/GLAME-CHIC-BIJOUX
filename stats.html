@@ -132,26 +132,11 @@
     let allGlobalEvents = [];
     let currentFilterRange = 'all';
 
-    function mergeEventsUnique(cloudEvents, localEvents) {
-        const map = new Map();
-        [...cloudEvents, ...localEvents].forEach(ev => {
-            if (!ev || !ev.type) return;
-            const key = String(ev.id || `${ev.ts}_${ev.sid}_${ev.type}_${ev.item}`);
-            if (!map.has(key)) map.set(key, ev);
-        });
-        return Array.from(map.values()).sort((a, b) => new Date(b.ts || 0) - new Date(a.ts || 0));
-    }
-
     async function fetchWorkerData(manual = false) {
         const icon = document.getElementById('refreshIcon');
         const statusSub = document.getElementById('syncStatusSub');
         const dot = document.getElementById('liveDot');
         if (manual && icon) icon.classList.add('fa-spin');
-
-        let localEvents = [];
-        try {
-            localEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
-        } catch(e) { localEvents = []; }
 
         try {
             const res = await fetch(`${WORKER_URL}/?t=${Date.now()}`, {
@@ -159,24 +144,27 @@
                 cache: 'no-store'
             });
 
-            if (res.ok) {
-                const rawData = await res.json();
-                const cloudEvents = Array.isArray(rawData) ? rawData : (rawData.events || rawData.data || []);
-                allGlobalEvents = mergeEventsUnique(cloudEvents, localEvents);
-                try { localStorage.setItem('glame_local_analytics', JSON.stringify(allGlobalEvents.slice(0, 1000))); } catch(err) {}
-                
-                dot.style.background = '#2ecc71';
-                dot.style.boxShadow = '0 0 10px #2ecc71';
-                statusSub.innerText = `متصل بالسحابة بنجاح ✅ — آخر تحديث: ${new Date().toLocaleTimeString('ar-DZ')} (إجمالي الحركات: ${allGlobalEvents.length})`;
-                filterAndRender();
-            } else {
-                throw new Error("HTTP " + res.status);
-            }
+            if (!res.ok) throw new Error("HTTP " + res.status);
+
+            const rawData = await res.json();
+            const cloudEvents = Array.isArray(rawData) ? rawData : (rawData.events || rawData.data || []);
+            
+            // اعتماد بيانات السحابة كمصدر الحقيقة الأساسي لمنع عودة البيانات بعد التصفير
+            allGlobalEvents = cloudEvents.sort((a, b) => new Date(b.ts || 0) - new Date(a.ts || 0));
+
+            dot.style.background = '#2ecc71';
+            dot.style.boxShadow = '0 0 10px #2ecc71';
+            statusSub.innerText = `متصل بالسحابة بنجاح ✅ — آخر تحديث: ${new Date().toLocaleTimeString('ar-DZ')} (إجمالي الحركات: ${allGlobalEvents.length})`;
+            filterAndRender();
         } catch(e) {
-            allGlobalEvents = localEvents;
+            // في حال انقطاع الإنترنت فقط يعرض النسخة المحلية
+            try {
+                allGlobalEvents = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
+            } catch(err) { allGlobalEvents = []; }
+
             dot.style.background = '#f39c12';
             dot.style.boxShadow = '0 0 10px #f39c12';
-            statusSub.innerText = `⚠️ وضع عدم الاتصال المؤقت — يتم عرض البيانات المحفوظة (${allGlobalEvents.length})`;
+            statusSub.innerText = `⚠️ تعذر الاتصال بالسحابة — يتم عرض السجل المحلي (${allGlobalEvents.length})`;
             filterAndRender();
         } finally {
             if (manual && icon) setTimeout(() => icon.classList.remove('fa-spin'), 400);
@@ -194,7 +182,7 @@
         } catch(e) {
             allGlobalEvents = [];
             filterAndRender();
-            alert("تم تصفير السجل المحلي، وتأكد من تحديث كود الـ Worker في Cloudflare.");
+            alert("حدث خطأ في الاتصال بالسحابة أثناء التصفير.");
         }
     }
 
@@ -208,6 +196,7 @@
     function filterAndRender() {
         const now = new Date();
         const filtered = allGlobalEvents.filter(e => {
+            if (!e || !e.type) return false;
             if (!e.ts) return true;
             const evDate = new Date(e.ts);
             if (isNaN(evDate)) return true;
