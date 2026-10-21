@@ -61,7 +61,7 @@
             <p id="syncStatusSub">جاري الاتصال بسحابة Cloudflare Worker...</p>
         </div>
         <div class="btn-group">
-            <button class="btn-action" onclick="fetchWorkerData(true)"><i class="fas fa-sync-alt" id="refreshIcon"></i> تحديث الآن</button>
+            <button class="btn-action" onclick="fetchWorkerData(true)"><i class="fas fa-sync-alt" id="refreshIcon"></i> تحديث</button>
             <button class="btn-action btn-danger" onclick="resetWorkerData()"><i class="fas fa-trash-alt"></i> تصفير السجل</button>
             <a href="index.html" class="btn-action"><i class="fas fa-store"></i> المتجر</a>
         </div>
@@ -132,7 +132,6 @@
     let allGlobalEvents = [];
     let currentFilterRange = 'all';
 
-    // دمج الأحداث السحابية مع أي أحداث محفوظة محلياً لمنع فقدان أي حركة
     function mergeEventsUnique(cloudEvents, localEvents) {
         const map = new Map();
         [...cloudEvents, ...localEvents].forEach(ev => {
@@ -155,7 +154,6 @@
         } catch(e) { localEvents = []; }
 
         try {
-            // كسر الكاش إجبارياً لجلب أحدث البيانات من السحابة في كل مرة
             const res = await fetch(`${WORKER_URL}/?t=${Date.now()}`, {
                 method: 'GET',
                 cache: 'no-store'
@@ -165,7 +163,6 @@
                 const rawData = await res.json();
                 const cloudEvents = Array.isArray(rawData) ? rawData : (rawData.events || rawData.data || []);
                 allGlobalEvents = mergeEventsUnique(cloudEvents, localEvents);
-                // حفظ نسخة محلية احتياطية
                 try { localStorage.setItem('glame_local_analytics', JSON.stringify(allGlobalEvents.slice(0, 1000))); } catch(err) {}
                 
                 dot.style.background = '#2ecc71';
@@ -176,7 +173,6 @@
                 throw new Error("HTTP " + res.status);
             }
         } catch(e) {
-            // في حال ضعف الإنترنت، يعرض السجل المحلي فوراً دون توقف
             allGlobalEvents = localEvents;
             dot.style.background = '#f39c12';
             dot.style.boxShadow = '0 0 10px #f39c12';
