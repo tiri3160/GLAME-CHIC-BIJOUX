@@ -78,7 +78,7 @@
         <div class="auth-box">
             <h2>👑 GLAME CHIC COMMANDES</h2>
             <p style="color:#888; font-size:0.85em; margin-bottom:20px;">أدخل كلمة المرور للوصول إلى منصة الطلبيات السحابية:</p>
-            <input type="password" id="authPass" class="auth-input" placeholder="كلمة المرور..." onkeypress="if(event.key==='Enter') verifyLogin()">
+            <input type="password" id="authPass" class="auth-input" placeholder="كلمة المرور..." autocomplete="new-password" onkeypress="if(event.key==='Enter') verifyLogin()">
             <button class="btn-gold" style="width:100%; justify-content:center;" onclick="verifyLogin()">دخول آمن 🔓</button>
         </div>
     </div>
@@ -86,7 +86,7 @@
     <div class="container" id="mainDashboard" style="display:none;">
         <div class="top-header">
             <div class="logo-area">
-                <h1><span class="live-dot"></span> 📦 منصة الطلبيات السحابية | GLAME CHIC</h1>
+                <h1><span class="live-dot" id="cloudLiveDot"></span> 📦 منصة الطلبيات السحابية | GLAME CHIC</h1>
                 <p id="syncStatusText">متصل بالسحابة المركزية — يتم جلب الطلبيات من جميع الهواتف تلقائياً</p>
             </div>
             <div class="nav-actions">
@@ -109,7 +109,6 @@
             </div>
         </div>
 
-        <!-- 1. محرك البحث والرزنامة الدقيقة (يوم / شهر / سنة) -->
         <div class="search-section">
             <h3 style="color:var(--gold); font-family:'Amiri',serif; margin-bottom:15px; font-size:1.3em;">
                 <i class="fas fa-calendar-check"></i> الرزنامة الدقيقة ومحرك البحث الفوري (يوم، شهر، سنة):
@@ -145,7 +144,6 @@
             <div style="color:var(--gold-light); font-size:0.9em; margin-top:12px; font-weight:bold;" id="searchCount">جاري فحص الطلبيات...</div>
         </div>
 
-        <!-- 2. جدول أرشيف الطلبيات -->
         <div class="table-wrapper">
             <h3 style="padding:15px; color:var(--gold); border-bottom:1px solid #222; font-family:'Amiri',serif; display:flex; justify-content:space-between; align-items:center;">
                 <span>📋 سجل جميع الطلبيات الواردة من المتجر واليدوية:</span>
@@ -166,7 +164,6 @@
             </table>
         </div>
 
-        <!-- 3. قسم إضافة أو تعديل طلبية يدوياً -->
         <div class="form-card">
             <h3 id="orderFormTitle">
                 <span>➕ تسجيل أو تعديل طلبية يدوياً (هاتف / واتساب / انستغرام)</span>
@@ -214,11 +211,17 @@
         let ordersDB = [];
         let deletedIds = [];
 
+        function unlockCommandCenter() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainDashboard').style.display = 'block';
+            initOrdersSystem();
+        }
+
         function verifyLogin() {
             if(document.getElementById('authPass').value.trim() === ADMIN_PASS) {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('mainDashboard').style.display = 'block';
-                initOrdersSystem();
+                sessionStorage.setItem('glame_cmd_unlocked', '1');
+                localStorage.setItem('glame_enterprise_auth', 'active');
+                unlockCommandCenter();
             } else {
                 alert("كلمة المرور غير صحيحة!");
             }
@@ -237,27 +240,31 @@
             renderOrders();
             await fetchCloudOrders(false);
 
-            // تحديث تلقائي من السحابة كل 10 ثوانٍ لالتقاط أي طلب جديد من أي هاتف فوراً
-            setInterval(() => fetchCloudOrders(false), 10000);
+            setInterval(() => fetchCloudOrders(false), 8000);
         }
 
-        // 1. جلب الطلبيات السحابية من Cloudflare Worker (من كل الهواتف والأجهزة)
+        function parseExtraSafe(extraField) {
+            if (!extraField) return {};
+            if (typeof extraField === 'object') return extraField;
+            try { return JSON.parse(extraField); } catch(e) { return {}; }
+        }
+
         async function fetchCloudOrders(showAlert = false) {
             const statusEl = document.getElementById('syncStatusText');
+            const dot = document.getElementById('cloudLiveDot');
             if(showAlert) statusEl.innerText = "⏳ جاري الاتصال بالسحابة لجلب الطلبيات الجديدة...";
 
             try {
-                const res = await fetch(WORKER_URL + '?t=' + Date.now(), { cache: 'no-store' });
+                const res = await fetch(`${WORKER_URL}/?t=${Date.now()}`, { method: 'GET', cache: 'no-store' });
                 if(!res.ok) throw new Error("Cloud error");
                 const data = await res.json();
                 
-                // استخراج مصفوفة الأحداث سواء كانت مباشرة أو داخل كائن
                 const events = Array.isArray(data) ? data : (data.events || data.data || []);
                 let newCount = 0;
 
                 events.forEach(ev => {
                     if(ev && ev.type === 'purchase') {
-                        const ex = ev.extra || {};
+                        const ex = parseExtraSafe(ev.extra);
                         const uniqueKey = String(ev.id || `${ev.ts}_${ex.phone || ''}_${ev.price || ''}`);
 
                         if(deletedIds.includes(uniqueKey)) return;
@@ -266,8 +273,12 @@
                         if(!exists) {
                             const fullLocation = [
                                 ev.wilaya || ex.wilaya || 'غير محددة',
-                                ex.commune || ''
+                                ex.commune || '',
+                                ex.address || ''
                             ].filter(Boolean).join(' - ');
+
+                            const rawTotal = ex.total ? String(ex.total).replace(/[^\d]/g, '') : '';
+                            const finalPrice = Number(rawTotal) || Number(ev.price) || 0;
 
                             ordersDB.push({
                                 id: uniqueKey,
@@ -276,7 +287,7 @@
                                 phone: ex.phone || ev.phone || '-',
                                 items: ev.item || ex.items || 'طلبية من المتجر',
                                 wilaya: fullLocation,
-                                price: Number(ev.price || ex.total || 0),
+                                price: finalPrice,
                                 status: 'مؤكدة',
                                 source: 'سحابة المتجر 🌐'
                             });
@@ -285,38 +296,41 @@
                     }
                 });
 
-                // ترتيب الطلبيات من الأحدث إلى الأقدم
                 ordersDB.sort((a, b) => new Date(b.date) - new Date(a.date));
                 localStorage.setItem('glame_royal_orders', JSON.stringify(ordersDB));
                 renderOrders();
 
+                dot.style.background = '#2ecc71';
                 const timeNow = new Date().toLocaleTimeString('ar-DZ');
                 statusEl.innerText = `✅ متصل بالسحابة المركزية (آخر تحديث: ${timeNow}) — كل الطلبات محمية`;
                 if(showAlert && newCount > 0) alert(`🎉 تم جلب ${newCount} طلبية جديدة من المتجر!`);
                 else if(showAlert) alert("✅ الأرشيف محدّث بالكامل مع السحابة.");
             } catch(err) {
+                dot.style.background = '#f39c12';
                 statusEl.innerText = "⚠️ تعذر الاتصال المؤقت بالسحابة — يتم عرض الأرشيف المحفوظ محلياً";
             }
         }
 
-        // 2. جلب أي طلب مسجل في نفس المتصفح المحلي احتياطياً
         function syncBrowserLocalAnalytics() {
             try {
                 let analytics = JSON.parse(localStorage.getItem('glame_local_analytics') || '[]');
                 analytics.filter(e => e && e.type === 'purchase').forEach(p => {
-                    let ex = p.extra || {};
+                    let ex = parseExtraSafe(p.extra);
                     let uniqueKey = String(p.id || `${p.ts}_${ex.phone || ''}_${p.price || ''}`);
                     if(deletedIds.includes(uniqueKey)) return;
 
                     if(!ordersDB.some(o => String(o.id) === uniqueKey)) {
+                        const rawTotal = ex.total ? String(ex.total).replace(/[^\d]/g, '') : '';
+                        const finalPrice = Number(rawTotal) || Number(p.price) || 0;
+
                         ordersDB.unshift({
                             id: uniqueKey,
                             date: p.ts || new Date().toISOString(),
                             client: ex.name || 'زبون المتجر',
                             phone: ex.phone || '-',
                             items: p.item || 'منتج',
-                            wilaya: [p.wilaya, ex.commune].filter(Boolean).join(' - ') || 'غير محددة',
-                            price: Number(p.price) || 0,
+                            wilaya: [p.wilaya, ex.commune, ex.address].filter(Boolean).join(' - ') || 'غير محددة',
+                            price: finalPrice,
                             status: 'مؤكدة',
                             source: 'المتصفح المحلي 💻'
                         });
@@ -326,7 +340,6 @@
             } catch(e) {}
         }
 
-        // 3. التحكم في فلاتر التاريخ (يوم / شهر / سنة)
         function onDateFilterChange(mode) {
             if(mode === 'day') {
                 document.getElementById('filterMonth').value = '';
@@ -349,12 +362,11 @@
             renderOrders();
         }
 
-        // 4. عرض وفلترة الطلبيات
         function renderOrders() {
             const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-            const selDay = document.getElementById('filterDay').value;     // YYYY-MM-DD
-            const selMonth = document.getElementById('filterMonth').value; // YYYY-MM
-            const selYear = document.getElementById('filterYear').value;   // YYYY
+            const selDay = document.getElementById('filterDay').value;
+            const selMonth = document.getElementById('filterMonth').value;
+            const selYear = document.getElementById('filterYear').value;
 
             const filtered = ordersDB.filter(o => {
                 const matchText = !query || (
@@ -364,7 +376,7 @@
                     (o.items || '').toLowerCase().includes(query)
                 );
 
-                const isoDate = (o.date || '').substring(0, 10); // YYYY-MM-DD
+                const isoDate = (o.date || '').substring(0, 10);
                 let matchDate = true;
                 if(selDay) matchDate = (isoDate === selDay);
                 else if(selMonth) matchDate = isoDate.startsWith(selMonth);
@@ -399,7 +411,7 @@
                         </td>
                         <td style="font-weight:bold;">
                             ${o.client}<br>
-                            <span style="font-size:0.95em; color:var(--gold); dir:ltr; display:inline-block;">📞 ${o.phone}</span>
+                            <span style="font-size:0.95em; color:var(--gold); direction:ltr; display:inline-block;">📞 ${o.phone}</span>
                         </td>
                         <td style="color:var(--gold-light); font-weight:bold; max-width:260px;">${o.items}</td>
                         <td>${o.wilaya}</td>
@@ -423,7 +435,6 @@
             }).join('');
         }
 
-        // 5. الإضافة والتعديل اليدوي والحذف
         function saveManualOrder(e) {
             e.preventDefault();
             const editId = document.getElementById('orderEditId').value;
@@ -538,7 +549,12 @@
             document.getElementById('mDate').value = now.toISOString().slice(0,16);
         }
 
-        window.addEventListener('DOMContentLoaded', setDefaultNowDate);
+        window.addEventListener('DOMContentLoaded', () => {
+            setDefaultNowDate();
+            if (localStorage.getItem('glame_enterprise_auth') === 'active' || sessionStorage.getItem('glame_cmd_unlocked') === '1') {
+                unlockCommandCenter();
+            }
+        });
     </script>
 </body>
 </html>
