@@ -233,5 +233,14 @@
     "oldPrice": 0,
     "quantity": 10,
     "image": "prod_1793128954171.webp"
+  },
+  {
+    "id": 1793129005046,
+    "name": "ساعة",
+    "category": "ساعات",
+    "price": 1400,
+    "oldPrice": 2400,
+    "quantity": 6,
+    "image": "prod_1793129002962.webp"
   }
 ]
