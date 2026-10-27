@@ -224,5 +224,14 @@
     "oldPrice": 0,
     "quantity": 10,
     "image": "prod_1792185709279.jpg"
+  },
+  {
+    "id": 1793128956508,
+    "name": "باك بارير و ساعة",
+    "category": "أطقم",
+    "price": 2200,
+    "oldPrice": 0,
+    "quantity": 10,
+    "image": "prod_1793128954171.webp"
   }
 ]
