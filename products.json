@@ -260,5 +260,14 @@
     "oldPrice": 3200,
     "quantity": 5,
     "image": "prod_1793129198523.webp"
+  },
+  {
+    "id": 1793129270977,
+    "name": "ساعة +قورمات هدية 🎁",
+    "category": "ساعات",
+    "price": 1100,
+    "oldPrice": 0,
+    "quantity": 6,
+    "image": "prod_1793129268684.webp"
   }
 ]
