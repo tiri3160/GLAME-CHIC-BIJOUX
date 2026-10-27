@@ -242,5 +242,14 @@
     "oldPrice": 2400,
     "quantity": 6,
     "image": "prod_1793129002962.webp"
+  },
+  {
+    "id": 1793129150482,
+    "name": "ساعة Casio مع براصلي",
+    "category": "ساعات",
+    "price": 2000,
+    "oldPrice": 3200,
+    "quantity": 8,
+    "image": "prod_1793129148108.webp"
   }
 ]
